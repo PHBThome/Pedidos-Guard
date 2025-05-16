@@ -8,4 +8,12 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <EditorConfigFiles Remove="C:\Users\pedro\source\repos\Projeto Sistema Loja\Projeto Sistema Loja\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="C:\Users\pedro\source\repos\Projeto Sistema Loja\Projeto Sistema Loja\.editorconfig" />
+  </ItemGroup>
+
 </Project>
