@@ -1,4 +1,6 @@
-﻿namespace Projeto_Sistema_Loja
+﻿using Projeto_Sistema_Loja.models;
+
+namespace Projeto_Sistema_Loja.menus
 {
     internal class MenuAdministrador
     {
@@ -19,10 +21,10 @@
                 switch (opcao)
                 {
                     case 1:
-                        Fornecedor.ExibirMenuFornecedor();
+                        FornecedorMenu.ExibirMenuFornecedor();
                         break;
                     case 2:
-                        Produto.ExibirMenuProduto();
+                        ProdutoMenu.ExibirMenuProduto();
                         break;
                     case 3:
                         Console.WriteLine();

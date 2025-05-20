@@ -1,14 +1,10 @@
-﻿namespace Projeto_Sistema_Loja
+﻿using Projeto_Sistema_Loja.models;
+
+namespace Projeto_Sistema_Loja.menus
 {
-    internal class Endereco
+    internal class EnderecoMenu
     {
-        public string Rua { get; set; }
-        public string Numero { get; set; }
-        public string Complemento { get; set; }
-        public string Bairro { get; set; }
-        public string Cep { get; set; }
-        public string Cidade { get; set; }
-        public string Estado { get; set; }
+
         public static Endereco CadastrarEndereco()
         {
             Endereco novo = new Endereco();

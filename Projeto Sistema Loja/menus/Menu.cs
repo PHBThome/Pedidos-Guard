@@ -1,4 +1,4 @@
-﻿namespace Projeto_Sistema_Loja
+﻿namespace Projeto_Sistema_Loja.menus
 {
     internal class Menu
     {

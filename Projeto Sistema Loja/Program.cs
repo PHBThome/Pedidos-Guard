@@ -1,4 +1,7 @@
-﻿namespace Projeto_Sistema_Loja
+﻿using Projeto_Sistema_Loja.menus;
+using Projeto_Sistema_Loja.models;
+
+namespace Projeto_Sistema_Loja
 {
     internal class Program
     {
