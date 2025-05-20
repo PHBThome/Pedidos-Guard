@@ -22,7 +22,7 @@
                         Fornecedor.ExibirMenuFornecedor();
                         break;
                     case 2:
-                        Console.WriteLine();
+                        Produto.ExibirMenuProduto();
                         break;
                     case 3:
                         Console.WriteLine();

@@ -6,7 +6,7 @@
         public string Telefone { get; set; }
         public string Email { get; set; }
         public int Id { get; set; }
-        public Endereco endereço { get; set; }
+        public Endereco endereco { get; set; }
 
 
         public static Fornecedor[] fornecedores = new Fornecedor[100];
@@ -129,15 +129,34 @@
             Console.WriteLine("2. Consulta geral");
             int opcao = int.Parse(Console.ReadLine());
 
-            if (opcao == 1)
+            switch (opcao)
             {
-                Console.WriteLine("Informe o id:");
-                int id = int.Parse(Console.ReadLine());
-                for(int i = 0; i < fornecedorCount; i++)
-                {
-                    Fornecedor fornecedor = fornecedores[i];
-                    if (fornecedor.Id == id)
+                case 1:
+                    Console.WriteLine("Informe o id:");
+                    int id = int.Parse(Console.ReadLine());
+                    for (int i = 0; i < fornecedorCount; i++)
                     {
+                        Fornecedor fornecedor = fornecedores[i];
+                        if (fornecedor.Id == id)
+                        {
+                            Console.WriteLine($"\nID: {fornecedor.Id}");
+                            Console.WriteLine($"Nome: {fornecedor.Nome}");
+                            Console.WriteLine($"Telefone: {fornecedor.Telefone}");
+                            Console.WriteLine($"Email: {fornecedor.Email}");
+                            Console.WriteLine($"Rua: {fornecedor.endereço.Rua}, Nº: {fornecedor.endereço.Numero}");
+                            Console.WriteLine($"Compl: {fornecedor.endereço.Complemento}");
+                            Console.WriteLine($"Bairro: {fornecedor.endereço.Bairro}, CEP: {fornecedor.endereço.Cep}");
+                            Console.WriteLine($"Cidade: {fornecedor.endereço.Cidade} - {fornecedor.endereço.Estado}");
+                            return;
+                        }
+                    }
+                    Console.WriteLine("Fornecedor não encontrado");
+                    break;
+
+                case 2:
+                    for (int i = 0; i < fornecedorCount; i++)
+                    {
+                        Fornecedor fornecedor = fornecedores[i];
                         Console.WriteLine($"\nID: {fornecedor.Id}");
                         Console.WriteLine($"Nome: {fornecedor.Nome}");
                         Console.WriteLine($"Telefone: {fornecedor.Telefone}");
@@ -146,30 +165,20 @@
                         Console.WriteLine($"Compl: {fornecedor.endereço.Complemento}");
                         Console.WriteLine($"Bairro: {fornecedor.endereço.Bairro}, CEP: {fornecedor.endereço.Cep}");
                         Console.WriteLine($"Cidade: {fornecedor.endereço.Cidade} - {fornecedor.endereço.Estado}");
-                        return;
                     }
-                }
-                Console.WriteLine("Fornecedor não encontrado");
-                
-            }
-            else
-            {
-                for (int i = 0; i < fornecedorCount; i++)
-                {
-                    Fornecedor fornecedor = fornecedores[i];
-                    Console.WriteLine($"\nID: {fornecedor.Id}");
-                    Console.WriteLine($"Nome: {fornecedor.Nome}");
-                    Console.WriteLine($"Telefone: {fornecedor.Telefone}");
-                    Console.WriteLine($"Email: {fornecedor.Email}");
-                    Console.WriteLine($"Rua: {fornecedor.endereço.Rua}, Nº: {fornecedor.endereço.Numero}");
-                    Console.WriteLine($"Compl: {fornecedor.endereço.Complemento}");
-                    Console.WriteLine($"Bairro: {fornecedor.endereço.Bairro}, CEP: {fornecedor.endereço.Cep}");
-                    Console.WriteLine($"Cidade: {fornecedor.endereço.Cidade} - {fornecedor.endereço.Estado}");
-                }
+                    break;
+
+                default:
+                    Console.WriteLine("Opção inválida.");
+                    break;
             }
         }
 
 
+        public static void EditarFornecedor()
+        {
+            Console.WriteLine("");
+        }
 
 
 
