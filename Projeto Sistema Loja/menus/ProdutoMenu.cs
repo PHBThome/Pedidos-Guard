@@ -1,156 +1,101 @@
-﻿using Projeto_Sistema_Loja.models;
-using Projeto_Sistema_Loja.controllers;
+﻿using Projeto_Sistema_Loja.controllers;
+using Projeto_Sistema_Loja.models;
+using System;
 
 namespace Projeto_Sistema_Loja.menus
 {
     internal class ProdutoMenu
     {
-        public static void ExibirMenuProduto()
+        private readonly ProdutoController produtoController;
+        private readonly FornecedorController fornecedorController;
+
+        public ProdutoMenu(ProdutoController produtoController, FornecedorController fornecedorController)
         {
-            int opcao = -1;
+            this.produtoController = produtoController;
+            this.fornecedorController = fornecedorController;
+        }
 
-            while (opcao != 0)
+        public void ExibirMenu()
+        {
+            int opcao;
+            do
             {
-                Console.WriteLine("\nMenu Produto");
-                Console.WriteLine("1. Incluir produto");
-                Console.WriteLine("2. Remover produto");
-                Console.WriteLine("3. Editar produto");
-                Console.WriteLine("4. Consultar produto");
-                Console.WriteLine("0. Sair");
-                Console.Write("Escolha uma opção: ");
-
+                Console.WriteLine("\n--- MENU PRODUTO ---");
+                Console.WriteLine("1. Cadastrar Produto");
+                Console.WriteLine("2. Remover Produto");
+                Console.WriteLine("3. Consultar Produto");
+                Console.WriteLine("4. Editar Produto"); //falta implementar
+                Console.WriteLine("0. Voltar");
+                Console.Write("Opção: ");
                 opcao = int.Parse(Console.ReadLine());
 
                 switch (opcao)
                 {
                     case 1:
-                        IncluirProduto();
+                        CadastrarProduto();
                         break;
                     case 2:
                         RemoverProduto();
                         break;
                     case 3:
-                        EditarProduto();
-                        break;
-                    case 4:
                         ConsultarProduto();
                         break;
-                    case 0:
-                        return;
-                    default:
-                        Console.WriteLine("Opção inválida!");
+                    case 4:
+                        Console.WriteLine();
                         break;
                 }
-            }
+
+            } while (opcao != 0);
         }
 
-        private static void IncluirProduto()
+        private void CadastrarProduto()
         {
-            Console.Write("\nNome do produto: ");
-            string nome = Console.ReadLine();
-
+            Console.Write("ID: ");
+            int id = int.Parse(Console.ReadLine());
             Console.Write("Valor: ");
             double valor = double.Parse(Console.ReadLine());
-
             Console.Write("Quantidade: ");
             int quantidade = int.Parse(Console.ReadLine());
-
-            Console.Write("ID do produto: ");
-            int id = int.Parse(Console.ReadLine());
-
-            Console.Write("ID do fornecedor: ");
+            Console.Write("ID do Fornecedor: ");
             int idFornecedor = int.Parse(Console.ReadLine());
 
-            Produto novoProduto = new Produto
-            {
-                Nome = nome,
-                Valor = valor,
-                Quantidade = quantidade,
-                Id = id,
-                IdFornecedor = idFornecedor
-            };
-
-            Console.WriteLine(ProdutoController.AdicionarProduto(novoProduto));
+            Produto novoProduto = new Produto(id, valor, quantidade, idFornecedor);
+            string resultado = produtoController.AdicionarProduto(novoProduto);
+            Console.WriteLine(resultado);
         }
 
-        private static void RemoverProduto()
+        private void ConsultarProduto()
         {
-            Console.Write("\nID do produto a remover: ");
-            int id = int.Parse(Console.ReadLine());
-            Console.WriteLine(ProdutoController.RemoverProduto(id));
-        }
-
-        private static void ConsultarProduto()
-        {
-            Console.WriteLine("\nConsultar por:");
-            Console.WriteLine("1. ID");
-            Console.WriteLine("2. Todos");
-            Console.Write("Escolha: ");
+            Console.WriteLine("Consultar por: ");
+            Console.WriteLine("1. Id");
+            Console.WriteLine("2. Consulta geral");
             int opcao = int.Parse(Console.ReadLine());
 
-            switch (opcao)
+            if (opcao == 1)
             {
-                case 1:
-                    Console.Write("\nID do produto: ");
-                    int id = int.Parse(Console.ReadLine());
-                    Produto p = ProdutoController.ObterProdutoPorId(id);
-
-                    if (p != null)
-                        ExibirDetalhesProduto(p);
-                    else
-                        Console.WriteLine("Produto não encontrado!");
-                    break;
-
-                case 2:
-                    Produto[] todos = ProdutoController.ObterTodosProdutos();
-                    foreach (Produto produto in todos)
-                        ExibirDetalhesProduto(produto);
-                    break;
-
-                default:
-                    Console.WriteLine("Opção inválida!");
-                    break;
+                Console.WriteLine("Informe o id:");
+                int id = int.Parse(Console.ReadLine());
+                var p = produtoController.ObterProdutoPorId(id);
+                Console.WriteLine(p);
+                return;
+            }
+            else
+            {
+                Produto[] produtos = produtoController.ObterTodosProdutos();
+                foreach (Produto p in produtos)
+                {
+                    Console.WriteLine(p);
+                }
+                return;
             }
         }
 
-        private static void EditarProduto()
+        private void RemoverProduto()
         {
-            Console.Write("\nID do produto a editar: ");
+            Console.Write("ID do produto a remover: ");
             int id = int.Parse(Console.ReadLine());
-
-            Console.Write("Novo nome: ");
-            string nome = Console.ReadLine();
-
-            Console.Write("Novo valor: ");
-            double valor = double.Parse(Console.ReadLine());
-
-            Console.Write("Nova quantidade: ");
-            int quantidade = int.Parse(Console.ReadLine());
-
-            Console.Write("Novo ID do fornecedor: ");
-            int idFornecedor = int.Parse(Console.ReadLine());
-
-            Produto dadosAtualizados = new Produto
-            {
-                Nome = nome,
-                Valor = valor,
-                Quantidade = quantidade,
-                Id = id,
-                IdFornecedor = idFornecedor
-            };
-
-            Console.WriteLine(ProdutoController.EditarProduto(id, dadosAtualizados));
-        }
-
-        private static void ExibirDetalhesProduto(Produto produto)
-        {
-            Console.WriteLine("\n--------------------------");
-            Console.WriteLine($"ID: {produto.Id}");
-            Console.WriteLine($"Nome: {produto.Nome}");
-            Console.WriteLine($"Valor: {produto.Valor:C}");
-            Console.WriteLine($"Quantidade: {produto.Quantidade}");
-            Console.WriteLine($"Fornecedor ID: {produto.IdFornecedor}");
-            Console.WriteLine("--------------------------");
+            string resultado = produtoController.RemoverProduto(id);
+            Console.WriteLine(resultado);
         }
     }
 }

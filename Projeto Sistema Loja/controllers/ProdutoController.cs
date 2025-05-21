@@ -1,19 +1,24 @@
 ﻿using Projeto_Sistema_Loja.models;
-using Projeto_Sistema_Loja.controllers;
 
 namespace Projeto_Sistema_Loja.controllers
 {
     internal class ProdutoController
     {
-        private static Produto[] produtos = new Produto[200];
-        private static int produtosCount = 0;
+        private Produto[] produtos = new Produto[200];
+        private int produtosCount = 0;
+        private FornecedorController fornecedorController;
 
-        public static string AdicionarProduto(Produto novoProduto)
+        public ProdutoController(FornecedorController fornecedorController)
+        {
+            this.fornecedorController = fornecedorController;
+        }
+
+        public string AdicionarProduto(Produto novoProduto)
         {
             if (produtosCount >= produtos.Length)
                 return "\nNúmero máximo de produtos atingido!";
 
-            if (FornecedorController.ObterFornecedorPorId(novoProduto.IdFornecedor) == null)
+            if (fornecedorController.ObterFornecedorPorId(novoProduto.IdFornecedor) == null)
                 return "Fornecedor não encontrado!";
 
             foreach (Produto p in produtos)
@@ -27,7 +32,7 @@ namespace Projeto_Sistema_Loja.controllers
             return "Produto adicionado com sucesso!";
         }
 
-        public static string RemoverProduto(int id)
+        public string RemoverProduto(int id)
         {
             for (int i = 0; i < produtosCount; i++)
             {
@@ -43,7 +48,7 @@ namespace Projeto_Sistema_Loja.controllers
             return "Produto não encontrado!";
         }
 
-        public static Produto ObterProdutoPorId(int id)
+        public Produto ObterProdutoPorId(int id)
         {
             foreach (Produto p in produtos)
             {
@@ -53,27 +58,12 @@ namespace Projeto_Sistema_Loja.controllers
             return null;
         }
 
-        public static Produto[] ObterTodosProdutos()
+        public Produto[] ObterTodosProdutos()
         {
             Produto[] lista = new Produto[produtosCount];
             Array.Copy(produtos, lista, produtosCount);
             return lista;
         }
 
-        public static string EditarProduto(int id, Produto dadosAtualizados)
-        {
-            for (int i = 0; i < produtosCount; i++)
-            {
-                if (produtos[i].Id == id)
-                {
-                    if (FornecedorController.ObterFornecedorPorId(dadosAtualizados.IdFornecedor) == null)
-                        return "Fornecedor inválido!";
-
-                    produtos[i] = dadosAtualizados;
-                    return "Produto atualizado com sucesso!";
-                }
-            }
-            return "Produto não encontrado!";
-        }
     }
 }

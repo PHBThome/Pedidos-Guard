@@ -1,36 +1,28 @@
 ﻿using Projeto_Sistema_Loja.models;
+using System;
 
 namespace Projeto_Sistema_Loja.menus
 {
     internal class EnderecoMenu
     {
-
-        public static Endereco CadastrarEndereco()
+        public Endereco CadastrarEndereco()
         {
-            Endereco novo = new Endereco();
+            Console.Write("Rua: ");
+            string rua = Console.ReadLine();
+            Console.Write("Número: ");
+            int numero = int.Parse(Console.ReadLine());
+            Console.Write("Complemento: ");
+            string complemento = Console.ReadLine();
+            Console.Write("Bairro: ");
+            string bairro = Console.ReadLine();
+            Console.Write("Cidade: ");
+            string cidade = Console.ReadLine();
+            Console.Write("Estado: ");
+            string estado = Console.ReadLine();
+            Console.Write("CEP: ");
+            string cep = Console.ReadLine();
 
-            Console.WriteLine("\nInforme o nome da rua: ");
-            novo.Rua = Console.ReadLine();
-
-            Console.WriteLine("\nInforme o número: ");
-            novo.Numero = Console.ReadLine();
-
-            Console.WriteLine("\nInforme o complemento: ");
-            novo.Complemento = Console.ReadLine();
-
-            Console.WriteLine("\nInforme o bairro: ");
-            novo.Bairro = Console.ReadLine();
-
-            Console.WriteLine("\nInforme o CEP: ");
-            novo.Cep = Console.ReadLine();
-
-            Console.WriteLine("\nInforme a cidade: ");
-            novo.Cidade = Console.ReadLine();
-
-            Console.WriteLine("\nInforme o estado: ");
-            novo.Estado = Console.ReadLine();
-
-            return novo;
+            return new Endereco(rua, numero, complemento, bairro, cidade, estado, cep);
         }
     }
 }

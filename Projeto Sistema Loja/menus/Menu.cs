@@ -1,21 +1,28 @@
-﻿namespace Projeto_Sistema_Loja.menus
+﻿using Projeto_Sistema_Loja.controllers;
+using Projeto_Sistema_Loja.menus;
+
+namespace Projeto_Sistema_Loja
 {
     internal class Menu
     {
-       
-        public static void Login()
-        {
-            Console.WriteLine("Digite o usuario: ");
-            string user = Console.ReadLine();
+        private readonly MenuAdministrador menuAdministrador;
 
-            Console.WriteLine("Digite a senha: ");
-            string senha = Console.ReadLine();
-            
-            if(user == "admin" && senha == "1234")
-            {
-                MenuAdministrador.ExibirMenuAdministrador();
-            }
+        public Menu()
+        {
+            var enderecoMenu = new EnderecoMenu();
+            var fornecedorController = new FornecedorController();
+            var produtoController = new ProdutoController(fornecedorController);
+            var transportadoraController = new TransportadoraController();
+            menuAdministrador = new MenuAdministrador(
+                new FornecedorMenu(fornecedorController, enderecoMenu),
+                new ProdutoMenu(produtoController, fornecedorController),
+                new TransportadoraMenu(transportadoraController, enderecoMenu)
+            );
         }
 
+        public void Exibir()
+        {
+            menuAdministrador.ExibirMenu();
+        }
     }
 }

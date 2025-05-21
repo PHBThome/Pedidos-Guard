@@ -1,149 +1,101 @@
-﻿using Projeto_Sistema_Loja.models;
-using Projeto_Sistema_Loja.controllers;
+﻿using Projeto_Sistema_Loja.controllers;
+using Projeto_Sistema_Loja.models;
+using System;
 
 namespace Projeto_Sistema_Loja.menus
 {
     internal class TransportadoraMenu
     {
-        public static void ExibirMenuTransportadora()
-        {
-            int opcao = -1;
+        private readonly TransportadoraController transportadoraController;
+        private readonly EnderecoMenu enderecoMenu;
 
-            while (opcao != 0)
+        public TransportadoraMenu(TransportadoraController controller, EnderecoMenu enderecoMenu)
+        {
+            this.transportadoraController = controller;
+            this.enderecoMenu = enderecoMenu;
+        }
+
+        public void ExibirMenu()
+        {
+            int opcao;
+            do
             {
-                Console.WriteLine("\nMenu Transportadora");
-                Console.WriteLine("1. Incluir transportadora");
-                Console.WriteLine("2. Remover transportadora");
-                Console.WriteLine("3. Editar transportadora");
-                Console.WriteLine("4. Consultar transportadora");
-                Console.WriteLine("0. Sair");
-                Console.Write("Escolha uma opção: ");
+                Console.WriteLine("\n--- MENU TRANSPORTADORA ---");
+                Console.WriteLine("1. Cadastrar Transportadora");
+                Console.WriteLine("2. Remover Transportadoras");
+                Console.WriteLine("3. Consultar Transportadora");
+                Console.WriteLine("4. Editar Transportadora"); //falta implementar
+                Console.WriteLine("0. Voltar");
+                Console.Write("Opção: ");
                 opcao = int.Parse(Console.ReadLine());
 
                 switch (opcao)
                 {
                     case 1:
-                        InserirTransportadora();
+                        CadastrarTransportadora();
                         break;
                     case 2:
                         RemoverTransportadora();
                         break;
                     case 3:
-                        EditarTransportadora();
-                        break;
-                    case 4:
                         ConsultarTransportadora();
                         break;
-                    case 0:
-                        return;
-                    default:
-                        Console.WriteLine("Opção inválida!");
+                    case 4:
+                        Console.WriteLine();
                         break;
                 }
-            }
+
+            } while (opcao != 0);
         }
 
-        private static void InserirTransportadora()
+        private void CadastrarTransportadora()
         {
-            Console.Write("\nNome da transportadora: ");
-            string nome = Console.ReadLine();
-
-            Console.Write("Valor por KM: ");
-            double valorKm = double.Parse(Console.ReadLine());
-
             Console.Write("ID: ");
             int id = int.Parse(Console.ReadLine());
+            Console.Write("Nome: ");
+            string nome = Console.ReadLine();
+            Console.WriteLine("Valor por km: ");
+            double valorkm = double.Parse(Console.ReadLine());
+            Endereco endereco = enderecoMenu.CadastrarEndereco();
 
-            Endereco endereco = EnderecoMenu.CadastrarEndereco();
-
-            Transportadora novaTransportadora = new Transportadora
-            {
-                Nome = nome,
-                ValorKm = valorKm,
-                Id = id,
-                Endereco = endereco
-            };
-
-            Console.WriteLine(TransportadoraController.AdicionarTransportadora(novaTransportadora));
+            var nova = new Transportadora(id, nome, valorkm, endereco);
+            string resultado = transportadoraController.AdicionarTransportadora(nova);
+            Console.WriteLine(resultado);
         }
 
-        private static void RemoverTransportadora()
+        private void ConsultarTransportadora()
         {
-            Console.Write("\nID da transportadora a remover: ");
-            int id = int.Parse(Console.ReadLine());
-            Console.WriteLine(TransportadoraController.RemoverTransportadora(id));
-        }
-
-        private static void ConsultarTransportadora()
-        {
-            Console.WriteLine("\nConsultar por:");
-            Console.WriteLine("1. ID");
-            Console.WriteLine("2. Todas");
-            Console.Write("Escolha: ");
+            Console.WriteLine("Consultar por: ");
+            Console.WriteLine("1. Id");
+            Console.WriteLine("2. Consulta geral");
             int opcao = int.Parse(Console.ReadLine());
 
-            switch (opcao)
+            if (opcao == 1)
             {
-                case 1:
-                    Console.Write("\nID da transportadora: ");
-                    int id = int.Parse(Console.ReadLine());
-                    Transportadora t = TransportadoraController.ObterTransportadoraPorId(id);
+                Console.WriteLine("Informe o id: ");
+                int id = int.Parse(Console.ReadLine());
 
-                    if (t != null)
-                        ExibirDetalhesTransportadora(t);
-                    else
-                        Console.WriteLine("Transportadora não encontrada!");
-                    break;
-
-                case 2:
-                    Transportadora[] todas = TransportadoraController.ObterTodasTransportadoras();
-                    foreach (Transportadora transportadora in todas)
-                        ExibirDetalhesTransportadora(transportadora);
-                    break;
-
-                default:
-                    Console.WriteLine("Opção inválida!");
-                    break;
+                var t = transportadoraController.ObterTransportadoraPorId(id);
+                Console.WriteLine(t);
+                return;
+            }
+            else
+            {
+                var lista = transportadoraController.ObterTodasTransportadoras();
+                foreach (var t in lista)
+                {
+                    Console.WriteLine(t);
+                }
+                return;
             }
         }
 
-        private static void EditarTransportadora()
+        private void RemoverTransportadora()
         {
-            Console.Write("\nID da transportadora a editar: ");
+            Console.Write("ID da transportadora a remover: ");
             int id = int.Parse(Console.ReadLine());
-
-            Console.Write("Novo nome: ");
-            string nome = Console.ReadLine();
-
-            Console.Write("Novo valor por KM: ");
-            double valorKm = double.Parse(Console.ReadLine());
-
-            Console.Write("Novo endereço:\n");
-            Endereco endereco = EnderecoMenu.CadastrarEndereco();
-
-            Transportadora dadosAtualizados = new Transportadora
-            {
-                Id = id,
-                Nome = nome,
-                ValorKm = valorKm,
-                Endereco = endereco
-            };
-
-            Console.WriteLine(TransportadoraController.EditarTransportadora(id, dadosAtualizados));
-        }
-
-        private static void ExibirDetalhesTransportadora(Transportadora transportadora)
-        {
-            Console.WriteLine("\n--------------------------");
-            Console.WriteLine($"ID: {transportadora.Id}");
-            Console.WriteLine($"Nome: {transportadora.Nome}");
-            Console.WriteLine($"Valor/KM: {transportadora.ValorKm:C}");
-            Console.WriteLine($"Endereço: {transportadora.Endereco.Rua}, {transportadora.Endereco.Numero}");
-            Console.WriteLine($"Complemento: {transportadora.Endereco.Complemento}");
-            Console.WriteLine($"Bairro: {transportadora.Endereco.Bairro}");
-            Console.WriteLine($"CEP: {transportadora.Endereco.Cep}");
-            Console.WriteLine($"Cidade/Estado: {transportadora.Endereco.Cidade} - {transportadora.Endereco.Estado}");
-            Console.WriteLine("--------------------------");
+            string resultado = transportadoraController.RemoverTransportadora(id);
+            Console.WriteLine(resultado);
         }
     }
 }

@@ -4,10 +4,10 @@ namespace Projeto_Sistema_Loja.controllers
 {
     internal class FornecedorController
     {
-        private static Fornecedor[] fornecedores = new Fornecedor[100];
-        private static int fornecedorCount = 0;
+        private Fornecedor[] fornecedores = new Fornecedor[100];
+        private int fornecedorCount = 0;
 
-        public static string AdicionarFornecedor(Fornecedor novoFornecedor)
+        public string AdicionarFornecedor(Fornecedor novoFornecedor)
         {
             if (fornecedorCount >= fornecedores.Length)
                 return "\nNúmero máximo de fornecedores atingido!";
@@ -25,7 +25,7 @@ namespace Projeto_Sistema_Loja.controllers
             return "Fornecedor incluído com sucesso!";
         }
 
-        public static string RemoverFornecedor(int id)
+        public string RemoverFornecedor(int id)
         {
             for (int i = 0; i < fornecedorCount; i++)
             {
@@ -41,7 +41,7 @@ namespace Projeto_Sistema_Loja.controllers
             return "Fornecedor não encontrado!";
         }
 
-        public static Fornecedor ObterFornecedorPorId(int id)
+        public Fornecedor ObterFornecedorPorId(int id)
         {
             foreach (Fornecedor f in fornecedores)
             {
@@ -51,7 +51,7 @@ namespace Projeto_Sistema_Loja.controllers
             return null;
         }
 
-        public static Fornecedor[] ObterTodosFornecedores()
+        public Fornecedor[] ObterTodosFornecedores()
         {
             Fornecedor[] lista = new Fornecedor[fornecedorCount];
             Array.Copy(fornecedores, lista, fornecedorCount);

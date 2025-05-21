@@ -1,41 +1,50 @@
-﻿using Projeto_Sistema_Loja.models;
+﻿using System;
 
 namespace Projeto_Sistema_Loja.menus
 {
     internal class MenuAdministrador
     {
-        public static void ExibirMenuAdministrador()
-        {
-            int opcao = -1;
+        private readonly FornecedorMenu fornecedorMenu;
+        private readonly ProdutoMenu produtoMenu;
+        private readonly TransportadoraMenu transportadoraMenu;
 
-            while (opcao != 0)
+        public MenuAdministrador(
+            FornecedorMenu fornecedorMenu,
+            ProdutoMenu produtoMenu,
+            TransportadoraMenu transportadoraMenu)
+        {
+            this.fornecedorMenu = fornecedorMenu;
+            this.produtoMenu = produtoMenu;
+            this.transportadoraMenu = transportadoraMenu;
+        }
+
+        public void ExibirMenu()
+        {
+            int opcao;
+            do
             {
-                Console.WriteLine("\nMenu Administrador");
-                Console.WriteLine("1. Menu Fornecedor");
-                Console.WriteLine("2. Menu Produto");
-                Console.WriteLine("3. Menu Transportadoras");
+                Console.WriteLine("\n--- MENU ADMINISTRADOR ---");
+                Console.WriteLine("1. Gerenciar Fornecedores");
+                Console.WriteLine("2. Gerenciar Produtos");
+                Console.WriteLine("3. Gerenciar Transportadoras");
                 Console.WriteLine("0. Sair");
-                Console.WriteLine("Escolha uma opção: ");
+                Console.Write("Opção: ");
                 opcao = int.Parse(Console.ReadLine());
 
                 switch (opcao)
                 {
                     case 1:
-                        FornecedorMenu.ExibirMenuFornecedor();
+                        fornecedorMenu.ExibirMenu();
                         break;
                     case 2:
-                        ProdutoMenu.ExibirMenuProduto();
+                        produtoMenu.ExibirMenu();
                         break;
                     case 3:
-                        Console.WriteLine();
+                        transportadoraMenu.ExibirMenu();
                         break;
-                    default:
-                        return;
                 }
-            }
+
+            } while (opcao != 0);
         }
-
-
-
     }
 }

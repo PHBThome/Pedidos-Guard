@@ -1,130 +1,100 @@
-﻿using Projeto_Sistema_Loja.models;
-using Projeto_Sistema_Loja.controllers;
+﻿using Projeto_Sistema_Loja.controllers;
+using Projeto_Sistema_Loja.models;
+using System;
 
 namespace Projeto_Sistema_Loja.menus
 {
     internal class FornecedorMenu
     {
-        public static void ExibirMenuFornecedor()
-        {
-            int opcao = -1;
+        private readonly FornecedorController fornecedorController;
+        private readonly EnderecoMenu enderecoMenu;
 
-            while (opcao != 0)
+        public FornecedorMenu(FornecedorController controller, EnderecoMenu enderecoMenu)
+        {
+            fornecedorController = controller;
+            this.enderecoMenu = enderecoMenu;
+        }
+
+        public void ExibirMenu()
+        {
+            int opcao;
+            do
             {
-                Console.WriteLine("\nMenu Fornecedor");
-                Console.WriteLine("1. Incluir fornecedor");
-                Console.WriteLine("2. Remover fornecedor");
-                Console.WriteLine("3. Editar fornecedor");
-                Console.WriteLine("4. Consultar fornecedores");
-                Console.WriteLine("0. Sair");
-                Console.Write("Escolha uma opção: ");
+                Console.WriteLine("\n--- MENU FORNECEDOR ---");
+                Console.WriteLine("1. Cadastrar Fornecedor");
+                Console.WriteLine("2. Remover Fornecedores");
+                Console.WriteLine("3. Consultar Fornecedor");
+                Console.WriteLine("4. Editar Fornecedor");
+                Console.WriteLine("0. Voltar");
+                Console.Write("Opção: ");
                 opcao = int.Parse(Console.ReadLine());
 
                 switch (opcao)
                 {
                     case 1:
-                        InserirFornecedor();
+                        CadastrarFornecedor();
                         break;
                     case 2:
                         RemoverFornecedor();
                         break;
                     case 3:
-                        // EditarFornecedor();
+                        ConsultarFornecedor();
                         break;
                     case 4:
-                        ConsultarFornecedores();
+                        Console.WriteLine();
                         break;
-                    case 0:
-                        return;
-                    default:
-                        Console.WriteLine("Opção inválida!");
-                        break;
+                }
+
+            } while (opcao != 0);
+        }
+
+        private void CadastrarFornecedor()
+        {
+            Console.Write("Id: ");
+            int id = int.Parse(Console.ReadLine());
+            Console.Write("Nome: ");
+            string nome = Console.ReadLine();
+            Console.Write("Email: ");
+            string email = Console.ReadLine();
+            Console.WriteLine("Telefone: ");
+            string telefone = Console.ReadLine();
+            Endereco endereco = enderecoMenu.CadastrarEndereco();
+
+            var novoFornecedor = new Fornecedor(id, nome, email, telefone, endereco);
+            string resultado = fornecedorController.AdicionarFornecedor(novoFornecedor);
+            Console.WriteLine(resultado);
+        }
+
+        private void ConsultarFornecedor()
+        {
+            Console.WriteLine("Consultar por:");
+            Console.WriteLine("1. Id");
+            Console.WriteLine("2. Consulta geral");
+            int opcao = int.Parse(Console.ReadLine());
+
+            if (opcao == 1)
+            {
+                Console.WriteLine("Informe o id:");
+                int id = int.Parse(Console.ReadLine());
+                var f = fornecedorController.ObterFornecedorPorId(id);
+                Console.WriteLine(f);
+            }
+            else
+            {
+                var fornecedores = fornecedorController.ObterTodosFornecedores();
+                foreach (var f in fornecedores)
+                {
+                    Console.WriteLine(f);
                 }
             }
         }
 
-        private static void InserirFornecedor()
+        private void RemoverFornecedor()
         {
-            Console.Write("\nInforme o nome do fornecedor: ");
-            string nome = Console.ReadLine();
-
-            Console.Write("\nInforme o telefone do fornecedor: ");
-            string telefone = Console.ReadLine();
-
-            Console.Write("\nInforme o email: ");
-            string email = Console.ReadLine();
-
-            Console.Write("\nInforme o id: ");
+            Console.Write("ID do fornecedor a remover: ");
             int id = int.Parse(Console.ReadLine());
-
-            Endereco endereco = EnderecoMenu.CadastrarEndereco();
-
-            Fornecedor novoFornecedor = new Fornecedor
-            {
-                Nome = nome,
-                Telefone = telefone,
-                Email = email,
-                Id = id,
-                Endereco = endereco
-            };
-
-            string resultado = FornecedorController.AdicionarFornecedor(novoFornecedor);
+            string resultado = fornecedorController.RemoverFornecedor(id);
             Console.WriteLine(resultado);
-        }
-
-        private static void RemoverFornecedor()
-        {
-            Console.Write("\nDigite o código do fornecedor a ser excluído: ");
-            int id = int.Parse(Console.ReadLine());
-            string resultado = FornecedorController.RemoverFornecedor(id);
-            Console.WriteLine(resultado);
-        }
-
-        private static void ConsultarFornecedores()
-        {
-            Console.WriteLine("\nConsultar por:");
-            Console.WriteLine("1. Id");
-            Console.WriteLine("2. Consulta geral");
-            Console.Write("Escolha: ");
-            int opcao = int.Parse(Console.ReadLine());
-
-            switch (opcao)
-            {
-                case 1:
-                    Console.Write("\nInforme o id: ");
-                    int id = int.Parse(Console.ReadLine());
-                    Fornecedor fornecedor = FornecedorController.ObterFornecedorPorId(id);
-
-                    if (fornecedor != null)
-                        ExibirDetalhesFornecedor(fornecedor);
-                    else
-                        Console.WriteLine("Fornecedor não encontrado!");
-                    break;
-
-                case 2:
-                    Fornecedor[] todos = FornecedorController.ObterTodosFornecedores();
-                    foreach (Fornecedor f in todos)
-                        ExibirDetalhesFornecedor(f);
-                    break;
-
-                default:
-                    Console.WriteLine("Opção inválida!");
-                    break;
-            }
-        }
-
-        private static void ExibirDetalhesFornecedor(Fornecedor fornecedor)
-        {
-            Console.WriteLine("\n--------------------------");
-            Console.WriteLine($"ID: {fornecedor.Id}");
-            Console.WriteLine($"Nome: {fornecedor.Nome}");
-            Console.WriteLine($"Telefone: {fornecedor.Telefone}");
-            Console.WriteLine($"Email: {fornecedor.Email}");
-            Console.WriteLine($"Endereço: {fornecedor.Endereco.Rua}, {fornecedor.Endereco.Numero}");
-            Console.WriteLine($"Complemento: {fornecedor.Endereco.Complemento}");
-            Console.WriteLine($"Bairro: {fornecedor.Endereco.Bairro}, CEP: {fornecedor.Endereco.Cep}");
-            Console.WriteLine($"Cidade/Estado: {fornecedor.Endereco.Cidade} - {fornecedor.Endereco.Estado}");
-            Console.WriteLine("--------------------------");
         }
     }
 }

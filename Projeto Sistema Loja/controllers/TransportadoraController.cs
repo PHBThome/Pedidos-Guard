@@ -4,10 +4,10 @@ namespace Projeto_Sistema_Loja.controllers
 {
     internal class TransportadoraController
     {
-        private static Transportadora[] transportadoras = new Transportadora[100];
-        private static int transportadoraCount = 0;
+        private Transportadora[] transportadoras = new Transportadora[100];
+        private int transportadoraCount = 0;
 
-        public static string AdicionarTransportadora(Transportadora novaTransportadora)
+        public string AdicionarTransportadora(Transportadora novaTransportadora)
         {
             if (transportadoraCount >= transportadoras.Length)
                 return "Número máximo de transportadoras atingido!";
@@ -25,7 +25,7 @@ namespace Projeto_Sistema_Loja.controllers
             return "Transportadora cadastrada com sucesso!";
         }
 
-        public static string RemoverTransportadora(int id)
+        public string RemoverTransportadora(int id)
         {
             for (int i = 0; i < transportadoraCount; i++)
             {
@@ -41,7 +41,7 @@ namespace Projeto_Sistema_Loja.controllers
             return "Transportadora não encontrada!";
         }
 
-        public static Transportadora ObterTransportadoraPorId(int id)
+        public Transportadora ObterTransportadoraPorId(int id)
         {
             foreach (Transportadora t in transportadoras)
             {
@@ -51,14 +51,14 @@ namespace Projeto_Sistema_Loja.controllers
             return null;
         }
 
-        public static Transportadora[] ObterTodasTransportadoras()
+        public Transportadora[] ObterTodasTransportadoras()
         {
             Transportadora[] lista = new Transportadora[transportadoraCount];
             Array.Copy(transportadoras, lista, transportadoraCount);
             return lista;
         }
 
-        public static string EditarTransportadora(int id, Transportadora dadosAtualizados)
+        public string EditarTransportadora(int id, Transportadora dadosAtualizados)
         {
             for (int i = 0; i < transportadoraCount; i++)
             {
