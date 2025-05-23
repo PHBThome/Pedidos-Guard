@@ -41,7 +41,7 @@ namespace Projeto_Sistema_Loja.menus
                         ConsultarFornecedor();
                         break;
                     case 4:
-                        Console.WriteLine();
+                        EditarFornecedor();
                         break;
                 }
 
@@ -91,9 +91,17 @@ namespace Projeto_Sistema_Loja.menus
 
         private void RemoverFornecedor()
         {
-            Console.Write("ID do fornecedor a remover: ");
+            Console.Write("Id do fornecedor a remover: ");
             int id = int.Parse(Console.ReadLine());
             string resultado = fornecedorController.RemoverFornecedor(id);
+            Console.WriteLine(resultado);
+        }
+
+        private void EditarFornecedor()
+        {
+            Console.WriteLine("Id do fornecedor a editar: ");
+            int id = int.Parse(Console.ReadLine());
+            string resultado = fornecedorController.EditarFornecedor(id);
             Console.WriteLine(resultado);
         }
     }

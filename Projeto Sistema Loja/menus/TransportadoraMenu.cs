@@ -24,7 +24,7 @@ namespace Projeto_Sistema_Loja.menus
                 Console.WriteLine("1. Cadastrar Transportadora");
                 Console.WriteLine("2. Remover Transportadoras");
                 Console.WriteLine("3. Consultar Transportadora");
-                Console.WriteLine("4. Editar Transportadora"); //falta implementar
+                Console.WriteLine("4. Editar Transportadora");
                 Console.WriteLine("0. Voltar");
                 Console.Write("Opção: ");
                 opcao = int.Parse(Console.ReadLine());
@@ -41,7 +41,7 @@ namespace Projeto_Sistema_Loja.menus
                         ConsultarTransportadora();
                         break;
                     case 4:
-                        //EditarTransportadora();
+                        EditarTransportadora();
                         break;
                 }
 
@@ -50,7 +50,7 @@ namespace Projeto_Sistema_Loja.menus
 
         private void CadastrarTransportadora()
         {
-            Console.WriteLine("ID: ");
+            Console.WriteLine("Id: ");
             int id = int.Parse(Console.ReadLine());
             Console.WriteLine("Nome: ");
             string nome = Console.ReadLine();
@@ -92,18 +92,19 @@ namespace Projeto_Sistema_Loja.menus
 
         private void RemoverTransportadora()
         {
-            Console.WriteLine("ID da transportadora a remover: ");
+            Console.WriteLine("Id da transportadora a remover: ");
             int id = int.Parse(Console.ReadLine());
             string resultado = transportadoraController.RemoverTransportadora(id);
             Console.WriteLine(resultado);
         }
 
-        /*private void EditarTransportadora()
+        private void EditarTransportadora()
         {
             Console.WriteLine("Id da transportadora a editar: ");
             int id = int.Parse(Console.ReadLine());
-            string resultado = transportadoraController.EditarTransportadora(int id);
-        }*/
+            string resultado = transportadoraController.EditarTransportadora(id);
+            Console.WriteLine(resultado);
+        }
 
         
     }

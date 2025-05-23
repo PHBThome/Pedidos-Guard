@@ -3,21 +3,26 @@
     internal class Produto
     {
         public int Id { get; set; }
-        public double valor { get; set; }
+        public string Nome { get; set; }
+        public double Valor { get; set; }
         public int Quantidade { get; set; }
         public int IdFornecedor { get; set; }
 
-        public Produto(int id, double valor, int quantidade, int idFornecedor)
+        public Produto(int id, string nome, double valor, int quantidade, int idFornecedor)
         {
             Id = id;
-            this.valor = valor;
+            this.Valor = valor;
             Quantidade = quantidade;
             IdFornecedor = idFornecedor;
         }
 
         public override string ToString()
         {
-            return $"ID: {Id} | Valor: {valor} | Quantidade: {Quantidade} | ID Fornecedor: {IdFornecedor}";
+            return $"\nID: {Id}\n" +
+                $"Nome: {Nome}\n" +
+                $"Valor: {Valor}\n" +
+                $"Quantidade: {Quantidade}\n" +
+                $"ID Fornecedor: {IdFornecedor}";
         }
     }
 }

@@ -10,6 +10,7 @@ namespace Projeto_Sistema_Loja.menus
             string user = Console.ReadLine();
             Console.WriteLine("Informe a senha: ");
             string password = Console.ReadLine();
+
             return new Usuario(user, password);
         }
 

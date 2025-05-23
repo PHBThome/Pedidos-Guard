@@ -19,7 +19,11 @@
 
         public override string ToString()
         {
-            return $"\nID: {Id}\nNome: {Nome}\nEmail: {Email}\nTelefone: {Telefone}\nEndereço: {Endereco}";
+            return $"\nID: {Id}\n" +
+                $"Nome: {Nome}\n" +
+                $"Email: {Email}\n" +
+                $"Telefone: {Telefone}\n" +
+                $"Endereço: {Endereco}";
         }
     }
 }

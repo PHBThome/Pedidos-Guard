@@ -1,4 +1,5 @@
-﻿using Projeto_Sistema_Loja.models;
+﻿using Projeto_Sistema_Loja.menus;
+using Projeto_Sistema_Loja.models;
 
 namespace Projeto_Sistema_Loja.controllers
 {
@@ -6,6 +7,7 @@ namespace Projeto_Sistema_Loja.controllers
     {
         private Transportadora[] transportadoras = new Transportadora[100];
         private int transportadoraCount = 0;
+        private readonly EnderecoMenu endereco = new EnderecoMenu();
 
         public string AdicionarTransportadora(Transportadora novaTransportadora)
         {
@@ -16,8 +18,8 @@ namespace Projeto_Sistema_Loja.controllers
             {
                 if (t == null) continue;
                 if (t.Id == novaTransportadora.Id)
-                    return "ID já existente!";
-                if (t.Nome == novaTransportadora.Nome)
+                    return "Id já existente!";
+                if (t.Nome.ToLower() == novaTransportadora.Nome.ToLower())
                     return "Nome já cadastrado!";
             }
 
@@ -58,18 +60,66 @@ namespace Projeto_Sistema_Loja.controllers
             return lista;
         }
 
-        /*
+        
         public string EditarTransportadora(int id)
         {
             for(int i = 0; i < transportadoraCount; i++)
             {
                 if (transportadoras[i].Id == id)
                 {
-                    Console.WriteLine($"Deseja ");
+                    var t = transportadoras[i];
+                    Console.WriteLine($"Transportadora atual:\n{t}");
+
+                    Console.WriteLine($"Deseja alterar o nome? (s/n)");
+                    string nome = " ";
+                    if (Console.ReadLine().ToLower() == "s")
+                    {
+                        bool nomeValido = false;
+
+                        while (!nomeValido)
+                        {
+                            Console.WriteLine("Novo nome: ");
+                            nome = Console.ReadLine();
+
+                            bool nomeExistente = false;
+
+                            foreach (Transportadora z in transportadoras)
+                            {
+                                if (z == null) continue;
+                                if (z.Nome.ToLower() == nome.ToLower())
+                                {
+                                    Console.WriteLine("Nome já existente! Tente novamente.");
+                                    nomeExistente = true;
+                                    break;
+                                }
+                            }
+
+                            if (!nomeExistente)
+                            {
+                                nomeValido = true;
+                            }
+                        }
+                        t.Nome = nome;
+                    }
+
+                    Console.WriteLine("Deseja editar o valor por km? (s/n)");
+                    if (Console.ReadLine().ToLower() == "s")
+                    {
+                        Console.WriteLine("Novo valor por km: ");
+                        t.Valormk = double.Parse(Console.ReadLine());
+                    }
+
+                    Console.WriteLine("Deseja editar o endereço? (s/n)");
+                    if(Console.ReadLine().ToLower() == "s")
+                    {
+                        var novo = endereco.CadastrarEndereco();
+                        t.Endereco = novo;
+                    }
+                    return "Transportadora editada com sucesso";
                 }
                 
             }
-            return
-        }*/
+            return "Transportadora não encontrada";
+        }
     }
 }

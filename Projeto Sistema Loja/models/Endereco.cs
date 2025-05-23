@@ -23,7 +23,10 @@
 
         public override string ToString()
         {
-            return $"Rua: {Rua}, {Numero} - {Complemento}\nBairro: {Bairro}\n{Cidade} - {Estado}\nCEP: {Cep}";
+            return $"\nRua: {Rua}, {Numero} - {Complemento}\n" +
+                $"{Cidade} - {Estado}\n" +
+                $"Bairro: {Bairro}\n" +
+                $"CEP: {Cep}";
         }
     }
 }

@@ -24,7 +24,7 @@ namespace Projeto_Sistema_Loja.menus
                 Console.WriteLine("1. Cadastrar Produto");
                 Console.WriteLine("2. Remover Produto");
                 Console.WriteLine("3. Consultar Produto");
-                Console.WriteLine("4. Editar Produto"); //falta implementar
+                Console.WriteLine("4. Editar Produto");
                 Console.WriteLine("0. Voltar");
                 Console.WriteLine("Opção: ");
                 opcao = int.Parse(Console.ReadLine());
@@ -41,7 +41,7 @@ namespace Projeto_Sistema_Loja.menus
                         ConsultarProduto();
                         break;
                     case 4:
-                        Console.WriteLine();
+                        EditarProduto();
                         break;
                 }
 
@@ -50,8 +50,10 @@ namespace Projeto_Sistema_Loja.menus
 
         private void CadastrarProduto()
         {
-            Console.WriteLine("ID: ");
+            Console.WriteLine("Id: ");
             int id = int.Parse(Console.ReadLine());
+            Console.WriteLine("Nome: ");
+            string nome = Console.ReadLine();
             Console.WriteLine("Valor: ");
             double valor = double.Parse(Console.ReadLine());
             Console.WriteLine("Quantidade: ");
@@ -59,7 +61,7 @@ namespace Projeto_Sistema_Loja.menus
             Console.WriteLine("ID do Fornecedor: ");
             int idFornecedor = int.Parse(Console.ReadLine());
 
-            Produto novoProduto = new Produto(id, valor, quantidade, idFornecedor);
+            Produto novoProduto = new Produto(id, nome, valor, quantidade, idFornecedor);
             string resultado = produtoController.AdicionarProduto(novoProduto);
             Console.WriteLine(resultado);
         }
@@ -92,9 +94,17 @@ namespace Projeto_Sistema_Loja.menus
 
         private void RemoverProduto()
         {
-            Console.Write("ID do produto a remover: ");
+            Console.Write("Id do produto a remover: ");
             int id = int.Parse(Console.ReadLine());
             string resultado = produtoController.RemoverProduto(id);
+            Console.WriteLine(resultado);
+        }
+
+        private void EditarProduto()
+        {
+            Console.WriteLine("Id do produto a editar: ");
+            int id = int.Parse(Console.ReadLine());
+            string resultado = produtoController.EditarProduto(id);
             Console.WriteLine(resultado);
         }
     }
