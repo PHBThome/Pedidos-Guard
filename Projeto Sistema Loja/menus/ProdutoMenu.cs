@@ -26,7 +26,7 @@ namespace Projeto_Sistema_Loja.menus
                 Console.WriteLine("3. Consultar Produto");
                 Console.WriteLine("4. Editar Produto"); //falta implementar
                 Console.WriteLine("0. Voltar");
-                Console.Write("Opção: ");
+                Console.WriteLine("Opção: ");
                 opcao = int.Parse(Console.ReadLine());
 
                 switch (opcao)
@@ -50,13 +50,13 @@ namespace Projeto_Sistema_Loja.menus
 
         private void CadastrarProduto()
         {
-            Console.Write("ID: ");
+            Console.WriteLine("ID: ");
             int id = int.Parse(Console.ReadLine());
-            Console.Write("Valor: ");
+            Console.WriteLine("Valor: ");
             double valor = double.Parse(Console.ReadLine());
-            Console.Write("Quantidade: ");
+            Console.WriteLine("Quantidade: ");
             int quantidade = int.Parse(Console.ReadLine());
-            Console.Write("ID do Fornecedor: ");
+            Console.WriteLine("ID do Fornecedor: ");
             int idFornecedor = int.Parse(Console.ReadLine());
 
             Produto novoProduto = new Produto(id, valor, quantidade, idFornecedor);

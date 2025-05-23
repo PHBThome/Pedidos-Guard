@@ -18,7 +18,7 @@ namespace Projeto_Sistema_Loja.menus
             this.transportadoraMenu = transportadoraMenu;
         }
 
-        public void ExibirMenu()
+        public void ExibirMenuAdministrador()
         {
             int opcao;
             do
@@ -28,7 +28,7 @@ namespace Projeto_Sistema_Loja.menus
                 Console.WriteLine("2. Gerenciar Produtos");
                 Console.WriteLine("3. Gerenciar Transportadoras");
                 Console.WriteLine("0. Sair");
-                Console.Write("Opção: ");
+                Console.WriteLine("Opção: ");
                 opcao = int.Parse(Console.ReadLine());
 
                 switch (opcao)

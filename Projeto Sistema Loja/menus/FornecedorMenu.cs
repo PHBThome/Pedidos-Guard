@@ -26,7 +26,7 @@ namespace Projeto_Sistema_Loja.menus
                 Console.WriteLine("3. Consultar Fornecedor");
                 Console.WriteLine("4. Editar Fornecedor");
                 Console.WriteLine("0. Voltar");
-                Console.Write("Opção: ");
+                Console.WriteLine("Opção: ");
                 opcao = int.Parse(Console.ReadLine());
 
                 switch (opcao)
@@ -50,11 +50,11 @@ namespace Projeto_Sistema_Loja.menus
 
         private void CadastrarFornecedor()
         {
-            Console.Write("Id: ");
+            Console.WriteLine("Id: ");
             int id = int.Parse(Console.ReadLine());
-            Console.Write("Nome: ");
+            Console.WriteLine("Nome: ");
             string nome = Console.ReadLine();
-            Console.Write("Email: ");
+            Console.WriteLine("Email: ");
             string email = Console.ReadLine();
             Console.WriteLine("Telefone: ");
             string telefone = Console.ReadLine();

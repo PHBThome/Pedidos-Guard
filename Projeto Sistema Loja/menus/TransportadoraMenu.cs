@@ -41,7 +41,7 @@ namespace Projeto_Sistema_Loja.menus
                         ConsultarTransportadora();
                         break;
                     case 4:
-                        Console.WriteLine();
+                        //EditarTransportadora();
                         break;
                 }
 
@@ -50,9 +50,9 @@ namespace Projeto_Sistema_Loja.menus
 
         private void CadastrarTransportadora()
         {
-            Console.Write("ID: ");
+            Console.WriteLine("ID: ");
             int id = int.Parse(Console.ReadLine());
-            Console.Write("Nome: ");
+            Console.WriteLine("Nome: ");
             string nome = Console.ReadLine();
             Console.WriteLine("Valor por km: ");
             double valorkm = double.Parse(Console.ReadLine());
@@ -92,10 +92,19 @@ namespace Projeto_Sistema_Loja.menus
 
         private void RemoverTransportadora()
         {
-            Console.Write("ID da transportadora a remover: ");
+            Console.WriteLine("ID da transportadora a remover: ");
             int id = int.Parse(Console.ReadLine());
             string resultado = transportadoraController.RemoverTransportadora(id);
             Console.WriteLine(resultado);
         }
+
+        /*private void EditarTransportadora()
+        {
+            Console.WriteLine("Id da transportadora a editar: ");
+            int id = int.Parse(Console.ReadLine());
+            string resultado = transportadoraController.EditarTransportadora(int id);
+        }*/
+
+        
     }
 }

@@ -58,17 +58,18 @@ namespace Projeto_Sistema_Loja.controllers
             return lista;
         }
 
-        public string EditarTransportadora(int id, Transportadora dadosAtualizados)
+        /*
+        public string EditarTransportadora(int id)
         {
-            for (int i = 0; i < transportadoraCount; i++)
+            for(int i = 0; i < transportadoraCount; i++)
             {
                 if (transportadoras[i].Id == id)
                 {
-                    transportadoras[i] = dadosAtualizados;
-                    return "Transportadora atualizada com sucesso!";
+                    Console.WriteLine($"Deseja ");
                 }
+                
             }
-            return "Transportadora não encontrada!";
-        }
+            return
+        }*/
     }
 }

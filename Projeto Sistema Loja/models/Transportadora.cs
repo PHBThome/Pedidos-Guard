@@ -17,7 +17,10 @@
 
         public override string ToString()
         {
-            return $"ID: {Id} | Nome: {Nome} | Valorkm: {Valormk} | Endereço: {Endereco}";
+            return $"\nID: {Id}\n" +
+                $"Nome: {Nome}\n" +
+                $"Valorkm: {Valormk}\n" +
+                $"Endereço:\n{Endereco}";
         }
     }
 }

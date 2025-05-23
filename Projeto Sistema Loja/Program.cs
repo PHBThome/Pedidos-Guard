@@ -4,10 +4,13 @@ namespace Projeto_Sistema_Loja
 {
     internal class Program
     {
+
         static void Main(string[] args)
         {
-            Menu menuPrincipal = new Menu();
-            menuPrincipal.Exibir();
+            Console.WriteLine("Bem vindo ao sistema de pedidos da loja!");
+            var menu = new Menu();
+            menu.Exibir();
+            
         }
     }
 }
