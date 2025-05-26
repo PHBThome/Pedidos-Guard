@@ -1,56 +1,65 @@
-﻿using Projeto_Sistema_Loja.models;
+﻿using Projeto_Sistema_Loja.data;
+using Projeto_Sistema_Loja.models;
 
 namespace Projeto_Sistema_Loja.controllers
 {
     internal class ProdutoController
     {
-        private Produto[] produtos = new Produto[200];
-        private int produtosCount = 0;
-        private FornecedorController fornecedorController;
+        private readonly LojaData LojaData;
 
-        public ProdutoController(FornecedorController fornecedorController)
+        public ProdutoController(LojaData lojaData)
         {
-            this.fornecedorController = fornecedorController;
+            LojaData = lojaData;
         }
 
         public string AdicionarProduto(Produto novoProduto)
         {
-            if (produtosCount >= produtos.Length)
-                return "\nNúmero máximo de produtos atingido!";
-
-            if (fornecedorController.ObterFornecedorPorId(novoProduto.IdFornecedor) == null)
+            if (new FornecedorController(LojaData).ObterFornecedorPorId(novoProduto.IdFornecedor) == null)
                 return "Fornecedor não encontrado!";
 
-            foreach (Produto p in produtos)
+            int posicaoLivre = -1;
+            for (int i = 0; i < LojaData.Produtos.Length; i++)
             {
-                if (p == null) continue;
-                if (p.Id == novoProduto.Id)
+                if (LojaData.Produtos[i] == null)
+                {
+                    posicaoLivre = i;
+                    break;
+                }
+            }
+
+            if (posicaoLivre == -1)
+                return "\nNúmero máximo de produtos atingido!";
+
+            foreach (var p in LojaData.Produtos)
+            {
+                if (p != null && p.Id == novoProduto.Id)
                     return "ID do produto já existe!";
             }
 
-            produtos[produtosCount++] = novoProduto;
+            Produto[] novoArray = new Produto[LojaData.Produtos.Length];
+            Array.Copy(LojaData.Produtos, novoArray, LojaData.Produtos.Length);
+            novoArray[posicaoLivre] = novoProduto;
+            LojaData.Produtos = novoArray;
+
             return "Produto adicionado com sucesso!";
         }
 
         public string RemoverProduto(int id)
         {
-            for (int i = 0; i < produtosCount; i++)
+            for (int i = 0; i < LojaData.Produtos.Length; i++)
             {
-                if (produtos[i].Id == id)
+                if (LojaData.Produtos[i] != null && LojaData.Produtos[i].Id == id)
                 {
-                    for (int j = i; j < produtosCount - 1; j++)
-                        produtos[j] = produtos[j + 1];
-
-                    produtos[--produtosCount] = null;
+                    LojaData.Produtos[i] = null;
                     return "Produto removido com sucesso!";
                 }
             }
             return "Produto não encontrado!";
         }
 
-        public Produto ObterProdutoPorId(int id)
+        public Produto? ObterProdutoPorId(int id)
         {
-            foreach (Produto p in produtos)
+            foreach (Produto p in LojaData.Produtos)
             {
                 if (p != null && p.Id == id)
                     return p;
@@ -60,19 +69,16 @@ namespace Projeto_Sistema_Loja.controllers
 
         public Produto[] ObterTodosProdutos()
         {
-            Produto[] lista = new Produto[produtosCount];
-            Array.Copy(produtos, lista, produtosCount);
-            return lista;
+            return LojaData.Produtos.Where(p => p != null).ToArray();
         }
-
 
         public string EditarProduto(int id)
         {
-            for (int i = 0; i < produtosCount; i++)
+            for (int i = 0; i < LojaData.Produtos.Length; i++)
             {
-                if (produtos[i].Id == id)
+                if (LojaData.Produtos[i] != null && LojaData.Produtos[i].Id == id)
                 {
-                    var p = produtos[i];
+                    var p = LojaData.Produtos[i];
                     Console.WriteLine($"Produto atual:\n{p}");
 
                     Console.WriteLine($"Deseja alterar o nome? (s/n)");
@@ -88,10 +94,9 @@ namespace Projeto_Sistema_Loja.controllers
 
                             bool nomeExistente = false;
 
-                            foreach (Produto t in produtos)
+                            foreach (Produto t in LojaData.Produtos)
                             {
-                                if (t == null) continue;
-                                if (t.Nome.ToLower() == nome.ToLower())
+                                if (t != null && t.Nome.ToLower() == nome.ToLower())
                                 {
                                     Console.WriteLine("Nome já existente! Tente novamente.");
                                     nomeExistente = true;
@@ -132,7 +137,7 @@ namespace Projeto_Sistema_Loja.controllers
                             Console.WriteLine("Novo id do fornecedor: ");
                             idfornecedor = int.Parse(Console.ReadLine());
 
-                            if (fornecedorController.ObterFornecedorPorId(idfornecedor) == null)
+                            if (new FornecedorController(LojaData).ObterFornecedorPorId(idfornecedor) == null)
                             {
                                 Console.WriteLine("Fornecedor não encontrado! Tente novamente.");
                             }
@@ -146,7 +151,6 @@ namespace Projeto_Sistema_Loja.controllers
                     }
                     return "Produto editado com sucesso";
                 }
-
             }
             return "Produto não encontrado";
         }

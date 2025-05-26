@@ -1,5 +1,4 @@
 ﻿using Projeto_Sistema_Loja.models;
-using System;
 
 namespace Projeto_Sistema_Loja.menus
 {

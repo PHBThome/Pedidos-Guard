@@ -1,18 +1,17 @@
 ﻿using Projeto_Sistema_Loja.controllers;
+using Projeto_Sistema_Loja.data;
 using Projeto_Sistema_Loja.models;
-using System;
 
 namespace Projeto_Sistema_Loja.menus
 {
     internal class FornecedorMenu
     {
-        private readonly FornecedorController fornecedorController;
-        private readonly EnderecoMenu enderecoMenu;
 
-        public FornecedorMenu(FornecedorController controller, EnderecoMenu enderecoMenu)
+        private readonly LojaData LojaData;
+
+        public FornecedorMenu(LojaData lojaData)
         {
-            fornecedorController = controller;
-            this.enderecoMenu = enderecoMenu;
+            LojaData = lojaData;
         }
 
         public void ExibirMenu()
@@ -58,10 +57,10 @@ namespace Projeto_Sistema_Loja.menus
             string email = Console.ReadLine();
             Console.WriteLine("Telefone: ");
             string telefone = Console.ReadLine();
-            Endereco endereco = enderecoMenu.CadastrarEndereco();
+            Endereco endereco = new EnderecoMenu().CadastrarEndereco();
 
-            var novoFornecedor = new Fornecedor(id, nome, email, telefone, endereco);
-            string resultado = fornecedorController.AdicionarFornecedor(novoFornecedor);
+            Fornecedor novoFornecedor = new (id, nome, email, telefone, endereco);
+            string resultado = new FornecedorController(LojaData).AdicionarFornecedor(novoFornecedor);
             Console.WriteLine(resultado);
         }
 
@@ -76,12 +75,12 @@ namespace Projeto_Sistema_Loja.menus
             {
                 Console.WriteLine("Informe o id:");
                 int id = int.Parse(Console.ReadLine());
-                var f = fornecedorController.ObterFornecedorPorId(id);
+                var f = new FornecedorController(LojaData).ObterFornecedorPorId(id);
                 Console.WriteLine(f);
             }
             else
             {
-                var fornecedores = fornecedorController.ObterTodosFornecedores();
+                var fornecedores = new FornecedorController(LojaData).ObterTodosFornecedores();
                 foreach (var f in fornecedores)
                 {
                     Console.WriteLine(f);
@@ -93,7 +92,7 @@ namespace Projeto_Sistema_Loja.menus
         {
             Console.Write("Id do fornecedor a remover: ");
             int id = int.Parse(Console.ReadLine());
-            string resultado = fornecedorController.RemoverFornecedor(id);
+            string resultado = new FornecedorController(LojaData).RemoverFornecedor(id);
             Console.WriteLine(resultado);
         }
 
@@ -101,7 +100,7 @@ namespace Projeto_Sistema_Loja.menus
         {
             Console.WriteLine("Id do fornecedor a editar: ");
             int id = int.Parse(Console.ReadLine());
-            string resultado = fornecedorController.EditarFornecedor(id);
+            string resultado = new FornecedorController(LojaData).EditarFornecedor(id);
             Console.WriteLine(resultado);
         }
     }

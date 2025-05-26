@@ -1,17 +1,18 @@
-﻿using Projeto_Sistema_Loja.models;
+﻿using Projeto_Sistema_Loja.controllers;
+using Projeto_Sistema_Loja.models;
 
 namespace Projeto_Sistema_Loja.menus
 {
     internal class LoginMenu
     {
-        public Usuario Logar()
+        public bool Logar()
         {
             Console.WriteLine("Informe o usuario: ");
             string user = Console.ReadLine();
             Console.WriteLine("Informe a senha: ");
             string password = Console.ReadLine();
-
-            return new Usuario(user, password);
+            
+            return new UsuarioController().LoginEfetuado(new Usuario(user, password));
         }
 
     }

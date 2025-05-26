@@ -1,18 +1,16 @@
 ﻿using Projeto_Sistema_Loja.controllers;
+using Projeto_Sistema_Loja.data;
 using Projeto_Sistema_Loja.models;
-using System;
 
 namespace Projeto_Sistema_Loja.menus
 {
     internal class ProdutoMenu
     {
-        private readonly ProdutoController produtoController;
-        private readonly FornecedorController fornecedorController;
+        private readonly LojaData LojaData;
 
-        public ProdutoMenu(ProdutoController produtoController, FornecedorController fornecedorController)
+        public ProdutoMenu(LojaData lojaData)
         {
-            this.produtoController = produtoController;
-            this.fornecedorController = fornecedorController;
+            LojaData = lojaData;
         }
 
         public void ExibirMenu()
@@ -26,7 +24,7 @@ namespace Projeto_Sistema_Loja.menus
                 Console.WriteLine("3. Consultar Produto");
                 Console.WriteLine("4. Editar Produto");
                 Console.WriteLine("0. Voltar");
-                Console.WriteLine("Opção: ");
+                Console.Write("Opção: ");
                 opcao = int.Parse(Console.ReadLine());
 
                 switch (opcao)
@@ -50,45 +48,46 @@ namespace Projeto_Sistema_Loja.menus
 
         private void CadastrarProduto()
         {
-            Console.WriteLine("Id: ");
+            Console.Write("Id: ");
             int id = int.Parse(Console.ReadLine());
-            Console.WriteLine("Nome: ");
+            Console.Write("Nome: ");
             string nome = Console.ReadLine();
-            Console.WriteLine("Valor: ");
+            Console.Write("Valor: ");
             double valor = double.Parse(Console.ReadLine());
-            Console.WriteLine("Quantidade: ");
+            Console.Write("Quantidade: ");
             int quantidade = int.Parse(Console.ReadLine());
-            Console.WriteLine("ID do Fornecedor: ");
+            Console.Write("ID do Fornecedor: ");
             int idFornecedor = int.Parse(Console.ReadLine());
 
             Produto novoProduto = new Produto(id, nome, valor, quantidade, idFornecedor);
-            string resultado = produtoController.AdicionarProduto(novoProduto);
+            string resultado = new ProdutoController(LojaData).AdicionarProduto(novoProduto);
             Console.WriteLine(resultado);
         }
 
         private void ConsultarProduto()
         {
-            Console.WriteLine("Consultar por: ");
+            Console.WriteLine("Consultar por:");
             Console.WriteLine("1. Id");
             Console.WriteLine("2. Consulta geral");
+            Console.Write("Opção: ");
             int opcao = int.Parse(Console.ReadLine());
+
+            ProdutoController produtoController = new ProdutoController(LojaData);
 
             if (opcao == 1)
             {
-                Console.WriteLine("Informe o id:");
+                Console.Write("Informe o id: ");
                 int id = int.Parse(Console.ReadLine());
                 var p = produtoController.ObterProdutoPorId(id);
                 Console.WriteLine(p);
-                return;
             }
             else
             {
-                Produto[] produtos = produtoController.ObterTodosProdutos();
-                foreach (Produto p in produtos)
+                var produtos = produtoController.ObterTodosProdutos();
+                foreach (var p in produtos)
                 {
                     Console.WriteLine(p);
                 }
-                return;
             }
         }
 
@@ -96,15 +95,15 @@ namespace Projeto_Sistema_Loja.menus
         {
             Console.Write("Id do produto a remover: ");
             int id = int.Parse(Console.ReadLine());
-            string resultado = produtoController.RemoverProduto(id);
+            string resultado = new ProdutoController(LojaData).RemoverProduto(id);
             Console.WriteLine(resultado);
         }
 
         private void EditarProduto()
         {
-            Console.WriteLine("Id do produto a editar: ");
+            Console.Write("Id do produto a editar: ");
             int id = int.Parse(Console.ReadLine());
-            string resultado = produtoController.EditarProduto(id);
+            string resultado = new ProdutoController(LojaData).EditarProduto(id);
             Console.WriteLine(resultado);
         }
     }

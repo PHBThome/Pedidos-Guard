@@ -1,21 +1,14 @@
-﻿using System;
+﻿using Projeto_Sistema_Loja.data;
 
 namespace Projeto_Sistema_Loja.menus
 {
     internal class MenuAdministrador
     {
-        private readonly FornecedorMenu fornecedorMenu;
-        private readonly ProdutoMenu produtoMenu;
-        private readonly TransportadoraMenu transportadoraMenu;
+        private readonly LojaData LojaData;
 
-        public MenuAdministrador(
-            FornecedorMenu fornecedorMenu,
-            ProdutoMenu produtoMenu,
-            TransportadoraMenu transportadoraMenu)
+        public MenuAdministrador(LojaData lojaData)
         {
-            this.fornecedorMenu = fornecedorMenu;
-            this.produtoMenu = produtoMenu;
-            this.transportadoraMenu = transportadoraMenu;
+            LojaData = lojaData;
         }
 
         public void ExibirMenuAdministrador()
@@ -34,13 +27,13 @@ namespace Projeto_Sistema_Loja.menus
                 switch (opcao)
                 {
                     case 1:
-                        fornecedorMenu.ExibirMenu();
+                        new FornecedorMenu(LojaData).ExibirMenu();
                         break;
                     case 2:
-                        produtoMenu.ExibirMenu();
+                        new ProdutoMenu(LojaData).ExibirMenu();
                         break;
                     case 3:
-                        transportadoraMenu.ExibirMenu();
+                        new TransportadoraMenu(LojaData).ExibirMenu();
                         break;
                 }
 

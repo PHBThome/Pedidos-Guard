@@ -1,42 +1,59 @@
-﻿using Projeto_Sistema_Loja.menus;
+﻿using Projeto_Sistema_Loja.data;
 using Projeto_Sistema_Loja.models;
+using Projeto_Sistema_Loja.menus;
 
 namespace Projeto_Sistema_Loja.controllers
 {
     internal class TransportadoraController
     {
-        private Transportadora[] transportadoras = new Transportadora[100];
-        private int transportadoraCount = 0;
-        private readonly EnderecoMenu endereco = new EnderecoMenu();
+        private readonly LojaData LojaData;
+
+        public TransportadoraController(LojaData lojaData)
+        {
+            LojaData = lojaData;
+        }
 
         public string AdicionarTransportadora(Transportadora novaTransportadora)
         {
-            if (transportadoraCount >= transportadoras.Length)
-                return "Número máximo de transportadoras atingido!";
-
-            foreach (Transportadora t in transportadoras)
+            foreach (var t in LojaData.Transportadoras)
             {
-                if (t == null) continue;
-                if (t.Id == novaTransportadora.Id)
-                    return "Id já existente!";
-                if (t.Nome.ToLower() == novaTransportadora.Nome.ToLower())
-                    return "Nome já cadastrado!";
+                if (t != null)
+                {
+                    if (t.Id == novaTransportadora.Id)
+                        return "ID da transportadora já existe!";
+                    if (t.Nome.ToLower() == novaTransportadora.Nome.ToLower())
+                        return "Nome já cadastrado!";
+                }
             }
 
-            transportadoras[transportadoraCount++] = novaTransportadora;
+            int posicaoLivre = -1;
+            for (int i = 0; i < LojaData.Transportadoras.Length; i++)
+            {
+                if (LojaData.Transportadoras[i] == null)
+                {
+                    posicaoLivre = i;
+                    break;
+                }
+            }
+
+            if (posicaoLivre == -1)
+                return "Número máximo de transportadoras atingido!";
+
+            Transportadora[] novoArray = new Transportadora[LojaData.Transportadoras.Length];
+            Array.Copy(LojaData.Transportadoras, novoArray, LojaData.Transportadoras.Length);
+            novoArray[posicaoLivre] = novaTransportadora;
+            LojaData.Transportadoras = novoArray;
+
             return "Transportadora cadastrada com sucesso!";
         }
 
         public string RemoverTransportadora(int id)
         {
-            for (int i = 0; i < transportadoraCount; i++)
+            for (int i = 0; i < LojaData.Transportadoras.Length; i++)
             {
-                if (transportadoras[i].Id == id)
+                if (LojaData.Transportadoras[i] != null && LojaData.Transportadoras[i].Id == id)
                 {
-                    for (int j = i; j < transportadoraCount - 1; j++)
-                        transportadoras[j] = transportadoras[j + 1];
-
-                    transportadoras[--transportadoraCount] = null;
+                    LojaData.Transportadoras[i] = null;
                     return "Transportadora removida com sucesso!";
                 }
             }
@@ -45,7 +62,7 @@ namespace Projeto_Sistema_Loja.controllers
 
         public Transportadora ObterTransportadoraPorId(int id)
         {
-            foreach (Transportadora t in transportadoras)
+            foreach (var t in LojaData.Transportadoras)
             {
                 if (t != null && t.Id == id)
                     return t;
@@ -55,22 +72,19 @@ namespace Projeto_Sistema_Loja.controllers
 
         public Transportadora[] ObterTodasTransportadoras()
         {
-            Transportadora[] lista = new Transportadora[transportadoraCount];
-            Array.Copy(transportadoras, lista, transportadoraCount);
-            return lista;
+            return LojaData.Transportadoras.Where(t => t != null).ToArray();
         }
 
-        
         public string EditarTransportadora(int id)
         {
-            for(int i = 0; i < transportadoraCount; i++)
+            for (int i = 0; i < LojaData.Transportadoras.Length; i++)
             {
-                if (transportadoras[i].Id == id)
+                if (LojaData.Transportadoras[i] != null && LojaData.Transportadoras[i].Id == id)
                 {
-                    var t = transportadoras[i];
+                    var t = LojaData.Transportadoras[i];
                     Console.WriteLine($"Transportadora atual:\n{t}");
 
-                    Console.WriteLine($"Deseja alterar o nome? (s/n)");
+                    Console.WriteLine("Deseja alterar o nome? (s/n)");
                     string nome = " ";
                     if (Console.ReadLine().ToLower() == "s")
                     {
@@ -83,10 +97,9 @@ namespace Projeto_Sistema_Loja.controllers
 
                             bool nomeExistente = false;
 
-                            foreach (Transportadora z in transportadoras)
+                            foreach (var z in LojaData.Transportadoras)
                             {
-                                if (z == null) continue;
-                                if (z.Nome.ToLower() == nome.ToLower())
+                                if (z != null && z.Nome.ToLower() == nome.ToLower())
                                 {
                                     Console.WriteLine("Nome já existente! Tente novamente.");
                                     nomeExistente = true;
@@ -95,9 +108,7 @@ namespace Projeto_Sistema_Loja.controllers
                             }
 
                             if (!nomeExistente)
-                            {
                                 nomeValido = true;
-                            }
                         }
                         t.Nome = nome;
                     }
@@ -110,16 +121,16 @@ namespace Projeto_Sistema_Loja.controllers
                     }
 
                     Console.WriteLine("Deseja editar o endereço? (s/n)");
-                    if(Console.ReadLine().ToLower() == "s")
+                    if (Console.ReadLine().ToLower() == "s")
                     {
-                        var novo = endereco.CadastrarEndereco();
+                        var novo = new EnderecoMenu().CadastrarEndereco();
                         t.Endereco = novo;
                     }
-                    return "Transportadora editada com sucesso";
+
+                    return "Transportadora editada com sucesso!";
                 }
-                
             }
-            return "Transportadora não encontrada";
+            return "Transportadora não encontrada!";
         }
     }
 }

@@ -8,14 +8,14 @@ namespace Projeto_Sistema_Loja.models
 {
     internal class Usuario
     {
+        public Usuario(string user, string password)
+        {
+            User = user;  
+            Password = password;
+        }
         public string User { get; set; }
         public string Password { get; set; }
 
-        public Usuario(string user, string password)
-        {
-            this.User = user;  
-            this.Password = password;
-        }
 
     }
 }

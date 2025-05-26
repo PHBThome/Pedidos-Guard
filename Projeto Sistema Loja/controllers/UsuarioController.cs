@@ -1,25 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Projeto_Sistema_Loja.models;
+﻿using Projeto_Sistema_Loja.models;
 
 namespace Projeto_Sistema_Loja.controllers
 {
     internal class UsuarioController
     {
-        public int LoginEfetuado(Usuario testar)
+        public bool LoginEfetuado(Usuario usuario)
         {
-            if (testar.User == "admin" && testar.Password == "1234")
+            if (usuario.User == "admin" && usuario.Password == "1234")
             {
-                return 1;
+                return true;
             }
-            else
-            {
-                return 0;
-            }
-                
+
+            return false;
         }
     }
 }
