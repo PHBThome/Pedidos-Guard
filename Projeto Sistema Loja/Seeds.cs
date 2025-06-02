@@ -1,7 +1,7 @@
-Ôªøusing Projeto_Sistema_Loja.data;
-using Projeto_Sistema_Loja.models;
+using ProjetoSistemaLoja.Models;
+using ProjetoSistemaLoja.Data;
 
-namespace Projeto_Sistema_Loja
+namespace ProjetoSistemaLoja
 {
     internal static class Seeds
     {
@@ -19,7 +19,7 @@ namespace Projeto_Sistema_Loja
                 "Fornecedor A",
                 "fornecedorA@email.com",
                 "(11) 99999-0000",
-                new Endereco("Rua Alfa", 100, "Sala 1", "Centro", "S√£o Paulo", "SP", "01000-000")
+                new Endereco("Rua Alfa", 100, "Sala 1", "Centro", "S„o Paulo", "SP", "01000-000")
             );
 
             lojaData.Fornecedores[1] = new Fornecedor(
@@ -37,14 +37,14 @@ namespace Projeto_Sistema_Loja
                 1,
                 "Transportadora X",
                 5.5,
-                new Endereco("Avenida X", 300, "Galp√£o 1", "Zona Industrial", "Campinas", "SP", "13000-000")
+                new Endereco("Avenida X", 300, "Galp„o 1", "Zona Industrial", "Campinas", "SP", "13000-000")
             );
 
             lojaData.Transportadoras[1] = new Transportadora(
                 2,
                 "Transportadora Y",
                 7.0,
-                new Endereco("Rua Y", 400, "Dep√≥sito", "Centro", "Belo Horizonte", "MG", "30000-000")
+                new Endereco("Rua Y", 400, "DepÛsito", "Centro", "Belo Horizonte", "MG", "30000-000")
             );
         }
 
@@ -68,3 +68,4 @@ namespace Projeto_Sistema_Loja
         }
     }
 }
+

@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Projeto_Sistema_Loja.models
+namespace ProjetoSistemaLoja.Models
 {
-    internal class Usuario
+    public class Usuario
     {
         public Usuario(string user, string password)
         {
@@ -19,3 +13,4 @@ namespace Projeto_Sistema_Loja.models
 
     }
 }
+

@@ -1,6 +1,6 @@
-﻿namespace Projeto_Sistema_Loja.models
+namespace ProjetoSistemaLoja.Models
 {
-    internal class Produto
+    public class Produto
     {
         public Produto(int id, string nome, double valor, int quantidade, int idFornecedor)
         {
@@ -26,3 +26,4 @@
         }
     }
 }
+

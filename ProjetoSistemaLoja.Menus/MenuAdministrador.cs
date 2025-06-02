@@ -1,6 +1,7 @@
-ï»¿using Projeto_Sistema_Loja.data;
+using ProjetoSistemaLoja;
+using ProjetoSistemaLoja.Data;
 
-namespace Projeto_Sistema_Loja.menus
+namespace ProjetoSistemaLoja.Menus
 {
     internal class MenuAdministrador
     {
@@ -21,7 +22,7 @@ namespace Projeto_Sistema_Loja.menus
                 Console.WriteLine("2. Gerenciar Produtos");
                 Console.WriteLine("3. Gerenciar Transportadoras");
                 Console.WriteLine("0. Sair");
-                Console.WriteLine("OpÃ§Ã£o: ");
+                Console.WriteLine("Opção: ");
                 opcao = int.Parse(Console.ReadLine());
 
                 switch (opcao)
@@ -41,3 +42,4 @@ namespace Projeto_Sistema_Loja.menus
         }
     }
 }
+

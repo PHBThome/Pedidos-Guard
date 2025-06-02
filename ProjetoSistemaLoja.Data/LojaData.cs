@@ -1,8 +1,8 @@
-﻿using Projeto_Sistema_Loja.models;
+using ProjetoSistemaLoja.Models;
 
-namespace Projeto_Sistema_Loja.data
+namespace ProjetoSistemaLoja.Data
 {
-    internal class LojaData
+    public class LojaData
     {
         public Produto[] Produtos { get; set; }
         public Fornecedor[] Fornecedores { get; set; }

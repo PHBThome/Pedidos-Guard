@@ -1,6 +1,6 @@
-﻿namespace Projeto_Sistema_Loja.models
+namespace ProjetoSistemaLoja.Models
 {
-    internal class Transportadora
+    public class Transportadora
     {
         public Transportadora(int id, string nome, double valorkm, Endereco endereco)
         {
@@ -19,8 +19,9 @@
             return $"\nID: {Id}\n" +
                    $"Nome: {Nome}\n" +
                    $"Valorkm: {Valormk}\n" +
-                   $"Endereço:\n{Endereco}";
+                   $"Endere�o:\n{Endereco}";
         }
 
     }
 }
+

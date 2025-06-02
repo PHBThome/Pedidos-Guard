@@ -1,6 +1,6 @@
-﻿namespace Projeto_Sistema_Loja.models
+namespace ProjetoSistemaLoja.Models
 {
-    internal class Endereco
+    public class Endereco
     {
         public Endereco(string rua, int numero, string complemento, string bairro, string cidade, string estado, string cep)
         {
@@ -29,3 +29,4 @@
         }
     }
 }
+

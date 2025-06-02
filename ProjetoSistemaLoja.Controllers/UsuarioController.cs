@@ -1,8 +1,8 @@
-﻿using Projeto_Sistema_Loja.models;
+using ProjetoSistemaLoja.Models;
 
-namespace Projeto_Sistema_Loja.controllers
+namespace ProjetoSistemaLoja.Controllers
 {
-    internal class UsuarioController
+    public class UsuarioController
     {
         public bool LoginEfetuado(Usuario usuario)
         {
@@ -15,3 +15,4 @@ namespace Projeto_Sistema_Loja.controllers
         }
     }
 }
+

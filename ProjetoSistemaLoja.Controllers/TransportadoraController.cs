@@ -1,10 +1,10 @@
-Ôªøusing Projeto_Sistema_Loja.data;
-using Projeto_Sistema_Loja.models;
-using Projeto_Sistema_Loja.menus;
+using ProjetoSistemaLoja.Data;
+using ProjetoSistemaLoja.Models;
+using ProjetoSistemaLoja.Menus;
 
-namespace Projeto_Sistema_Loja.controllers
+namespace ProjetoSistemaLoja.Controllers
 {
-    internal class TransportadoraController
+    public class TransportadoraController
     {
         private readonly LojaData LojaData;
 
@@ -20,9 +20,9 @@ namespace Projeto_Sistema_Loja.controllers
                 if (t != null)
                 {
                     if (t.Id == novaTransportadora.Id)
-                        return "ID da transportadora j√° existe!";
+                        return "ID da transportadora j· existe!";
                     if (t.Nome.ToLower() == novaTransportadora.Nome.ToLower())
-                        return "Nome j√° cadastrado!";
+                        return "Nome j· cadastrado!";
                 }
             }
 
@@ -37,7 +37,7 @@ namespace Projeto_Sistema_Loja.controllers
             }
 
             if (posicaoLivre == -1)
-                return "N√∫mero m√°ximo de transportadoras atingido!";
+                return "N˙mero m·ximo de transportadoras atingido!";
 
             Transportadora[] novoArray = new Transportadora[LojaData.Transportadoras.Length];
             Array.Copy(LojaData.Transportadoras, novoArray, LojaData.Transportadoras.Length);
@@ -57,7 +57,7 @@ namespace Projeto_Sistema_Loja.controllers
                     return "Transportadora removida com sucesso!";
                 }
             }
-            return "Transportadora n√£o encontrada!";
+            return "Transportadora n„o encontrada!";
         }
 
         public Transportadora ObterTransportadoraPorId(int id)
@@ -101,7 +101,7 @@ namespace Projeto_Sistema_Loja.controllers
                             {
                                 if (z != null && z.Nome.ToLower() == nome.ToLower())
                                 {
-                                    Console.WriteLine("Nome j√° existente! Tente novamente.");
+                                    Console.WriteLine("Nome j· existente! Tente novamente.");
                                     nomeExistente = true;
                                     break;
                                 }
@@ -120,17 +120,18 @@ namespace Projeto_Sistema_Loja.controllers
                         t.Valormk = double.Parse(Console.ReadLine());
                     }
 
-                    Console.WriteLine("Deseja editar o endere√ßo? (s/n)");
+                    Console.WriteLine("Deseja editar o endereÁo? (s/n)");
                     if (Console.ReadLine().ToLower() == "s")
                     {
-                        var novo = new EnderecoMenu().CadastrarEndereco();
+                        var novo = new EnderecoController().CadastrarEndereco();
                         t.Endereco = novo;
                     }
 
                     return "Transportadora editada com sucesso!";
                 }
             }
-            return "Transportadora n√£o encontrada!";
+            return "Transportadora n„o encontrada!";
         }
     }
 }
+

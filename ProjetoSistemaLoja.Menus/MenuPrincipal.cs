@@ -1,8 +1,9 @@
-﻿using Projeto_Sistema_Loja.data;
+using ProjetoSistemaLoja;
+using ProjetoSistemaLoja.Data;
 
-namespace Projeto_Sistema_Loja.menus
+namespace ProjetoSistemaLoja.Menus
 {
-    internal class MenuPrincipal
+    public class MenuPrincipal
     {
         private readonly LojaData LojaData;
 
@@ -23,3 +24,4 @@ namespace Projeto_Sistema_Loja.menus
         
     }
 }
+

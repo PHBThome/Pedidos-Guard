@@ -1,7 +1,7 @@
-﻿using Projeto_Sistema_Loja.data;
-using Projeto_Sistema_Loja.menus;
+using ProjetoSistemaLoja.Menus;
+using ProjetoSistemaLoja.Data;
 
-namespace Projeto_Sistema_Loja
+namespace ProjetoSistemaLoja
 {
     internal class Program
     {
@@ -17,3 +17,4 @@ namespace Projeto_Sistema_Loja
         }
     }
 }
+

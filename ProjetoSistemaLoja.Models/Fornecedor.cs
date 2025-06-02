@@ -1,6 +1,6 @@
-﻿namespace Projeto_Sistema_Loja.models
+namespace ProjetoSistemaLoja.Models
 {
-    internal class Fornecedor
+    public class Fornecedor
     {
         public Fornecedor(int id, string nome, string email, string telefone, Endereco endereco)
         {
@@ -22,7 +22,8 @@
                 $"Nome: {Nome}\n" +
                 $"Email: {Email}\n" +
                 $"Telefone: {Telefone}\n" +
-                $"Endereço: {Endereco}";
+                $"Endere�o: {Endereco}";
         }
     }
 }
+

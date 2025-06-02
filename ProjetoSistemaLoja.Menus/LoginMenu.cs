@@ -1,7 +1,7 @@
-﻿using Projeto_Sistema_Loja.controllers;
-using Projeto_Sistema_Loja.models;
+using ProjetoSistemaLoja.Controllers;
+using ProjetoSistemaLoja.Models;
 
-namespace Projeto_Sistema_Loja.menus
+namespace ProjetoSistemaLoja.Menus
 {
     internal class LoginMenu
     {
@@ -17,3 +17,4 @@ namespace Projeto_Sistema_Loja.menus
 
     }
 }
+

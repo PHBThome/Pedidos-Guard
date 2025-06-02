@@ -1,8 +1,8 @@
-ï»¿using Projeto_Sistema_Loja.controllers;
-using Projeto_Sistema_Loja.data;
-using Projeto_Sistema_Loja.models;
+using ProjetoSistemaLoja.Controllers;
+using ProjetoSistemaLoja.Models;
+using ProjetoSistemaLoja.Data;
 
-namespace Projeto_Sistema_Loja.menus
+namespace ProjetoSistemaLoja.Menus
 {
     internal class TransportadoraMenu
     {
@@ -24,7 +24,7 @@ namespace Projeto_Sistema_Loja.menus
                 Console.WriteLine("3. Consultar Transportadora");
                 Console.WriteLine("4. Editar Transportadora");
                 Console.WriteLine("0. Voltar");
-                Console.Write("OpÃ§Ã£o: ");
+                Console.Write("Opção: ");
                 opcao = int.Parse(Console.ReadLine());
 
                 switch (opcao)
@@ -54,7 +54,7 @@ namespace Projeto_Sistema_Loja.menus
             string nome = Console.ReadLine();
             Console.WriteLine("Valor por km: ");
             double valorkm = double.Parse(Console.ReadLine());
-            Endereco endereco = new EnderecoMenu().CadastrarEndereco();
+            Endereco endereco = new EnderecoController().CadastrarEndereco();
 
             Transportadora nova = new(id, nome ?? "", valorkm, endereco);
             string resultado = new TransportadoraController(LojaData).AdicionarTransportadora(nova);
@@ -103,3 +103,4 @@ namespace Projeto_Sistema_Loja.menus
         }
     }
 }
+
