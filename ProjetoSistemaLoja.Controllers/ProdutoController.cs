@@ -18,7 +18,7 @@ namespace Projeto_Sistema_Loja.controllers
         {
             try
             {
-                int produtoCount = LojaData.Fornecedores.Count(f => f != null);
+                int produtoCount = LojaData.Produtos.Count(f => f != null);
 
                 if (produtoCount >= LojaData.Produtos.Length)
                     return "\nNúmero máximo de produtos atingido!";
@@ -81,7 +81,10 @@ namespace Projeto_Sistema_Loja.controllers
             try
             {
                 Console.Write("Id do produto a remover: ");
-                int id = int.Parse(Console.ReadLine());
+                string idStr = Console.ReadLine();
+                if (!int.TryParse(idStr, out int id))
+                    throw new Exception("Informe um id válido!");
+
                 bool existe = false;
                 foreach(Produto p in LojaData.Produtos)
                 {
@@ -127,7 +130,10 @@ namespace Projeto_Sistema_Loja.controllers
             try
             {
                 Console.WriteLine("Id do produto a editar: ");
-                int id = int.Parse(Console.ReadLine());
+                string idStr = Console.ReadLine();
+                if (!int.TryParse(idStr, out int id))
+                    throw new Exception("Informe um id válido!");
+
                 bool existe = false;
                 foreach(Produto p in LojaData.Produtos)
                 {

@@ -16,34 +16,47 @@ namespace ProjetoSistemaLoja.Menus
 
         public void ExibirMenu()
         {
-            int opcao;
+            int opcao = -1;
             do
             {
-                Console.WriteLine("\n--- MENU PRODUTO ---");
-                Console.WriteLine("1. Cadastrar Produto");
-                Console.WriteLine("2. Remover Produto");
-                Console.WriteLine("3. Consultar Produto");
-                Console.WriteLine("4. Editar Produto");
-                Console.WriteLine("0. Voltar");
-                Console.Write("Opção: ");
-                opcao = int.Parse(Console.ReadLine());
-
-                switch (opcao)
+                try
                 {
-                    case 1:
-                        CadastrarProduto();
-                        break;
-                    case 2:
-                        RemoverProduto();
-                        break;
-                    case 3:
-                        ConsultarProduto();
-                        break;
-                    case 4:
-                        EditarProduto();
-                        break;
-                }
+                    Console.WriteLine("\n--- MENU PRODUTO ---");
+                    Console.WriteLine("1. Cadastrar Produto");
+                    Console.WriteLine("2. Remover Produto");
+                    Console.WriteLine("3. Consultar Produto");
+                    Console.WriteLine("4. Editar Produto");
+                    Console.WriteLine("0. Voltar");
+                    Console.Write("Opção: ");
+                    string opcaoStr = Console.ReadLine();
+                    if (!int.TryParse(opcaoStr, out opcao))
+                        throw new Exception("Informe uma opção válida!");
 
+                    switch (opcao)
+                    {
+                        case 0:
+                            break;
+                        case 1:
+                            CadastrarProduto();
+                            break;
+                        case 2:
+                            RemoverProduto();
+                            break;
+                        case 3:
+                            ConsultarProduto();
+                            break;
+                        case 4:
+                            EditarProduto();
+                            break;
+                        default:
+                            Console.WriteLine("Informe uma opção válida!");
+                            break;
+                    }
+                }
+                catch(Exception ex)
+                {
+                    Console.WriteLine($"Erro: {ex.Message}");
+                }
             } while (opcao != 0);
         }
 

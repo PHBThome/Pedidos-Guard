@@ -65,12 +65,12 @@ namespace ProjetoSistemaLoja.Controllers
                 novoArray[posicaoLivre] = novoFornecedor;
                 LojaData.Fornecedores = novoArray;
 
-                return "Produto adicionado com sucesso!";
+                return "Fornecedor adicionado com sucesso!";
 
             }
             catch (Exception ex)
             {
-                return "Erro ao adicionar fornecedor: " + ex.Message;
+                return "Erro: " + ex.Message;
             }
         }
 
@@ -79,7 +79,10 @@ namespace ProjetoSistemaLoja.Controllers
             try
             {
                 Console.Write("Id do fornecedor a remover: ");
-                int id = int.Parse(Console.ReadLine());
+                string idStr = Console.ReadLine();
+                if (!int.TryParse(idStr, out int id))
+                    throw new Exception("Informe um id válido!");
+
                 bool existe = false;
                 foreach (Fornecedor f in LojaData.Fornecedores)
                 {
@@ -87,7 +90,7 @@ namespace ProjetoSistemaLoja.Controllers
                     if (f.Id == id) existe = true;
                 }
                 if (!existe)
-                    throw new Exception("Informe um id válido");
+                    throw new Exception("Informe um id existente!");
 
                 for (int i = 0; i < LojaData.Fornecedores.Length; i++)
                 {
@@ -132,7 +135,10 @@ namespace ProjetoSistemaLoja.Controllers
             try
             {
                 Console.WriteLine("Id do fornecedor a editar: ");
-                int id = int.Parse(Console.ReadLine());
+                string idStr = Console.ReadLine();
+                if (!int.TryParse(idStr, out int id))
+                    throw new Exception("Informe um id válido!");
+
                 bool existe = false;
                 foreach (Fornecedor f in LojaData.Fornecedores)
                 {
@@ -141,7 +147,7 @@ namespace ProjetoSistemaLoja.Controllers
                         existe = true;
                 }
                 if (!existe)
-                    throw new Exception("Informe um id válido");
+                    throw new Exception("Informe um id existente!");
 
                 for (int i = 0; i < LojaData.Fornecedores.Length; i++)
                 {
@@ -151,27 +157,34 @@ namespace ProjetoSistemaLoja.Controllers
                         Console.WriteLine($"Fornecedor atual:\n{f}");
 
                         Console.WriteLine($"Deseja alterar o nome? (s/n)");
+                        string nome = " ";
                         if (Console.ReadLine().ToLower() == "s")
                         {
                             bool nomeValido = false;
+
                             while (!nomeValido)
                             {
                                 Console.WriteLine("Novo nome: ");
-                                string nome = Console.ReadLine();
+                                nome = Console.ReadLine();
 
-                                bool nomeExistente = LojaData.Fornecedores
-                                    .Any(t => t != null && t.Nome.Equals(nome, StringComparison.OrdinalIgnoreCase));
+                                bool nomeExistente = false;
 
-                                if (nomeExistente)
+                                foreach (Fornecedor c in LojaData.Fornecedores)
                                 {
-                                    Console.WriteLine("Nome já existente! Tente novamente.");
+                                    if (c != null && c.Nome.ToLower() == nome.ToLower())
+                                    {
+                                        Console.WriteLine("Nome já existente! Tente novamente.");
+                                        nomeExistente = true;
+                                        break;
+                                    }
                                 }
-                                else
+
+                                if (!nomeExistente)
                                 {
-                                    f.Nome = nome;
                                     nomeValido = true;
                                 }
                             }
+                            f.Nome = nome;
                         }
 
                         Console.WriteLine("Deseja editar o email? (s/n)");

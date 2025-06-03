@@ -10,6 +10,7 @@ namespace ProjetoSistemaLoja
             PopularFornecedores(lojaData);
             PopularTransportadoras(lojaData);
             PopularProdutos(lojaData);
+            PopularUsuarios(lojaData);
         }
 
         private static void PopularFornecedores(LojaData lojaData)
@@ -64,6 +65,19 @@ namespace ProjetoSistemaLoja
                 20.0,
                 50,
                 2 // Id do Fornecedor B
+            );
+        }
+
+        private static void PopularUsuarios(LojaData lojaData)
+        {
+            lojaData.Usuarios[0] = new Usuario(
+                "pedro",
+                "Soeuseiasenha"
+            );
+
+            lojaData.Usuarios[1] = new Usuario(
+                "igor",
+                "Soelesabasenha"
             );
         }
     }

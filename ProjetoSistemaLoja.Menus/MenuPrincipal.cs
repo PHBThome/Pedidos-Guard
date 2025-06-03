@@ -1,5 +1,7 @@
 using ProjetoSistemaLoja;
+using ProjetoSistemaLoja.Controllers;
 using ProjetoSistemaLoja.Data;
+using ProjetoSistemaLoja.Models;
 
 namespace ProjetoSistemaLoja.Menus
 {
@@ -10,16 +12,22 @@ namespace ProjetoSistemaLoja.Menus
         public MenuPrincipal(LojaData lojaData)
         {
             LojaData = lojaData;
+
         }
 
         public void Exibir()
         {
-            bool estaLogado = new LoginMenu().Logar();
+            Usuario atual = new LoginMenu(LojaData).Logar();
+            bool estaLogado = new UsuarioController(LojaData).LoginEfetuado(atual);
 
             if(estaLogado)
             {
-                new MenuAdministrador(LojaData).ExibirMenuAdministrador();
+                if (new UsuarioController(LojaData).IsAdmin(atual))
+                    new MenuAdministrador(LojaData).ExibirMenuAdministrador();
+                Console.WriteLine("Aqui sera a implementação do menu usuario");
+                Console.ReadKey();
             }
+           
         }
         
     }

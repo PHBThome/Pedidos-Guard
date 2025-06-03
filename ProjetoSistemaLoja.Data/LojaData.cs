@@ -7,12 +7,14 @@ namespace ProjetoSistemaLoja.Data
         public Produto[] Produtos { get; set; }
         public Fornecedor[] Fornecedores { get; set; }
         public Transportadora[] Transportadoras { get; set; }
+        public Usuario[] Usuarios { get; set; }
 
         public LojaData()
         {
             Produtos = new Produto[200];
             Fornecedores = new Fornecedor[100];
             Transportadoras = new Transportadora[100];
+            Usuarios = new Usuario[100];
         }
     }
 }

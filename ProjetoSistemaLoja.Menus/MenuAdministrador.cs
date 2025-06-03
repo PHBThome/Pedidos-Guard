@@ -14,28 +14,42 @@ namespace ProjetoSistemaLoja.Menus
 
         public void ExibirMenuAdministrador()
         {
-            int opcao;
+            int opcao = -1;
             do
             {
-                Console.WriteLine("\n--- MENU ADMINISTRADOR ---");
-                Console.WriteLine("1. Gerenciar Fornecedores");
-                Console.WriteLine("2. Gerenciar Produtos");
-                Console.WriteLine("3. Gerenciar Transportadoras");
-                Console.WriteLine("0. Sair");
-                Console.WriteLine("Opção: ");
-                opcao = int.Parse(Console.ReadLine());
-
-                switch (opcao)
+                try
                 {
-                    case 1:
-                        new FornecedorMenu(LojaData).ExibirMenu();
-                        break;
-                    case 2:
-                        new ProdutoMenu(LojaData).ExibirMenu();
-                        break;
-                    case 3:
-                        new TransportadoraMenu(LojaData).ExibirMenu();
-                        break;
+                    Console.WriteLine("\n--- MENU ADMINISTRADOR ---");
+                    Console.WriteLine("1. Gerenciar Fornecedores");
+                    Console.WriteLine("2. Gerenciar Produtos");
+                    Console.WriteLine("3. Gerenciar Transportadoras");
+                    Console.WriteLine("0. Sair");
+                    Console.WriteLine("Opção: ");
+                    string opcaoStr = Console.ReadLine();
+                    if (!int.TryParse(opcaoStr, out opcao))
+                        throw new Exception("Informe uma opção válida!");
+
+                    switch (opcao)
+                    {
+                        case 0:
+                            break;
+                        case 1:
+                            new FornecedorMenu(LojaData).ExibirMenu();
+                            break;
+                        case 2:
+                            new ProdutoMenu(LojaData).ExibirMenu();
+                            break;
+                        case 3:
+                            new TransportadoraMenu(LojaData).ExibirMenu();
+                            break;
+                        default:
+                            Console.WriteLine("Informe uma opção válida!");
+                            break;
+                    }
+                }
+                catch(Exception ex)
+                {
+                    Console.WriteLine($"Erro: {ex.Message}");
                 }
 
             } while (opcao != 0);
