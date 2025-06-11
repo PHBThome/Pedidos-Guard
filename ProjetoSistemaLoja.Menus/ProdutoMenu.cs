@@ -2,6 +2,7 @@ using ProjetoSistemaLoja.Controllers;
 using ProjetoSistemaLoja.Models;
 using ProjetoSistemaLoja.Data;
 using Projeto_Sistema_Loja.controllers;
+using System.Text.Json;
 
 namespace ProjetoSistemaLoja.Menus
 {
@@ -48,12 +49,15 @@ namespace ProjetoSistemaLoja.Menus
                         case 4:
                             EditarProduto();
                             break;
+                        case 5:
+                            TesteSerializacao();
+                            break;
                         default:
                             Console.WriteLine("Informe uma opção válida!");
                             break;
                     }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     Console.WriteLine($"Erro: {ex.Message}");
                 }
@@ -112,6 +116,25 @@ namespace ProjetoSistemaLoja.Menus
         {
             string resultado = new ProdutoController(LojaData).EditarProduto();
             Console.WriteLine(resultado);
+        }
+        private void TesteSerializacao()
+        {
+
+            Produto[] aaa = LojaData.Produtos.Where(x => x != null).ToArray();
+
+            string todosProdutos = JsonSerializer.Serialize(aaa);
+            File.WriteAllText("produtos.json", todosProdutos);
+
+            string ProdutosLista = File.ReadAllText("produtos.json");
+
+            Produto[] aaaa = JsonSerializer.Deserialize<Produto[]>(ProdutosLista);
+
+
+            foreach (var item in aaaa)
+            {
+                Console.WriteLine(item);
+            }
+
         }
     }
 }
