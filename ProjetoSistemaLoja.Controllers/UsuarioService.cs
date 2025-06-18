@@ -3,10 +3,10 @@ using ProjetoSistemaLoja.Data;
 
 namespace ProjetoSistemaLoja.Controllers
 {
-    public class UsuarioController
+    public class UsuarioService
     {
         private readonly LojaData LojaData;
-        public UsuarioController(LojaData lojaData)
+        public UsuarioService(LojaData lojaData)
         {
             LojaData = lojaData;
         }

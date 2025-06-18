@@ -61,7 +61,7 @@ namespace ProjetoSistemaLoja.Menus
 
         private void CadastrarTransportadora()
         {
-            string resultado = new TransportadoraController(LojaData).AdicionarTransportadora();
+            string resultado = new TransportadoraService(LojaData).AdicionarTransportadora();
             Console.WriteLine(resultado);
         }
 
@@ -83,12 +83,12 @@ namespace ProjetoSistemaLoja.Menus
                     Console.WriteLine("Informe o id: ");
                     int id = int.Parse(Console.ReadLine());
 
-                    var t = new TransportadoraController(LojaData).ObterTransportadoraPorId(id);
+                    var t = new TransportadoraService(LojaData).ObterTransportadoraPorId(id);
                     Console.WriteLine(t);
                 }
                 else
                 {
-                    var lista = new TransportadoraController(LojaData).ObterTodasTransportadoras();
+                    var lista = new TransportadoraService(LojaData).ObterTodasTransportadoras();
                     foreach (var t in lista)
                     {
                         Console.WriteLine(t);
@@ -103,13 +103,13 @@ namespace ProjetoSistemaLoja.Menus
 
         private void RemoverTransportadora()
         {
-            string resultado = new TransportadoraController(LojaData).RemoverTransportadora();
+            string resultado = new TransportadoraService(LojaData).RemoverTransportadora();
             Console.WriteLine(resultado);
         }
 
         private void EditarTransportadora()
         {
-            string resultado = new TransportadoraController(LojaData).EditarTransportadora();
+            string resultado = new TransportadoraService(LojaData).EditarTransportadora();
             Console.WriteLine(resultado);
         }
     }

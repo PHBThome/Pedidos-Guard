@@ -5,11 +5,11 @@ using ProjetoSistemaLoja.Models;
 
 namespace Projeto_Sistema_Loja.controllers
 {
-    public class ProdutoController
+    public class ProdutoService
     {
         private readonly LojaData LojaData;
 
-        public ProdutoController(LojaData lojaData)
+        public ProdutoService(LojaData lojaData)
         {
             LojaData = lojaData;
         }
@@ -46,7 +46,7 @@ namespace Projeto_Sistema_Loja.controllers
 
                 Console.Write("ID do Fornecedor: ");
                 int idFornecedor = int.Parse(Console.ReadLine());
-                if (new FornecedorController(LojaData).ObterFornecedorPorId(idFornecedor) == null)
+                if (new FornecedorService(LojaData).ObterFornecedorPorId(idFornecedor) == null)
                     throw new Exception("Fornecedor não encontrado!");
 
                 int id = produtoCount + 1;
@@ -235,7 +235,7 @@ namespace Projeto_Sistema_Loja.controllers
                                         idValido = true;
                                 }
 
-                                if (new FornecedorController(LojaData).ObterFornecedorPorId(idfornecedor) == null)
+                                if (new FornecedorService(LojaData).ObterFornecedorPorId(idfornecedor) == null)
                                 {
                                     Console.WriteLine("Fornecedor não encontrado! Tente novamente.");
                                     idValido = false;

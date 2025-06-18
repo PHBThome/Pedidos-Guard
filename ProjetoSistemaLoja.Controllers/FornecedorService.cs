@@ -4,11 +4,11 @@ using ProjetoSistemaLoja.Data;
 
 namespace ProjetoSistemaLoja.Controllers
 {
-    public   class FornecedorController
+    public   class FornecedorService
     {
         private readonly LojaData LojaData;
 
-        public FornecedorController(LojaData lojaData)
+        public FornecedorService(LojaData lojaData)
         {
             LojaData = lojaData;
         }
@@ -45,7 +45,7 @@ namespace ProjetoSistemaLoja.Controllers
                     throw new Exception("Informe um telefone válido!");
 
 
-                Endereco endereco = new EnderecoController().CadastrarEndereco();
+                Endereco endereco = new EnderecoService().CadastrarEndereco();
                 int id = fornecedorCount + 1;
 
                 Fornecedor novoFornecedor = new(id, nome, email, telefone, endereco);
@@ -220,7 +220,7 @@ namespace ProjetoSistemaLoja.Controllers
                         Console.WriteLine("Deseja editar o endereço? (s/n)");
                         if (Console.ReadLine().ToLower() == "s")
                         {
-                            f.Endereco = new EnderecoController().CadastrarEndereco();
+                            f.Endereco = new EnderecoService().CadastrarEndereco();
                         }
 
                         return "Fornecedor editado com sucesso!";

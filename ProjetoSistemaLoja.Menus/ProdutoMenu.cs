@@ -66,7 +66,7 @@ namespace ProjetoSistemaLoja.Menus
 
         private void CadastrarProduto()
         {
-            string resultado = new ProdutoController(LojaData).AdicionarProduto();
+            string resultado = new ProdutoService(LojaData).AdicionarProduto();
             Console.WriteLine(resultado);
         }
 
@@ -88,12 +88,12 @@ namespace ProjetoSistemaLoja.Menus
                 {
                     Console.Write("Informe o id: ");
                     int id = int.Parse(Console.ReadLine());
-                    var p = new ProdutoController(LojaData).ObterProdutoPorId(id);
+                    var p = new ProdutoService(LojaData).ObterProdutoPorId(id);
                     Console.WriteLine(p);
                 }
                 else
                 {
-                    var produtos = new ProdutoController(LojaData).ObterTodosProdutos();
+                    var produtos = new ProdutoService(LojaData).ObterTodosProdutos();
                     foreach (var p in produtos)
                     {
                         Console.WriteLine(p);
@@ -108,13 +108,13 @@ namespace ProjetoSistemaLoja.Menus
 
         private void RemoverProduto()
         {
-            string resultado = new ProdutoController(LojaData).RemoverProduto();
+            string resultado = new ProdutoService(LojaData).RemoverProduto();
             Console.WriteLine(resultado);
         }
 
         private void EditarProduto()
         {
-            string resultado = new ProdutoController(LojaData).EditarProduto();
+            string resultado = new ProdutoService(LojaData).EditarProduto();
             Console.WriteLine(resultado);
         }
         private void TesteSerializacao()

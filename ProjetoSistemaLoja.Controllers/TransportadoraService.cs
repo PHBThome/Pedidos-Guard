@@ -4,11 +4,11 @@ using ProjetoSistemaLoja.Menus;
 
 namespace ProjetoSistemaLoja.Controllers
 {
-    public class TransportadoraController
+    public class TransportadoraService
     {
         private readonly LojaData LojaData;
 
-        public TransportadoraController(LojaData lojaData)
+        public TransportadoraService(LojaData lojaData)
         {
             LojaData = lojaData;
         }
@@ -42,7 +42,7 @@ namespace ProjetoSistemaLoja.Controllers
                 if(valorkm <= 0)
                     throw new Exception("Informe um valor por km maior que 0!");
 
-                Endereco endereco = new EnderecoController().CadastrarEndereco();
+                Endereco endereco = new EnderecoService().CadastrarEndereco();
                 
                 int id = transportadoraCount + 1;
 
@@ -196,7 +196,7 @@ namespace ProjetoSistemaLoja.Controllers
                         Console.WriteLine("Deseja editar o endereço? (s/n)");
                         if (Console.ReadLine().ToLower() == "s")
                         {
-                            var novo = new EnderecoController().CadastrarEndereco();
+                            var novo = new EnderecoService().CadastrarEndereco();
                             t.Endereco = novo;
                         }
 

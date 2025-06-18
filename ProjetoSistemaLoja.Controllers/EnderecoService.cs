@@ -4,7 +4,7 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace ProjetoSistemaLoja.Menus
 {
-    public class EnderecoController
+    public class EnderecoService
     {
         public Endereco CadastrarEndereco()
         {

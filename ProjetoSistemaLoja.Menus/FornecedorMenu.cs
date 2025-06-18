@@ -61,7 +61,7 @@ namespace ProjetoSistemaLoja.Menus
 
         private void CadastrarFornecedor()
         {
-            var resultado = new FornecedorController(LojaData).AdicionarFornecedor();
+            var resultado = new FornecedorService(LojaData).AdicionarFornecedor();
             Console.WriteLine(resultado);
         }
 
@@ -90,12 +90,12 @@ namespace ProjetoSistemaLoja.Menus
                     if (!existe)
                         throw new Exception("Informe um id válido!");
 
-                    var f = new FornecedorController(LojaData).ObterFornecedorPorId(id);
+                    var f = new FornecedorService(LojaData).ObterFornecedorPorId(id);
                     Console.WriteLine(f);
                 }
                 else
                 {
-                    var fornecedores = new FornecedorController(LojaData).ObterTodosFornecedores();
+                    var fornecedores = new FornecedorService(LojaData).ObterTodosFornecedores();
                     foreach (var f in fornecedores)
                     {
                         Console.WriteLine(f);
@@ -110,13 +110,13 @@ namespace ProjetoSistemaLoja.Menus
 
         private void RemoverFornecedor()
         {
-            string resultado = new FornecedorController(LojaData).RemoverFornecedor();
+            string resultado = new FornecedorService(LojaData).RemoverFornecedor();
             Console.WriteLine(resultado);
         }
 
         private void EditarFornecedor()
         {
-            string resultado = new FornecedorController(LojaData).EditarFornecedor();
+            string resultado = new FornecedorService(LojaData).EditarFornecedor();
             Console.WriteLine(resultado);
         }
     }

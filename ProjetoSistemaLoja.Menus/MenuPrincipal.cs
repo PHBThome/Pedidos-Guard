@@ -18,11 +18,11 @@ namespace ProjetoSistemaLoja.Menus
         public void Exibir()
         {
             Usuario atual = new LoginMenu(LojaData).Logar();
-            bool estaLogado = new UsuarioController(LojaData).LoginEfetuado(atual);
+            bool estaLogado = new UsuarioService(LojaData).LoginEfetuado(atual);
 
             if(estaLogado)
             {
-                if (new UsuarioController(LojaData).IsAdmin(atual))
+                if (new UsuarioService(LojaData).IsAdmin(atual))
                     new MenuAdministrador(LojaData).ExibirMenuAdministrador();
                 Console.WriteLine("Aqui sera a implementação do menu usuario");
                 Console.ReadKey();
