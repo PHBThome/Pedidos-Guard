@@ -25,7 +25,7 @@ namespace ProjetoSistemaLoja.Menus
             if(estaLogado)
             {
                 if (new UsuarioController(LojaData).IsAdmin(atual))
-                    new MenuAdministrador(LojaData).ExibirMenuAdministrador();
+                    new MenuAdministrador(LojaData, Repositorios).ExibirMenuAdministrador();
                 Console.WriteLine("Aqui sera a implementação do menu usuario");
                 Console.ReadKey();
             }
