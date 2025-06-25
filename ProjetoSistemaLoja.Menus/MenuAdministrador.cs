@@ -6,10 +6,12 @@ namespace ProjetoSistemaLoja.Menus
     internal class MenuAdministrador
     {
         private readonly LojaData LojaData;
+        private RepositoriesData Repositorios;
 
-        public MenuAdministrador(LojaData lojaData)
+        public MenuAdministrador(LojaData lojaData, RepositoriesData repositorios)
         {
             LojaData = lojaData;
+            Repositorios = repositorios;
         }
 
         public void ExibirMenuAdministrador()
@@ -24,26 +26,26 @@ namespace ProjetoSistemaLoja.Menus
                     Console.WriteLine("2. Gerenciar Produtos");
                     Console.WriteLine("3. Gerenciar Transportadoras");
                     Console.WriteLine("0. Sair");
-                    Console.WriteLine("OpÁ„o: ");
+                    Console.WriteLine("Op√ß√£o: ");
                     string opcaoStr = Console.ReadLine();
                     if (!int.TryParse(opcaoStr, out opcao))
-                        throw new Exception("Informe uma opÁ„o v·lida!");
+                        throw new Exception("Informe uma op√ß√£o v√°lida!");
 
                     switch (opcao)
                     {
                         case 0:
                             break;
                         case 1:
-                            new FornecedorMenu(LojaData).ExibirMenu();
+                            new FornecedorMenu(LojaData, Repositorios.fornecedorRepository).ExibirMenu();
                             break;
                         case 2:
-                            new ProdutoMenu(LojaData).ExibirMenu();
+                            new ProdutoMenu(LojaData, Repositorios.produtoRepository).ExibirMenu();
                             break;
                         case 3:
-                            new TransportadoraMenu(LojaData).ExibirMenu();
+                            new TransportadoraMenu(LojaData, Repositorios.transportadoraRepository).ExibirMenu();
                             break;
                         default:
-                            Console.WriteLine("Informe uma opÁ„o v·lida!");
+                            Console.WriteLine("Informe uma op√ß√£o v√°lida!");
                             break;
                     }
                 }

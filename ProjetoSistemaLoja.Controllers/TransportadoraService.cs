@@ -1,68 +1,54 @@
 using ProjetoSistemaLoja.Data;
 using ProjetoSistemaLoja.Models;
 using ProjetoSistemaLoja.Menus;
+using ProjetoSistemaLoja.Repositories.Framework;
 
 namespace ProjetoSistemaLoja.Controllers
 {
     public class TransportadoraService
     {
-        private readonly LojaData LojaData;
+        private RepositoryBase<Transportadora> Repository;
 
-        public TransportadoraService(LojaData lojaData)
+        public TransportadoraService(RepositoryBase<Transportadora> repositorio)
         {
-            LojaData = lojaData;
+            Repository = repositorio;
         }
 
         public string AdicionarTransportadora()
         {
             try
             {
-                int transportadoraCount = LojaData.Transportadoras.Count(f => f != null);
-
-                if (transportadoraCount >= LojaData.Transportadoras.Length)
-                    return "\nNúmero máximo de transportadoras atingido!";
-
 
                 Console.WriteLine("Nome: ");
                 string nome = Console.ReadLine();
 
                 if (string.IsNullOrWhiteSpace(nome))
-                    throw new Exception("Informe um nome válido!");
-
-                foreach (var t in LojaData.Transportadoras)
                 {
-                    if (t != null && t.Nome == nome) 
-                        throw new Exception("Nome já existente!");
+                    throw new Exception("Informe um nome vÃ¡lido!");
+                }
+
+                IList<Transportadora> transportadoras = Repository.GetAll<Transportadora>();
+                
+                foreach (var t in transportadoras)
+                {
+                    if (t != null && t.Nome == nome)
+                        throw new Exception("Nome jÃ¡ existente!");
                 }
 
                 Console.WriteLine("Valor por km: ");
                 string valorkmStr = Console.ReadLine();
                 if (!double.TryParse(valorkmStr, out double valorkm))
-                    throw new Exception("Informe um valor por km válido");
+                    throw new Exception("Informe um valor por km vï¿½lido");
                 if(valorkm <= 0)
                     throw new Exception("Informe um valor por km maior que 0!");
 
                 Endereco endereco = new EnderecoService().CadastrarEndereco();
                 
-                int id = transportadoraCount + 1;
+                int id = transportadoras.Count + 1;
 
                 Transportadora novaTransportadora = new(id, nome, valorkm, endereco);
-
-
-                int posicaoLivre = -1;
-                for (int i = 0; i < LojaData.Transportadoras.Length; i++)
-                {
-                    if (LojaData.Transportadoras[i] == null)
-                    {
-                        posicaoLivre = i;
-                        break;
-                    }
-                }
-
-                Transportadora[] novoArray = new Transportadora[LojaData.Transportadoras.Length];
-                Array.Copy(LojaData.Transportadoras, novoArray, LojaData.Transportadoras.Length);
-                novoArray[posicaoLivre] = novaTransportadora;
-                LojaData.Transportadoras = novoArray;
+                
+                Repository.Save(novaTransportadora);
 
                 return "Transportadora cadastrada com sucesso!";
             }
@@ -79,26 +65,28 @@ namespace ProjetoSistemaLoja.Controllers
                 Console.WriteLine("Id da transportadora a remover: ");
                 string idStr = Console.ReadLine();
                 if (!int.TryParse(idStr, out int id))
-                    throw new Exception("Informe um id válido!");
+                {
+                    throw new Exception("Informe um id vï¿½lido!");
+                }
 
                 bool existe = false;
-                foreach (Transportadora t in LojaData.Transportadoras)
+
+                IList<Transportadora> transportadoras = Repository.GetAll<Transportadora>();
+
+
+                foreach (Transportadora t in transportadoras)
                 {
                     if (t == null) continue;
                     if (t.Id == id) existe = true;
                 }
                 if (!existe)
-                    throw new Exception("Informe um id existente");
-
-                for (int i = 0; i < LojaData.Produtos.Length; i++)
                 {
-                    if (LojaData.Produtos[i] != null && LojaData.Produtos[i].Id == id)
-                    {
-                        LojaData.Produtos[i] = null;
-                        return "Transportadora removida com sucesso!";
-                    }
+                    throw new Exception("Informe um id existente");
                 }
-                return "Transportadora não encontrada!";
+                
+                Repository.Remove<Transportadora>(id);
+
+                return "Transportadora nï¿½o encontrada!";
             }
             catch(Exception ex)
             {
@@ -108,17 +96,12 @@ namespace ProjetoSistemaLoja.Controllers
 
         public Transportadora ObterTransportadoraPorId(int id)
         {
-            foreach (var t in LojaData.Transportadoras)
-            {
-                if (t != null && t.Id == id)
-                    return t;
-            }
-            return null;
+            return Repository.GetById<Transportadora>(id);
         }
 
-        public Transportadora[] ObterTodasTransportadoras()
+        public IList<Transportadora> ObterTodasTransportadoras()
         {
-            return LojaData.Transportadoras.Where(t => t != null).ToArray();
+            return Repository.GetAll<Transportadora>();
         }
 
         public string EditarTransportadora()
@@ -128,82 +111,80 @@ namespace ProjetoSistemaLoja.Controllers
                 Console.WriteLine("Id da transportadora a editar: ");
                 string idStr = Console.ReadLine();
                 if (!int.TryParse(idStr, out int id))
-                    throw new Exception("Informe um id válido");
+                    throw new Exception("Informe um id vï¿½lido");
 
                 bool existe = false;
-                foreach (Transportadora t in LojaData.Transportadoras)
+
+                IList<Transportadora> transportadoras = Repository.GetAll<Transportadora>();
+
+                foreach (Transportadora t in transportadoras)
                 {
                     if (t == null) continue;
                     if (t.Id == id) existe = true;
                 }
-                if (!existe)
+                if (!existe) {
                     throw new Exception("Informe um id existente");
+                }
+        
+                Console.WriteLine($"Transportadora atual:\n{t}");
 
-                for (int i = 0; i < LojaData.Transportadoras.Length; i++)
+                Console.WriteLine("Deseja alterar o nome? (s/n)");
+                string nome = " ";
+                if (Console.ReadLine().ToLower() == "s")
                 {
-                    if (LojaData.Transportadoras[i] != null && LojaData.Transportadoras[i].Id == id)
+                    bool nomeValido = false;
+
+                    while (!nomeValido)
                     {
-                        var t = LojaData.Transportadoras[i];
-                        Console.WriteLine($"Transportadora atual:\n{t}");
+                        Console.WriteLine("Novo nome: ");
+                        nome = Console.ReadLine();
 
-                        Console.WriteLine("Deseja alterar o nome? (s/n)");
-                        string nome = " ";
-                        if (Console.ReadLine().ToLower() == "s")
+                        bool nomeExistente = false;
+
+                        foreach (var z in transportadoras)
                         {
-                            bool nomeValido = false;
-
-                            while (!nomeValido)
+                            if (z != null && z.Nome.ToLower() == nome.ToLower())
                             {
-                                Console.WriteLine("Novo nome: ");
-                                nome = Console.ReadLine();
-
-                                bool nomeExistente = false;
-
-                                foreach (var z in LojaData.Transportadoras)
-                                {
-                                    if (z != null && z.Nome.ToLower() == nome.ToLower())
-                                    {
-                                        Console.WriteLine("Nome já existente! Tente novamente.");
-                                        nomeExistente = true;
-                                        break;
-                                    }
-                                }
-
-                                if (!nomeExistente)
-                                    nomeValido = true;
-                            }
-                            t.Nome = nome;
-                        }
-
-                        Console.WriteLine("Deseja editar o valor por km? (s/n)");
-                        double valorkm = 0;
-                        if (Console.ReadLine().ToLower() == "s")
-                        {
-                            bool valorkmValido = false;
-                            while (!valorkmValido)
-                            {
-                                Console.WriteLine("Novo valor por km: ");
-                                string valorkmStr = Console.ReadLine();
-                                if (!double.TryParse(valorkmStr, out valorkm))
-                                    Console.WriteLine("Informe um valor por km válido!");
-                                else if(valorkm <= 0)
-                                    Console.WriteLine("Informe um valor por km válido!");
-                                else
-                                    valorkmValido = true;
+                                Console.WriteLine("Nome j existente! Tente novamente.");
+                                nomeExistente = true;
+                                break;
                             }
                         }
 
-                        Console.WriteLine("Deseja editar o endereço? (s/n)");
-                        if (Console.ReadLine().ToLower() == "s")
-                        {
-                            var novo = new EnderecoService().CadastrarEndereco();
-                            t.Endereco = novo;
-                        }
+                        if (!nomeExistente)
+                            nomeValido = true;
+                    }
+                    t.Nome = nome;
+                }
 
-                        return "Transportadora editada com sucesso!";
+                Console.WriteLine("Deseja editar o valor por km? (s/n)");
+                double valorkm = 0;
+                if (Console.ReadLine().ToLower() == "s")
+                {
+                    bool valorkmValido = false;
+                    while (!valorkmValido)
+                    {
+                        Console.WriteLine("Novo valor por km: ");
+                        string valorkmStr = Console.ReadLine();
+                        if (!double.TryParse(valorkmStr, out valorkm))
+                            Console.WriteLine("Informe um valor por km vï¿½lido!");
+                        else if(valorkm <= 0)
+                            Console.WriteLine("Informe um valor por km vï¿½lido!");
+                        else
+                            valorkmValido = true;
                     }
                 }
-                return "Transportadora não encontrada!";
+
+                Console.WriteLine("Deseja editar o endereï¿½o? (s/n)");
+                if (Console.ReadLine().ToLower() == "s")
+                {
+                    var novo = new EnderecoService().CadastrarEndereco();
+                    t.Endereco = novo;
+                }
+
+                return "Transportadora editada com sucesso!";                    
+                
+                return "Transportadora nï¿½o encontrada!";
             }
             catch (Exception ex)
             {
