@@ -4,7 +4,7 @@ using ProjetoSistemaLoja.Models;
 
 namespace ProjetoSistemaLoja.Repositories.ArrayRepositories;
 
-public class FornecedorRepositoryArray : RepositoryBase<Fornecedor>
+public class FornecedorRepositoryArray : RepositoryBaseArray<Fornecedor>
 {
     protected override string FilePath => "FornecedoresArray.json";
 }

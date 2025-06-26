@@ -4,7 +4,7 @@ using ProjetoSistemaLoja.Models;
 
 namespace ProjetoSistemaLoja.Repositories.ListRepositories;
 
-public class ProdutoRepositoryList : RepositoryBase<Produto>
+public class ProdutoRepositoryList : RepositoryBaseList<Produto>
 {
     protected override string FilePath => "ProdutosList.json";
 }
