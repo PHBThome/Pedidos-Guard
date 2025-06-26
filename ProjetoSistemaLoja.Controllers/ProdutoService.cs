@@ -7,66 +7,59 @@ namespace Projeto_Sistema_Loja.controllers
 {
     public class ProdutoService
     {
-        private readonly LojaData LojaData;
+        private RepositoryBase<Produto> Repository;
 
-        public ProdutoService(LojaData lojaData)
+        public ProdutoService(RepositoryBase<Produto> repositorio)
         {
-            LojaData = lojaData;
+            Repository = repositorio;
         }
 
         public string AdicionarProduto()
         {
             try
             {
-                int produtoCount = LojaData.Produtos.Count(f => f != null);
-
-                if (produtoCount >= LojaData.Produtos.Length)
-                    return "\nNúmero máximo de produtos atingido!";
-
                 Console.Write("Nome: ");
                 string nome = Console.ReadLine();
-                if (string.IsNullOrWhiteSpace(nome))
-                    throw new Exception("Informe um nome válido!");
 
-                foreach (var p in LojaData.Produtos)
+                if (string.IsNullOrWhiteSpace(nome)){
+                    throw new Exception("Informe um nome válido!");
+                }
+
+                IList<Produto> produtos = Repository.GetAll<Produto>();
+
+                foreach (var p in produtos)
                 {
-                    if (p != null && p.Nome == nome)
+                    if (p != null && p.Nome == nome){
                         throw new Exception("Nome já existente!");
+                    }
                 }
 
                 Console.Write("Valor: ");
                 double valor = double.Parse(Console.ReadLine());
-                if (valor <= 0)
+
+                if (valor <= 0){
                     throw new Exception("Informe um valor válido!");
+                }
 
                 Console.Write("Quantidade: ");
                 int quantidade = int.Parse(Console.ReadLine());
-                if (quantidade < 0)
+
+                if (quantidade < 0){
                     throw new Exception("Informe uma quantidade válida");
+                }
 
                 Console.Write("ID do Fornecedor: ");
                 int idFornecedor = int.Parse(Console.ReadLine());
-                if (new FornecedorService(LojaData).ObterFornecedorPorId(idFornecedor) == null)
-                    throw new Exception("Fornecedor não encontrado!");
 
-                int id = produtoCount + 1;
+                if (new FornecedorService(/*ver oq fazer aqui*/).ObterFornecedorPorId(idFornecedor) == null){
+                    throw new Exception("Fornecedor não encontrado!");
+                }
+
+                int id = produtos.Count + 1;
 
                 Produto novoProduto = new Produto(id, nome, valor, quantidade, idFornecedor);
 
-                int posicaoLivre = -1;
-                for (int i = 0; i < LojaData.Produtos.Length; i++)
-                {
-                    if (LojaData.Produtos[i] == null)
-                    {
-                        posicaoLivre = i;
-                        break;
-                    }
-                }
-
-                Produto[] novoArray = new Produto[LojaData.Produtos.Length];
-                Array.Copy(LojaData.Produtos, novoArray, LojaData.Produtos.Length);
-                novoArray[posicaoLivre] = novoProduto;
-                LojaData.Produtos = novoArray;
+                Repository.Save(novoProduto);
 
                 return "Produto adicionado com sucesso!";
             }
@@ -82,8 +75,10 @@ namespace Projeto_Sistema_Loja.controllers
             {
                 Console.Write("Id do produto a remover: ");
                 string idStr = Console.ReadLine();
-                if (!int.TryParse(idStr, out int id))
+
+                if (!int.TryParse(idStr, out int id)){
                     throw new Exception("Informe um id válido!");
+                }
 
                 bool existe = false;
                 foreach(Produto p in LojaData.Produtos)

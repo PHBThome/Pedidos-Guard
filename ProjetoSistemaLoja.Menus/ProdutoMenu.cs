@@ -10,9 +10,11 @@ namespace ProjetoSistemaLoja.Menus
     {
         private readonly LojaData LojaData;
 
-        public ProdutoMenu(LojaData lojaData)
+        private RepositoryBase<Transportadora> Repository;
+
+        public ProdutoMenu(RepositoryBase<Transportadora> repositorio)
         {
-            LojaData = lojaData;
+            Repository = repositorio;
         }
 
         public void ExibirMenu()
@@ -28,10 +30,10 @@ namespace ProjetoSistemaLoja.Menus
                     Console.WriteLine("3. Consultar Produto");
                     Console.WriteLine("4. Editar Produto");
                     Console.WriteLine("0. Voltar");
-                    Console.Write("Opção: ");
+                    Console.Write("Opï¿½ï¿½o: ");
                     string opcaoStr = Console.ReadLine();
                     if (!int.TryParse(opcaoStr, out opcao))
-                        throw new Exception("Informe uma opção válida!");
+                        throw new Exception("Informe uma opï¿½ï¿½o vï¿½lida!");
 
                     switch (opcao)
                     {
@@ -53,7 +55,7 @@ namespace ProjetoSistemaLoja.Menus
                             TesteSerializacao();
                             break;
                         default:
-                            Console.WriteLine("Informe uma opção válida!");
+                            Console.WriteLine("Informe uma opï¿½ï¿½o vï¿½lida!");
                             break;
                     }
                 }
@@ -66,7 +68,7 @@ namespace ProjetoSistemaLoja.Menus
 
         private void CadastrarProduto()
         {
-            string resultado = new ProdutoService(LojaData).AdicionarProduto();
+            string resultado = new ProdutoService(Repository).AdicionarProduto();
             Console.WriteLine(resultado);
         }
 
@@ -77,23 +79,23 @@ namespace ProjetoSistemaLoja.Menus
                 Console.WriteLine("Consultar por:");
                 Console.WriteLine("1. Id");
                 Console.WriteLine("2. Consulta geral");
-                Console.Write("Opção: ");
+                Console.Write("OpÃ§Ã£o: ");
                 string opcaoStr = Console.ReadLine();
                 if (!int.TryParse(opcaoStr, out int opcao))
-                    throw new Exception("Informe uma opção válida");
+                    throw new Exception("Informe uma opÃ§Ã£o vÃ¡lida");
                 if (opcao >= 3 || opcao <= 0)
-                    throw new Exception("Informe uma opção válida!");
+                    throw new Exception("Informe uma opÃ§Ã£o vÃ¡lida!");
 
                 if (opcao == 1)
                 {
                     Console.Write("Informe o id: ");
                     int id = int.Parse(Console.ReadLine());
-                    var p = new ProdutoService(LojaData).ObterProdutoPorId(id);
+                    var p = new ProdutoService(Repository).ObterProdutoPorId(id);
                     Console.WriteLine(p);
                 }
                 else
                 {
-                    var produtos = new ProdutoService(LojaData).ObterTodosProdutos();
+                    var produtos = new ProdutoService(Repository).ObterTodosProdutos();
                     foreach (var p in produtos)
                     {
                         Console.WriteLine(p);
@@ -108,13 +110,13 @@ namespace ProjetoSistemaLoja.Menus
 
         private void RemoverProduto()
         {
-            string resultado = new ProdutoService(LojaData).RemoverProduto();
+            string resultado = new ProdutoService(Repository).RemoverProduto();
             Console.WriteLine(resultado);
         }
 
         private void EditarProduto()
         {
-            string resultado = new ProdutoService(LojaData).EditarProduto();
+            string resultado = new ProdutoService(Repository).EditarProduto();
             Console.WriteLine(resultado);
         }
         private void TesteSerializacao()

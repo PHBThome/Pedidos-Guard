@@ -6,11 +6,10 @@ namespace ProjetoSistemaLoja.Menus
 {
     internal class TransportadoraMenu
     {
-        private readonly LojaData LojaData;
-        private RepositoriesData Repository;
-        public TransportadoraMenu(LojaData lojaData, RepositoriesData repositorio)
+        private RepositoryBase<Transportadora> Repository;
+
+        public TransportadoraMenu( RepositoryBase<Transportadora> repositorio)
         {
-            LojaData = lojaData;
             Repository = repositorio;
         }
 

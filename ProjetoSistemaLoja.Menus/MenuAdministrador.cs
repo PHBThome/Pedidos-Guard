@@ -39,10 +39,10 @@ namespace ProjetoSistemaLoja.Menus
                             new FornecedorMenu(LojaData, Repositorios.fornecedorRepository).ExibirMenu();
                             break;
                         case 2:
-                            new ProdutoMenu(LojaData, Repositorios.produtoRepository).ExibirMenu();
+                            new ProdutoMenu(Repositorios.produtoRepository).ExibirMenu();
                             break;
                         case 3:
-                            new TransportadoraMenu(LojaData, Repositorios.transportadoraRepository).ExibirMenu();
+                            new TransportadoraMenu(Repositorios.transportadoraRepository).ExibirMenu();
                             break;
                         default:
                             Console.WriteLine("Informe uma opção válida!");
