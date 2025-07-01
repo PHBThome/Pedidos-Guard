@@ -2,14 +2,16 @@ using ProjetoSistemaLoja.Data;
 using ProjetoSistemaLoja.Models;
 using ProjetoSistemaLoja.Menus;
 using ProjetoSistemaLoja.Repositories.Framework;
+using ProjetoSistemaLoja.Repositories.Interfaces;
 
 namespace ProjetoSistemaLoja.Controllers
 {
     public class TransportadoraService
     {
-        private RepositoryBase<Transportadora> Repository;
+        private IRepositoryBase<Transportadora> Repository;
 
-        public TransportadoraService(RepositoryBase<Transportadora> repositorio)
+
+        public TransportadoraService(IRepositoryBase<Transportadora> repositorio)
         {
             Repository = repositorio;
         }
@@ -18,7 +20,6 @@ namespace ProjetoSistemaLoja.Controllers
         {
             try
             {
-
                 Console.WriteLine("Nome: ");
                 string nome = Console.ReadLine();
 
@@ -158,7 +159,7 @@ namespace ProjetoSistemaLoja.Controllers
                         }
                         else
                         {
-                            transportadoraEditada.ValorPorKm = valorkm;
+                            transportadoraEditada.Valormk = valorkm;
                             valorkmValido = true;
                         }
                     }

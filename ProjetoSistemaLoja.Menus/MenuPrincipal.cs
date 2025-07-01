@@ -9,12 +9,12 @@ namespace ProjetoSistemaLoja.Menus
     {
         private readonly LojaData LojaData;
 
-        private RepositoriesData Repositorios { get; set; }
+        private RepositoriesData Repositories { get; set; }
 
         public MenuPrincipal(LojaData lojaData, RepositoriesData repositorios)
         {
             LojaData = lojaData;
-            Repositorios = repositorios;
+            Repositories = repositorios;
         }
 
         public void Exibir()
@@ -25,8 +25,8 @@ namespace ProjetoSistemaLoja.Menus
             if(estaLogado)
             {
                 if (new UsuarioService(LojaData).IsAdmin(atual))
-                    new MenuAdministrador(LojaData, Repositorios).ExibirMenuAdministrador();
-                Console.WriteLine("Aqui sera a implementa��o do menu usuario");
+                    new MenuAdministrador(Repositories).ExibirMenuAdministrador();
+                Console.WriteLine("Aqui sera a implementao do menu usuario");
                 Console.ReadKey();
             }
            

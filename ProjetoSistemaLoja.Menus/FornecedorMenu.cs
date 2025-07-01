@@ -2,17 +2,19 @@ using ProjetoSistemaLoja.Controllers;
 using ProjetoSistemaLoja.Models;
 using ProjetoSistemaLoja.Data;
 using System.Linq.Expressions;
+using ProjetoSistemaLoja.Repositories.Interfaces;
+using Projeto_Sistema_Loja.controllers;
 
 namespace ProjetoSistemaLoja.Menus
 {
     internal class FornecedorMenu
     {
 
-        private readonly LojaData LojaData;
+        private IRepositoryBase<Fornecedor> Repository;
 
-        public FornecedorMenu(LojaData lojaData)
+        public FornecedorMenu(IRepositoryBase<Fornecedor> repositorio)
         {
-            LojaData = lojaData;
+            Repository = repositorio;
         }
 
         public void ExibirMenu()
@@ -61,7 +63,7 @@ namespace ProjetoSistemaLoja.Menus
 
         private void CadastrarFornecedor()
         {
-            var resultado = new FornecedorService(LojaData).AdicionarFornecedor();
+            var resultado = new FornecedorService(Repository).AdicionarFornecedor();
             Console.WriteLine(resultado);
         }
 
@@ -72,37 +74,30 @@ namespace ProjetoSistemaLoja.Menus
                 Console.WriteLine("Consultar por:");
                 Console.WriteLine("1. Id");
                 Console.WriteLine("2. Consulta geral");
-                int opcao = int.Parse(Console.ReadLine());
-                if (opcao != 1 && opcao != 0)
-                    throw new Exception("Escolha uma opção válida!");
+                Console.Write("Opção: ");
+                string opcaoStr = Console.ReadLine();
+                if (!int.TryParse(opcaoStr, out int opcao))
+                    throw new Exception("Informe uma opção válida");
+                if (opcao >= 3 || opcao <= 0)
+                    throw new Exception("Informe uma opção válida!");
 
                 if (opcao == 1)
                 {
-                    Console.WriteLine("Informe o id:");
+                    Console.Write("Informe o id: ");
                     int id = int.Parse(Console.ReadLine());
-                    bool existe = false;
-                    foreach (Fornecedor z in LojaData.Fornecedores)
-                    {
-                        if (z == null) continue;
-                        if (z.Id == id)
-                            existe = true;
-                    }
-                    if (!existe)
-                        throw new Exception("Informe um id válido!");
-
-                    var f = new FornecedorService(LojaData).ObterFornecedorPorId(id);
-                    Console.WriteLine(f);
+                    var p = new FornecedorService(Repository).ObterFornecedorPorId(id);
+                    Console.WriteLine(p);
                 }
                 else
                 {
-                    var fornecedores = new FornecedorService(LojaData).ObterTodosFornecedores();
+                    var fornecedores = new FornecedorService(Repository).ObterTodosFornecedores();
                     foreach (var f in fornecedores)
                     {
                         Console.WriteLine(f);
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine($"Erro: {ex.Message}");
             }
@@ -110,13 +105,13 @@ namespace ProjetoSistemaLoja.Menus
 
         private void RemoverFornecedor()
         {
-            string resultado = new FornecedorService(LojaData).RemoverFornecedor();
+            string resultado = new FornecedorService(Repository).RemoverFornecedor();
             Console.WriteLine(resultado);
         }
 
         private void EditarFornecedor()
         {
-            string resultado = new FornecedorService(LojaData).EditarFornecedor();
+            string resultado = new FornecedorService(Repository).EditarFornecedor();
             Console.WriteLine(resultado);
         }
     }

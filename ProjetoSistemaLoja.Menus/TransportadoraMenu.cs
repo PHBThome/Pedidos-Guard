@@ -1,14 +1,15 @@
 using ProjetoSistemaLoja.Controllers;
 using ProjetoSistemaLoja.Models;
 using ProjetoSistemaLoja.Data;
+using ProjetoSistemaLoja.Repositories.Interfaces;
 
 namespace ProjetoSistemaLoja.Menus
 {
     internal class TransportadoraMenu
     {
-        private RepositoryBase<Transportadora> Repository;
-
-        public TransportadoraMenu( RepositoryBase<Transportadora> repositorio)
+        private IRepositoryBase<Transportadora> Repository;
+        
+        public TransportadoraMenu( IRepositoryBase<Transportadora> repositorio)
         {
             Repository = repositorio;
         }

@@ -1,34 +1,32 @@
 using ProjetoSistemaLoja.Menus;
 using ProjetoSistemaLoja.Models;
 using ProjetoSistemaLoja.Data;
+using ProjetoSistemaLoja.Repositories.Interfaces;
 
 namespace ProjetoSistemaLoja.Controllers
 {
     public   class FornecedorService
     {
-        private readonly LojaData LojaData;
+        private IRepositoryBase<Fornecedor> Repository { get; set; }
 
-        public FornecedorService(LojaData lojaData)
+        public FornecedorService(IRepositoryBase<Fornecedor> repositorio)
         {
-            LojaData = lojaData;
+            Repository = repositorio;
         }
 
         public string AdicionarFornecedor()
         {
             try
             {
-                int fornecedorCount = LojaData.Fornecedores.Count(f => f != null);
-
-                if (fornecedorCount >= LojaData.Fornecedores.Length)
-                    return "\nNúmero máximo de fornecedores atingido!";
-
                 Console.WriteLine("Nome: ");
                 string nome = Console.ReadLine();
 
                 if (string.IsNullOrWhiteSpace(nome))
                     throw new Exception("Informe um nome válido!");
 
-                foreach (var f in LojaData.Fornecedores)
+                IList<Fornecedor> fornecedores = Repository.GetAll<Fornecedor>();
+
+                foreach (var f in fornecedores)
                 {
                     if (f != null && f.Nome == nome)
                         throw new Exception("Nome já existente!");
@@ -46,24 +44,11 @@ namespace ProjetoSistemaLoja.Controllers
 
 
                 Endereco endereco = new EnderecoService().CadastrarEndereco();
-                int id = fornecedorCount + 1;
+                int id = fornecedores.Count + 1;
 
                 Fornecedor novoFornecedor = new(id, nome, email, telefone, endereco);
 
-                int posicaoLivre = -1;
-                for (int i = 0; i < LojaData.Fornecedores.Length; i++)
-                {
-                    if (LojaData.Fornecedores[i] == null)
-                    {
-                        posicaoLivre = i;
-                        break;
-                    }
-                }
-
-                Fornecedor[] novoArray = new Fornecedor[LojaData.Fornecedores.Length];
-                Array.Copy(LojaData.Fornecedores, novoArray, LojaData.Fornecedores.Length);
-                novoArray[posicaoLivre] = novoFornecedor;
-                LojaData.Fornecedores = novoArray;
+                Repository.Save(novoFornecedor);
 
                 return "Fornecedor adicionado com sucesso!";
 
@@ -78,36 +63,23 @@ namespace ProjetoSistemaLoja.Controllers
         {
             try
             {
-                Console.Write("Id do fornecedor a remover: ");
+                Console.WriteLine("Id do fornecedor a remover: ");
                 string idStr = Console.ReadLine();
                 if (!int.TryParse(idStr, out int id))
+                {
                     throw new Exception("Informe um id válido!");
-
-                bool existe = false;
-                foreach (Fornecedor f in LojaData.Fornecedores)
-                {
-                    if (f == null) continue;
-                    if (f.Id == id) existe = true;
                 }
-                if (!existe)
-                    throw new Exception("Informe um id existente!");
 
-                for (int i = 0; i < LojaData.Fornecedores.Length; i++)
+                IList<Fornecedor> fornecedores = Repository.GetAll<Fornecedor>();
+                var fornecedor = fornecedores.FirstOrDefault(t => t != null && t.Id == id);
+
+                if (fornecedor == null)
                 {
-                    var fornecedor = LojaData.Fornecedores[i];
-                    if (fornecedor != null && fornecedor.Id == id)
-                    {
-                        // Deslocar os elementos à esquerda
-                        for (int j = i; j < LojaData.Fornecedores.Length - 1; j++)
-                        {
-                            LojaData.Fornecedores[j] = LojaData.Fornecedores[j + 1];
-                        }
-                        LojaData.Fornecedores[LojaData.Fornecedores.Length - 1] = null;
-
-                        return "Fornecedor excluído com sucesso!";
-                    }
+                    throw new Exception("Transportadora não encontrada!");
                 }
-                return "Fornecedor não encontrado!";
+
+                Repository.Remove<Fornecedor>(id);
+                return "Transportadora removida com sucesso!";
             }
             catch (Exception ex)
             {
@@ -117,17 +89,12 @@ namespace ProjetoSistemaLoja.Controllers
 
         public Fornecedor? ObterFornecedorPorId(int id)
         {
-            foreach (Fornecedor f in LojaData.Fornecedores)
-            {
-                if (f != null && f.Id == id)
-                return f;
-            }
-            return null;
+            return Repository.GetById<Fornecedor>(id);
         }
 
-        public Fornecedor[] ObterTodosFornecedores()
+        public IList<Fornecedor> ObterTodosFornecedores()
         {
-            return LojaData.Fornecedores.Where(f => f != null).ToArray();
+            return Repository.GetAll<Fornecedor>();
         }
 
         public string EditarFornecedor()
@@ -139,93 +106,77 @@ namespace ProjetoSistemaLoja.Controllers
                 if (!int.TryParse(idStr, out int id))
                     throw new Exception("Informe um id válido!");
 
-                bool existe = false;
-                foreach (Fornecedor f in LojaData.Fornecedores)
-                {
-                    if (f == null) continue;
-                    if (f.Id == id)
-                        existe = true;
-                }
-                if (!existe)
-                    throw new Exception("Informe um id existente!");
+                IList<Fornecedor> fornecedores = Repository.GetAll<Fornecedor>();
+                var fornecedorEditado = fornecedores.FirstOrDefault(f => f != null && f.Id == id);
 
-                for (int i = 0; i < LojaData.Fornecedores.Length; i++)
+                Console.WriteLine($"Fornecedor atual:\n{fornecedorEditado}");
+
+                Console.WriteLine($"Deseja alterar o nome? (s/n)");
+                if (Console.ReadLine().ToLower() == "s")
                 {
-                    var f = LojaData.Fornecedores[i];
-                    if (f != null && f.Id == id)
+                    bool nomeValido = false;
+                    while (!nomeValido)
                     {
-                        Console.WriteLine($"Fornecedor atual:\n{f}");
+                        Console.WriteLine("Novo nome: ");
+                        string nome = Console.ReadLine();
 
-                        Console.WriteLine($"Deseja alterar o nome? (s/n)");
-                        string nome = " ";
-                        if (Console.ReadLine().ToLower() == "s")
+                        bool nomeExistente = fornecedores.Any(f => f != null && f.Nome.ToLower() == nome.ToLower() && f.Id != id);
+
+                        if (nomeExistente)
                         {
-                            bool nomeValido = false;
-
-                            while (!nomeValido)
-                            {
-                                Console.WriteLine("Novo nome: ");
-                                nome = Console.ReadLine();
-
-                                bool nomeExistente = false;
-
-                                foreach (Fornecedor c in LojaData.Fornecedores)
-                                {
-                                    if (c != null && c.Nome.ToLower() == nome.ToLower())
-                                    {
-                                        Console.WriteLine("Nome já existente! Tente novamente.");
-                                        nomeExistente = true;
-                                        break;
-                                    }
-                                }
-
-                                if (!nomeExistente)
-                                {
-                                    nomeValido = true;
-                                }
-                            }
-                            f.Nome = nome;
+                            Console.WriteLine("Nome já existente! Tente novamente.");
                         }
-
-                        Console.WriteLine("Deseja editar o email? (s/n)");
-                        if (Console.ReadLine().ToLower() == "s")
+                        else
                         {
-                            bool emailValido = false;
-                            while (!emailValido)
-                            {
-                                Console.WriteLine("Novo email: ");
-                                f.Email = Console.ReadLine();
-                                if(!f.Email.Contains('@') || string.IsNullOrWhiteSpace(f.Email))
-                                    Console.WriteLine("Informe um email válido!");
-                                else
-                                     emailValido = true;
-                            }
+                            fornecedorEditado.Nome = nome;
+                            nomeValido = true;
                         }
-
-                        Console.WriteLine("Deseja editar o telefone? (s/n)");
-                        if (Console.ReadLine().ToLower() == "s")
-                        {
-                            bool telValido = false;
-                            while (!telValido)
-                            {
-                                Console.WriteLine("Novo telefone: ");
-                                f.Telefone = Console.ReadLine();
-                                if (f.Telefone.Length != 10 || string.IsNullOrWhiteSpace(f.Telefone))
-                                    Console.WriteLine("Informe um telefone válido");
-                                else
-                                    telValido = true;
-                            }
-                        }
-
-                        Console.WriteLine("Deseja editar o endereço? (s/n)");
-                        if (Console.ReadLine().ToLower() == "s")
-                        {
-                            f.Endereco = new EnderecoService().CadastrarEndereco();
-                        }
-
-                        return "Fornecedor editado com sucesso!";
                     }
                 }
+
+                Console.WriteLine("Deseja editar o email? (s/n)");
+                if (Console.ReadLine().ToLower() == "s")
+                {
+                    bool emailValido = false;
+                    while (!emailValido)
+                    {
+                        Console.WriteLine("Novo email: ");
+                        string email = Console.ReadLine();
+                        if (email.Contains('@') || string.IsNullOrWhiteSpace(email))
+                            Console.WriteLine("Informe um email válido!");
+                        else
+                            fornecedorEditado.Email = email;
+                            emailValido = true;
+                    }
+                }
+
+                Console.WriteLine("Deseja editar o telefone? (s/n)");
+                if (Console.ReadLine().ToLower() == "s")
+                {
+                    bool telValido = false;
+                    while (!telValido)
+                    {
+                        Console.WriteLine("Novo telefone: ");
+                        string telefone = Console.ReadLine();
+                        if (telefone.Length != 10 || string.IsNullOrWhiteSpace(telefone))
+                            Console.WriteLine("Informe um telefone válido");
+                        else
+                            fornecedorEditado.Telefone = telefone;
+                            telValido = true;
+                    }
+                }
+
+                Console.WriteLine("Deseja editar o endereço? (s/n)");
+                if (Console.ReadLine().ToLower() == "s")
+                {
+                    fornecedorEditado.Endereco = new EnderecoService().CadastrarEndereco();
+                }
+
+                Repository.Update<Fornecedor>(fornecedorEditado);
+
+                return "Fornecedor editado com sucesso!";
+                   
+   
             }
             catch(Exception ex)
             {

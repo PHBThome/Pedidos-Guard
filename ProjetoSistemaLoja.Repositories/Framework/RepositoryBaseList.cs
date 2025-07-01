@@ -5,7 +5,7 @@ using ProjetoSistemaLoja.Repositories.Interfaces;
 
 namespace ProjetoSistemaLoja.Repositories.Framework;
 
-public class RepositoryBase<TipoGenerico> : IRepositoryBase<TipoGenerico> where TipoGenerico : class
+public class RepositoryBaseList<TipoGenerico> : IRepositoryBase<TipoGenerico> where TipoGenerico : class
 {
 
     protected virtual string FilePath { get; set; }
@@ -74,7 +74,7 @@ public class RepositoryBase<TipoGenerico> : IRepositoryBase<TipoGenerico> where 
         File.WriteAllText(FilePath, updatedJson);
     }
 
-    public T GetById<T>(int id)
+    public T? GetById<T>(int id)
     {
         if (!File.Exists(FilePath))
         {

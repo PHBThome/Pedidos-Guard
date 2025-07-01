@@ -5,13 +5,11 @@ namespace ProjetoSistemaLoja.Menus
 {
     internal class MenuAdministrador
     {
-        private readonly LojaData LojaData;
-        private RepositoriesData Repositorios;
+        private RepositoriesData Repositories;
 
-        public MenuAdministrador(LojaData lojaData, RepositoriesData repositorios)
+        public MenuAdministrador(RepositoriesData repositorios)
         {
-            LojaData = lojaData;
-            Repositorios = repositorios;
+            Repositories = repositorios;
         }
 
         public void ExibirMenuAdministrador()
@@ -36,13 +34,13 @@ namespace ProjetoSistemaLoja.Menus
                         case 0:
                             break;
                         case 1:
-                            new FornecedorMenu(LojaData, Repositorios.fornecedorRepository).ExibirMenu();
+                            new FornecedorMenu(Repositories.fornecedorRepository).ExibirMenu();
                             break;
                         case 2:
-                            new ProdutoMenu(Repositorios.produtoRepository).ExibirMenu();
+                            new ProdutoMenu(Repositories.produtoRepository, Repositories.fornecedorRepository).ExibirMenu();
                             break;
                         case 3:
-                            new TransportadoraMenu(Repositorios.transportadoraRepository).ExibirMenu();
+                            new TransportadoraMenu(Repositories.transportadoraRepository).ExibirMenu();
                             break;
                         default:
                             Console.WriteLine("Informe uma opção válida!");

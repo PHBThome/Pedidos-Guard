@@ -2,14 +2,15 @@ using ProjetoSistemaLoja.Models;
 using ProjetoSistemaLoja.Repositories.ArrayRepositories;
 using ProjetoSistemaLoja.Repositories.ListRepositories;
 using ProjetoSistemaLoja.Repositories.Framework;
+using ProjetoSistemaLoja.Repositories.Interfaces;
 
 namespace ProjetoSistemaLoja.Menus
 {
     public class RepositoriesData
     {
-        public RepositoryBase<Produto> produtoRepository   { get; set; }
-        public RepositoryBase<Fornecedor> fornecedorRepository  { get; set; }
-        public RepositoryBase<Transportadora> transportadoraRepository { get; set; }
+        public IRepositoryBase<Produto> produtoRepository   { get; set; }
+        public IRepositoryBase<Fornecedor> fornecedorRepository  { get; set; }
+        public IRepositoryBase<Transportadora> transportadoraRepository { get; set; }
 
         public RepositoriesData(int isArray)
         {

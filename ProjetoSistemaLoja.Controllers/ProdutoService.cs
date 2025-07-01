@@ -2,16 +2,19 @@ using System.Xml;
 using ProjetoSistemaLoja.Controllers;
 using ProjetoSistemaLoja.Data;
 using ProjetoSistemaLoja.Models;
+using ProjetoSistemaLoja.Repositories.Interfaces;
 
 namespace Projeto_Sistema_Loja.controllers
 {
     public class ProdutoService
     {
-        private RepositoryBase<Produto> Repository;
+        private IRepositoryBase<Produto> Repository;
+        private IRepositoryBase<Fornecedor> fornecedorRepository;
 
-        public ProdutoService(RepositoryBase<Produto> repositorio)
+        public ProdutoService(IRepositoryBase<Produto> repositorio, IRepositoryBase<Fornecedor> fRepositorio)
         {
             Repository = repositorio;
+            fornecedorRepository = fRepositorio;
         }
 
         public string AdicionarProduto()
@@ -51,9 +54,9 @@ namespace Projeto_Sistema_Loja.controllers
                 Console.Write("ID do Fornecedor: ");
                 int idFornecedor = int.Parse(Console.ReadLine());
 
-                if (new FornecedorService(/*ver oq fazer aqui*/).ObterFornecedorPorId(idFornecedor) == null){
-                    throw new Exception("Fornecedor não encontrado!");
-                }
+                var fornecedor = fornecedorRepository.GetById<Fornecedor>(idFornecedor);
+                if (fornecedor == null)
+                    throw new Exception("Informe um id de fornecedor existente!");
 
                 int id = produtos.Count + 1;
 
@@ -73,31 +76,23 @@ namespace Projeto_Sistema_Loja.controllers
         {
             try
             {
-                Console.Write("Id do produto a remover: ");
+                Console.WriteLine("Id do produto a remover: ");
                 string idStr = Console.ReadLine();
-
-                if (!int.TryParse(idStr, out int id)){
+                if (!int.TryParse(idStr, out int id))
+                {
                     throw new Exception("Informe um id válido!");
                 }
 
-                bool existe = false;
-                foreach(Produto p in LojaData.Produtos)
-                {
-                    if (p == null) continue;
-                    if (p.Id == id) existe = true;
-                }
-                if (!existe)
-                    throw new Exception("Informe um id existente");
+                IList<Produto> produtos = Repository.GetAll<Produto>();
+                var produto = produtos.FirstOrDefault(p => p != null && p.Id == id);
 
-                for (int i = 0; i < LojaData.Produtos.Length; i++)
+                if (produto == null)
                 {
-                    if (LojaData.Produtos[i] != null && LojaData.Produtos[i].Id == id)
-                    {
-                        LojaData.Produtos[i] = null;
-                        return "Produto removido com sucesso!";
-                    }
+                    throw new Exception("Produto não encontrado!");
                 }
-                return "Produto não encontrado!";
+
+                Repository.Remove<Produto>(id);
+                return "Produto removido com sucesso!";
             }
             catch (Exception ex)
             {
@@ -107,17 +102,12 @@ namespace Projeto_Sistema_Loja.controllers
 
         public Produto? ObterProdutoPorId(int id)
         {
-            foreach (Produto p in LojaData.Produtos)
-            {
-                if (p != null && p.Id == id)
-                    return p;
-            }
-            return null;
+            return Repository.GetById<Produto>(id);
         }
 
-        public Produto[] ObterTodosProdutos()
+        public IList<Produto> ObterTodosProdutos()
         {
-            return LojaData.Produtos.Where(p => p != null).ToArray();
+            return Repository.GetAll<Produto>();
         }
 
         public string EditarProduto()
@@ -129,123 +119,106 @@ namespace Projeto_Sistema_Loja.controllers
                 if (!int.TryParse(idStr, out int id))
                     throw new Exception("Informe um id válido!");
 
-                bool existe = false;
-                foreach(Produto p in LojaData.Produtos)
-                {
-                    if (p == null) continue;
-                    if (p.Id == id) existe = true;
-                }
-                if (!existe)
-                    throw new Exception("Informe um id existente!");
+                IList<Produto> produtos = Repository.GetAll<Produto>();
+                Produto produtoEditado = produtos.FirstOrDefault(p => p != null && p.Id == id);
 
-                for (int i = 0; i < LojaData.Produtos.Length; i++)
+                if (produtoEditado == null)
+                    throw new Exception("Produto não encontrado!");
+
+                Console.WriteLine($"Produto atual:\n{produtoEditado}");
+
+                Console.WriteLine("Deseja alterar o nome? (s/n)");
+                if (Console.ReadLine().ToLower() == "s")
                 {
-                    if (LojaData.Produtos[i] != null && LojaData.Produtos[i].Id == id)
+                    bool nomeValido = false;
+                    while (!nomeValido)
                     {
-                        var p = LojaData.Produtos[i];
-                        Console.WriteLine($"Produto atual:\n{p}");
+                        Console.WriteLine("Novo nome: ");
+                        string nome = Console.ReadLine();
 
-                        Console.WriteLine($"Deseja alterar o nome? (s/n)");
-                        string nome = " ";
-                        if (Console.ReadLine().ToLower() == "s")
+                        bool nomeExistente = produtos.Any(p => p != null && p.Nome.ToLower() == nome.ToLower() && p.Id != id);
+
+                        if (nomeExistente)
                         {
-                            bool nomeValido = false;
-
-                            while (!nomeValido)
-                            {
-                                Console.WriteLine("Novo nome: ");
-                                nome = Console.ReadLine();
-
-                                bool nomeExistente = false;
-
-                                foreach (Produto t in LojaData.Produtos)
-                                {
-                                    if (t != null && t.Nome.ToLower() == nome.ToLower())
-                                    {
-                                        Console.WriteLine("Nome já existente! Tente novamente.");
-                                        nomeExistente = true;
-                                        break;
-                                    }
-                                }
-
-                                if (!nomeExistente)
-                                {
-                                    nomeValido = true;
-                                }
-                            }
-                            p.Nome = nome;
+                            Console.WriteLine("Nome já existente! Tente novamente.");
                         }
-
-                        Console.WriteLine("Deseja editar o valor? (s/n)");
-                        double valor = 0;
-                        if (Console.ReadLine().ToLower() == "s")
+                        else
                         {
-                            bool valorValido = false;
-
-                            while (!valorValido)
-                            {
-                                Console.WriteLine("Novo valor: ");
-                                string valorStr = Console.ReadLine();
-                                if (!double.TryParse(valorStr, out valor))
-                                    Console.WriteLine("Informe um valor válido");
-                                else
-                                    valorValido = true;
-                            }
-                            p.Valor = valor;
+                            produtoEditado.Nome = nome;
+                            nomeValido = true;
                         }
-
-                        Console.WriteLine("Deseja editar a quantidade? (s/n)");
-                        int quantidade = 0;
-                        if (Console.ReadLine().ToLower() == "s")
-                        {
-                            bool quantidadeValida = false;
-
-                            while (!quantidadeValida)
-                            {
-                                Console.WriteLine("Nova quantidade: ");
-                                string quantidadeStr = Console.ReadLine();
-                                if(!int.TryParse(quantidadeStr,out quantidade))
-                                    Console.WriteLine("Informe um quantidade válida!");
-                                else
-                                    quantidadeValida = true;
-                            }
-                            p.Quantidade = quantidade;
-                        }
-
-                        Console.WriteLine("Deseja editar o id do fornecedor? (s/n)");
-                        int idfornecedor = 0;
-                        if (Console.ReadLine().ToLower() == "s")
-                        {
-                            bool idValido = false;
-
-                            while (!idValido)
-                            {
-                                Console.WriteLine("Novo id do fornecedor: ");
-                                string idfornecedorStr = Console.ReadLine();
-                                while (!idValido)
-                                {
-                                    if (!int.TryParse(idfornecedorStr, out idfornecedor))
-                                        Console.WriteLine("Informe um id de fornecedor válido!");
-                                    else
-                                        idValido = true;
-                                }
-
-                                if (new FornecedorService(LojaData).ObterFornecedorPorId(idfornecedor) == null)
-                                {
-                                    Console.WriteLine("Fornecedor não encontrado! Tente novamente.");
-                                    idValido = false;
-                                }
-                                else
-                                {
-                                    idValido = true;
-                                }
-                            }
-                        }
-                        p.IdFornecedor = idfornecedor;
-                        return "Produto editado com sucesso";
                     }
                 }
-                return "Produto não encontrado";
+
+                Console.WriteLine("Deseja editar o valor? (s/n)");
+                double valor = 0;
+                if (Console.ReadLine().ToLower() == "s")
+                {
+                    bool valorValido = false;
+
+                    while (!valorValido)
+                    {
+                        Console.WriteLine("Novo valor: ");
+                        string valorStr = Console.ReadLine();
+                        if (!double.TryParse(valorStr, out valor))
+                            Console.WriteLine("Informe um valor válido");
+                        else
+                            produtoEditado.Valor = valor;
+                            valorValido = true;
+                    }
+                }
+
+                Console.WriteLine("Deseja editar a quantidade? (s/n)");
+                int quantidade = 0;
+                if (Console.ReadLine().ToLower() == "s")
+                {
+                    bool quantidadeValida = false;
+
+                    while (!quantidadeValida)
+                    {
+                        Console.WriteLine("Nova quantidade: ");
+                        string quantidadeStr = Console.ReadLine();
+                        if(!int.TryParse(quantidadeStr,out quantidade))
+                            Console.WriteLine("Informe um quantidade válida!");
+                        else
+                            produtoEditado.Quantidade = quantidade;
+                            quantidadeValida = true;
+                    }
+                }
+
+                Console.WriteLine("Deseja editar o id do fornecedor? (s/n)");
+                int idfornecedor = 0;
+                if (Console.ReadLine().ToLower() == "s")
+                {
+                    bool idValido = false;
+
+                    while (!idValido)
+                    {
+                        Console.WriteLine("Novo id do fornecedor: ");
+                        string idfornecedorStr = Console.ReadLine();
+                        while (!idValido)
+                        {
+                            if (!int.TryParse(idfornecedorStr, out idfornecedor))
+                                Console.WriteLine("Informe um id de fornecedor válido!");
+                            else
+                                idValido = true;
+                        }
+                        var fornecedor = fornecedorRepository.GetById<Fornecedor>(idfornecedor);
+
+                        if (fornecedor == null)
+                        {
+                            Console.WriteLine("Fornecedor não encontrado! Tente novamente.");
+                            idValido = false;
+                        }
+                        else
+                        {
+                            produtoEditado.IdFornecedor = idfornecedor;
+                            idValido = true;
+                        }
+                    }
+                }
+
+                return "Produto editado com sucesso";
             }
             catch (Exception ex)
             {

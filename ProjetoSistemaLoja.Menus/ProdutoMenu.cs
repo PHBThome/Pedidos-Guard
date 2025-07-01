@@ -3,18 +3,21 @@ using ProjetoSistemaLoja.Models;
 using ProjetoSistemaLoja.Data;
 using Projeto_Sistema_Loja.controllers;
 using System.Text.Json;
+using ProjetoSistemaLoja.Repositories.Interfaces;
+
 
 namespace ProjetoSistemaLoja.Menus
 {
     internal class ProdutoMenu
     {
-        private readonly LojaData LojaData;
 
-        private RepositoryBase<Transportadora> Repository;
+        private IRepositoryBase<Produto> Repository;
+        private IRepositoryBase<Fornecedor> fornecedorRepository;
 
-        public ProdutoMenu(RepositoryBase<Transportadora> repositorio)
+        public ProdutoMenu(IRepositoryBase<Produto> repositorio, IRepositoryBase<Fornecedor> fRepositorio)
         {
             Repository = repositorio;
+            fornecedorRepository = fRepositorio;
         }
 
         public void ExibirMenu()
@@ -30,7 +33,7 @@ namespace ProjetoSistemaLoja.Menus
                     Console.WriteLine("3. Consultar Produto");
                     Console.WriteLine("4. Editar Produto");
                     Console.WriteLine("0. Voltar");
-                    Console.Write("Op��o: ");
+                    Console.Write("Opção: ");
                     string opcaoStr = Console.ReadLine();
                     if (!int.TryParse(opcaoStr, out opcao))
                         throw new Exception("Informe uma op��o v�lida!");
@@ -51,11 +54,8 @@ namespace ProjetoSistemaLoja.Menus
                         case 4:
                             EditarProduto();
                             break;
-                        case 5:
-                            TesteSerializacao();
-                            break;
                         default:
-                            Console.WriteLine("Informe uma op��o v�lida!");
+                            Console.WriteLine("Informe uma opção válida!");
                             break;
                     }
                 }
@@ -68,7 +68,7 @@ namespace ProjetoSistemaLoja.Menus
 
         private void CadastrarProduto()
         {
-            string resultado = new ProdutoService(Repository).AdicionarProduto();
+            string resultado = new ProdutoService(Repository, fornecedorRepository).AdicionarProduto();
             Console.WriteLine(resultado);
         }
 
@@ -90,12 +90,12 @@ namespace ProjetoSistemaLoja.Menus
                 {
                     Console.Write("Informe o id: ");
                     int id = int.Parse(Console.ReadLine());
-                    var p = new ProdutoService(Repository).ObterProdutoPorId(id);
+                    var p = new ProdutoService(Repository, fornecedorRepository).ObterProdutoPorId(id);
                     Console.WriteLine(p);
                 }
                 else
                 {
-                    var produtos = new ProdutoService(Repository).ObterTodosProdutos();
+                    var produtos = new ProdutoService(Repository, fornecedorRepository).ObterTodosProdutos();
                     foreach (var p in produtos)
                     {
                         Console.WriteLine(p);
@@ -110,33 +110,14 @@ namespace ProjetoSistemaLoja.Menus
 
         private void RemoverProduto()
         {
-            string resultado = new ProdutoService(Repository).RemoverProduto();
+            string resultado = new ProdutoService(Repository, fornecedorRepository).RemoverProduto();
             Console.WriteLine(resultado);
         }
 
         private void EditarProduto()
         {
-            string resultado = new ProdutoService(Repository).EditarProduto();
+            string resultado = new ProdutoService(Repository, fornecedorRepository).EditarProduto();
             Console.WriteLine(resultado);
-        }
-        private void TesteSerializacao()
-        {
-
-            Produto[] aaa = LojaData.Produtos.Where(x => x != null).ToArray();
-
-            string todosProdutos = JsonSerializer.Serialize(aaa);
-            File.WriteAllText("produtos.json", todosProdutos);
-
-            string ProdutosLista = File.ReadAllText("produtos.json");
-
-            Produto[] aaaa = JsonSerializer.Deserialize<Produto[]>(ProdutosLista);
-
-
-            foreach (var item in aaaa)
-            {
-                Console.WriteLine(item);
-            }
-
         }
     }
 }

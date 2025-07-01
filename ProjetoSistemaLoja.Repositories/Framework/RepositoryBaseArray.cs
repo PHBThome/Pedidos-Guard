@@ -6,7 +6,7 @@ using ProjetoSistemaLoja.Repositories.Interfaces;
 
 namespace ProjetoSistemaLoja.Repositories.Framework
 {
-    public class RepositoryArrayBase<TipoGenerico> : IRepositoryBase<TipoGenerico> where TipoGenerico : class
+    public class RepositoryBaseArray<TipoGenerico> : IRepositoryBase<TipoGenerico> where TipoGenerico : class
     {
         protected virtual string FilePath { get; set; }
 
