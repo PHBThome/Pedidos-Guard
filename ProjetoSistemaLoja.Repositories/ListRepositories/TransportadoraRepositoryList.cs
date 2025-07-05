@@ -6,5 +6,5 @@ namespace ProjetoSistemaLoja.Repositories.ListRepositories;
 
 public class TransportadoraRepositoryList : RepositoryBaseList<Transportadora>
 {
-    protected override string FilePath => "TransportadorasList.json";
+    protected override string FilePath => "Transportadoras.json";
 }

@@ -6,5 +6,5 @@ namespace ProjetoSistemaLoja.Repositories.ListRepositories;
 
 public class ProdutoRepositoryList : RepositoryBaseList<Produto>
 {
-    protected override string FilePath => "ProdutosList.json";
+    protected override string FilePath => "Produtos.json";
 }

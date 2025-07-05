@@ -1,4 +1,3 @@
-using ProjetoSistemaLoja.Data;
 using ProjetoSistemaLoja.Models;
 using ProjetoSistemaLoja.Menus;
 using ProjetoSistemaLoja.Repositories.Framework;

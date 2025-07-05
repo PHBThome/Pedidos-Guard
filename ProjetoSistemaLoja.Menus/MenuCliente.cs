@@ -1,29 +1,33 @@
-using ProjetoSistemaLoja;
-using ProjetoSistemaLoja.Data;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using ProjetoSistemaLoja.Repositories.Interfaces;
+using ProjetoSistemaLoja.Models;
+using ProjetoSistemaLoja.Controllers;
 
 namespace ProjetoSistemaLoja.Menus
 {
-    internal class MenuAdministrador
+    internal class MenuCliente
     {
         private RepositoriesData Repositories;
 
-        public MenuAdministrador(RepositoriesData repositorios)
+        public MenuCliente(RepositoriesData repositorios)
         {
             Repositories = repositorios;
         }
 
-        public void ExibirMenuAdministrador()
+        public void ExibirMenuCliente(Usuario atual)
         {
             int opcao = -1;
             do
             {
                 try
                 {
-                    Console.WriteLine("\n--- MENU ADMINISTRADOR ---");
-                    Console.WriteLine("1. Gerenciar Fornecedores");
-                    Console.WriteLine("2. Gerenciar Produtos");
-                    Console.WriteLine("3. Gerenciar Transportadoras");
-                    Console.WriteLine("4. Gerenciar Usuarios");
+                    Console.WriteLine("\n--- MENU ---");
+                    Console.WriteLine("1. Fazer Pedido");
+                    Console.WriteLine("2. Ver meus Pedidos");
                     Console.WriteLine("0. Sair");
                     Console.WriteLine("Opção: ");
                     string opcaoStr = Console.ReadLine();
@@ -35,21 +39,17 @@ namespace ProjetoSistemaLoja.Menus
                         case 0:
                             break;
                         case 1:
-                            new FornecedorMenu(Repositories.fornecedorRepository).ExibirMenu();
+                            new PedidoService(Repositories.pedidoRepository, Repositories.usuarioRepository, Repositories.produtoRepository, atual).FazerPedido();
                             break;
                         case 2:
-                            new ProdutoMenu(Repositories.produtoRepository, Repositories.fornecedorRepository).ExibirMenu();
+                            //new PedidosService
                             break;
-                        case 3:
-                            new TransportadoraMenu(Repositories.transportadoraRepository).ExibirMenu();
-                            break;
-                        case 4:
                         default:
                             Console.WriteLine("Informe uma opção válida!");
                             break;
                     }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     Console.WriteLine($"Erro: {ex.Message}");
                 }
@@ -58,4 +58,3 @@ namespace ProjetoSistemaLoja.Menus
         }
     }
 }
-

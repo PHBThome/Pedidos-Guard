@@ -1,6 +1,5 @@
 using System.Xml;
 using ProjetoSistemaLoja.Controllers;
-using ProjetoSistemaLoja.Data;
 using ProjetoSistemaLoja.Models;
 using ProjetoSistemaLoja.Repositories.Interfaces;
 
@@ -37,6 +36,9 @@ namespace Projeto_Sistema_Loja.controllers
                     }
                 }
 
+                Console.WriteLine("Descrição: ");
+                string descricao = Console.ReadLine();
+
                 Console.Write("Valor: ");
                 double valor = double.Parse(Console.ReadLine());
 
@@ -60,7 +62,7 @@ namespace Projeto_Sistema_Loja.controllers
 
                 int id = produtos.Count + 1;
 
-                Produto novoProduto = new Produto(id, nome, valor, quantidade, idFornecedor);
+                Produto novoProduto = new Produto(id, nome, descricao, valor, quantidade, idFornecedor);
 
                 Repository.Save(novoProduto);
 
@@ -148,6 +150,13 @@ namespace Projeto_Sistema_Loja.controllers
                             nomeValido = true;
                         }
                     }
+                }
+
+                Console.WriteLine("Deseja alterar a descrição? (s/n)");
+                if(Console.ReadLine().ToLower() == "s")
+                {
+                    Console.WriteLine("Nova descrição: ");
+                    string descricao = Console.ReadLine();
                 }
 
                 Console.WriteLine("Deseja editar o valor? (s/n)");

@@ -6,5 +6,5 @@ namespace ProjetoSistemaLoja.Repositories.ArrayRepositories;
 
 public class TransportadoraRepositoryArray : RepositoryBaseArray<Transportadora>
 {
-    protected override string FilePath => "TransportadorasArray.json";
+    protected override string FilePath => "Transportadoras.json";
 }

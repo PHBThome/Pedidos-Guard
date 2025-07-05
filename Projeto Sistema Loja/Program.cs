@@ -1,5 +1,4 @@
 using ProjetoSistemaLoja.Menus;
-using ProjetoSistemaLoja.Data;
 
 namespace ProjetoSistemaLoja
 {
@@ -19,9 +18,9 @@ namespace ProjetoSistemaLoja
             Console.WriteLine("Bem vindo ao sistema de pedidos da loja!");
 
 
-            Seeds.Popular(lojaData);
+            //Seeds.Popular(lojaData);
 
-            new MenuPrincipal().Exibir();
+            new MenuPrincipal(repositorios).Exibir();
         }
     }
 }

@@ -8,9 +8,11 @@ namespace ProjetoSistemaLoja.Menus
 {
     public class RepositoriesData
     {
-        public IRepositoryBase<Produto> produtoRepository   { get; set; }
-        public IRepositoryBase<Fornecedor> fornecedorRepository  { get; set; }
+        public IRepositoryBase<Produto> produtoRepository { get; set; }
+        public IRepositoryBase<Fornecedor> fornecedorRepository { get; set; }
         public IRepositoryBase<Transportadora> transportadoraRepository { get; set; }
+        public IRepositoryBase<Usuario> usuarioRepository { get; set; }
+        public IRepositoryBase<Pedido> pedidoRepository { get; set; }
 
         public RepositoriesData(int isArray)
         {
@@ -19,12 +21,16 @@ namespace ProjetoSistemaLoja.Menus
                 produtoRepository = new ProdutoRepositoryArray();
                 fornecedorRepository = new FornecedorRepositoryArray();
                 transportadoraRepository = new TransportadoraRepositoryArray();
+                usuarioRepository = new UsuarioRepositoryArray();
+                pedidoRepository = new PedidoRepositoryArray();
             }
             else
             {
                 produtoRepository = new ProdutoRepositoryList();
                 fornecedorRepository = new FornecedorRepositoryList();
                 transportadoraRepository = new TransportadoraRepositoryList();
+                usuarioRepository = new UsuarioRepositoryList();
+                pedidoRepository = new PedidoRepositoryList(); 
             }
         }
     }

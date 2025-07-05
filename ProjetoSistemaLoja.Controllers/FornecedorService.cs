@@ -1,11 +1,10 @@
 using ProjetoSistemaLoja.Menus;
 using ProjetoSistemaLoja.Models;
-using ProjetoSistemaLoja.Data;
 using ProjetoSistemaLoja.Repositories.Interfaces;
 
 namespace ProjetoSistemaLoja.Controllers
 {
-    public   class FornecedorService
+    public class FornecedorService
     {
         private IRepositoryBase<Fornecedor> Repository { get; set; }
 
