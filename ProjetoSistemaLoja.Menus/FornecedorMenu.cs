@@ -1,6 +1,5 @@
 using ProjetoSistemaLoja.Controllers;
 using ProjetoSistemaLoja.Models;
-using ProjetoSistemaLoja.Data;
 using System.Linq.Expressions;
 using ProjetoSistemaLoja.Repositories.Interfaces;
 using Projeto_Sistema_Loja.controllers;

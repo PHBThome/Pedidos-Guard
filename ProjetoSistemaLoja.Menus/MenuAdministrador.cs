@@ -1,5 +1,4 @@
 using ProjetoSistemaLoja;
-using ProjetoSistemaLoja.Data;
 
 namespace ProjetoSistemaLoja.Menus
 {

@@ -9,7 +9,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ProjetoSistemaLoja.Controllers\ProjetoSistemaLoja.Controllers.csproj" />
-    <ProjectReference Include="..\ProjetoSistemaLoja.Data\ProjetoSistemaLoja.Data.csproj" />
     <ProjectReference Include="..\ProjetoSistemaLoja.Models\ProjetoSistemaLoja.Models.csproj" />
   </ItemGroup>
 
