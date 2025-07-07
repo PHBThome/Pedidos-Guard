@@ -1,4 +1,3 @@
-using ProjetoSistemaLoja.Controllers;
 using ProjetoSistemaLoja.Models;
 using ProjetoSistemaLoja.Repositories.Interfaces;
 

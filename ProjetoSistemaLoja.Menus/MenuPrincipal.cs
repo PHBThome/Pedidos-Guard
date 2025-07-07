@@ -1,5 +1,3 @@
-using ProjetoSistemaLoja;
-using ProjetoSistemaLoja.Controllers;
 using ProjetoSistemaLoja.Models;
 
 namespace ProjetoSistemaLoja.Menus

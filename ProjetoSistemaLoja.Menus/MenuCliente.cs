@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ProjetoSistemaLoja.Repositories.Interfaces;
-using ProjetoSistemaLoja.Models;
+﻿using ProjetoSistemaLoja.Models;
 using ProjetoSistemaLoja.Controllers;
 
 namespace ProjetoSistemaLoja.Menus

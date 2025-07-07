@@ -1,7 +1,5 @@
-using ProjetoSistemaLoja.Controllers;
 using ProjetoSistemaLoja.Models;
 using Projeto_Sistema_Loja.controllers;
-using System.Text.Json;
 using ProjetoSistemaLoja.Repositories.Interfaces;
 
 

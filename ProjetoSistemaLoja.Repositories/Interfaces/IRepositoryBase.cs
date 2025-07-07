@@ -1,5 +1,3 @@
-using System;
-
 namespace ProjetoSistemaLoja.Repositories.Interfaces;
 
 public interface IRepositoryBase<TipoGenerico> where TipoGenerico : class 

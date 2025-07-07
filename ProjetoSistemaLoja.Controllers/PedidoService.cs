@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-using ProjetoSistemaLoja.Models;
-using ProjetoSistemaLoja.Repositories.Framework;
+﻿using ProjetoSistemaLoja.Models;
 using ProjetoSistemaLoja.Repositories.Interfaces;
 
 namespace ProjetoSistemaLoja.Controllers

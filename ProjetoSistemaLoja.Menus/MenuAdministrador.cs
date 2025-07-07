@@ -1,5 +1,3 @@
-using ProjetoSistemaLoja;
-
 namespace ProjetoSistemaLoja.Menus
 {
     internal class MenuAdministrador

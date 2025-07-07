@@ -1,4 +1,3 @@
-using System;
 using ProjetoSistemaLoja.Repositories.Framework;
 using ProjetoSistemaLoja.Models;
 

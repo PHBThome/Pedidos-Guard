@@ -1,5 +1,4 @@
-﻿using System;
-using ProjetoSistemaLoja.Models;
+﻿using ProjetoSistemaLoja.Models;
 using ProjetoSistemaLoja.Repositories.Framework;
 
 namespace ProjetoSistemaLoja.Repositories.ListRepositories

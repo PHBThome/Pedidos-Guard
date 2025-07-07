@@ -1,6 +1,4 @@
-using System;
 using System.Text.Json;
-using System.Text.Json.Nodes;
 using ProjetoSistemaLoja.Repositories.Interfaces;
 
 namespace ProjetoSistemaLoja.Repositories.Framework;

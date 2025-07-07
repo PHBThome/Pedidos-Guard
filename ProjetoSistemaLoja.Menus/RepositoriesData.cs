@@ -1,7 +1,6 @@
 using ProjetoSistemaLoja.Models;
 using ProjetoSistemaLoja.Repositories.ArrayRepositories;
 using ProjetoSistemaLoja.Repositories.ListRepositories;
-using ProjetoSistemaLoja.Repositories.Framework;
 using ProjetoSistemaLoja.Repositories.Interfaces;
 
 namespace ProjetoSistemaLoja.Menus

@@ -1,5 +1,3 @@
-using ProjetoSistemaLoja.Models;
-
 namespace ProjetoSistemaLoja
 {
     internal static class Seeds
