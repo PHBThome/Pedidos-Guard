@@ -29,7 +29,7 @@ namespace ProjetoSistemaLoja.Menus
                     Console.Write("Op��o: ");
                     string opcaoStr = Console.ReadLine();
                     if (!int.TryParse(opcaoStr, out opcao))
-                        throw new Exception("Informe uma op��o valida!");
+                        throw new Exception("Informe uma opção valida!");
 
                     switch (opcao)
                     {
@@ -48,7 +48,7 @@ namespace ProjetoSistemaLoja.Menus
                             EditarTransportadora();
                             break;
                         default:
-                            Console.WriteLine("Informe uma op��o v�lida!");
+                            Console.WriteLine("Informe uma opção válida!");
                             break;
                     }
                 }
@@ -74,9 +74,9 @@ namespace ProjetoSistemaLoja.Menus
                 Console.WriteLine("2. Consulta geral");
                 string opcaoStr = Console.ReadLine();
                 if (!int.TryParse(opcaoStr, out int opcao))
-                    throw new Exception("Informe uma op��o v�lida");
+                    throw new Exception("Informe uma opção válida");
                 if (opcao <= 0 && opcao >= 3)
-                    throw new Exception("Informe uma op��o v�lida!");
+                    throw new Exception("Informe uma opção válida!");
 
                 if (opcao == 1)
                 {

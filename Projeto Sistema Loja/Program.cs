@@ -17,9 +17,6 @@ namespace ProjetoSistemaLoja
             
             Console.WriteLine("Bem vindo ao sistema de pedidos da loja!");
 
-
-            //Seeds.Popular(lojaData);
-
             new MenuPrincipal(repositorios).Exibir();
         }
     }

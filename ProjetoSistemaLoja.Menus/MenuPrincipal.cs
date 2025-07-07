@@ -27,29 +27,38 @@ namespace ProjetoSistemaLoja.Menus
                 else
                     opcaoValido = true;
             }
-
-            switch (opcao)
+            try
             {
-                case 1:
-                    atual = new LoginMenu(Repositories.usuarioRepository).Logar();
-                    break;
-                case 2:
-                    new LoginMenu(Repositories.usuarioRepository).Registrar();
-                    atual = new LoginMenu(Repositories.usuarioRepository).Logar();
-                    break;
-                case 0:
-                    return;
-                default:
-                    Console.WriteLine("Opcão inválida!");
-                    return;
+                bool isAdmin = false;
+                switch (opcao)
+                {
+                    case 1:
+                        (atual, isAdmin) = new LoginMenu(Repositories.usuarioRepository).Logar();
+                        break;
+                    case 2:
+                        new LoginMenu(Repositories.usuarioRepository).Registrar();
+                        (atual, isAdmin) = new LoginMenu(Repositories.usuarioRepository).Logar();
+                        break;
+                    case 0:
+                        return;
+                    default:
+                        Console.WriteLine("Opcão inválida!");
+                        return;
+
+                }
+
+                if (isAdmin)
+                    new MenuAdministrador(Repositories).ExibirMenuAdministrador();
+                else
+                    new MenuCliente(Repositories).ExibirMenuCliente(atual);
+                Console.ReadKey();
 
             }
-
-            if (atual.User == "admin" && atual.Password == "1234")
-                new MenuAdministrador(Repositories).ExibirMenuAdministrador();
-            else
-                new MenuCliente(Repositories).ExibirMenuCliente(atual);
-                Console.ReadKey();
+            catch (Exception ex)
+            {
+                Console.WriteLine("Erro: " + ex.Message);
+                Exibir();
+            }
         }
         
     }

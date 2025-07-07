@@ -45,8 +45,10 @@ namespace ProjetoSistemaLoja.Menus
             {
                 Console.Write("Estado (apenas sigla): ");
                 estado = Console.ReadLine();
-                if(!siglasEstados.Contains(estado.ToUpper()))
+                if (!siglasEstados.Contains(estado.ToUpper()))
                     Console.WriteLine("Informe um estado válido");
+                else
+                    estadoValido = true;
             }
 
             bool cepValido = false;
@@ -55,8 +57,10 @@ namespace ProjetoSistemaLoja.Menus
             {
                 Console.Write("CEP: ");
                 cep = Console.ReadLine();
-                if(cep.Length != 8)
+                if (cep.Length != 8)
                     Console.WriteLine("Informe um cep válido");
+                else
+                    cepValido = true;
             }
 
             return new Endereco(rua, numero, complemento, bairro, cidade, estado, cep);

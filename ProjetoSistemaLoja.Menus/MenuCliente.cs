@@ -33,7 +33,7 @@ namespace ProjetoSistemaLoja.Menus
                         case 0:
                             break;
                         case 1:
-                            new PedidoService(Repositories.pedidoRepository, Repositories.usuarioRepository, Repositories.produtoRepository, atual).FazerPedido();
+                            new PedidoService(Repositories.pedidoRepository, Repositories.produtoRepository, atual).FazerPedido();
                             break;
                         case 2:
                             //new PedidosService

@@ -6,14 +6,12 @@ namespace ProjetoSistemaLoja.Controllers
     public class PedidoService
     {
         private IRepositoryBase<Pedido> Repository;
-        private IRepositoryBase<Usuario> usuarioRepository;
         private IRepositoryBase<Produto> produtoRepository;
         private Usuario Atual;
 
-        public PedidoService(IRepositoryBase<Pedido> repository, IRepositoryBase<Usuario> UsuarioRepository, IRepositoryBase<Produto> ProdutoRepository, Usuario atual)
+        public PedidoService(IRepositoryBase<Pedido> repository, IRepositoryBase<Produto> ProdutoRepository, Usuario atual)
         {
             Repository = repository;
-            usuarioRepository = UsuarioRepository;
             produtoRepository = ProdutoRepository;
             Atual = atual;
         }
@@ -25,8 +23,8 @@ namespace ProjetoSistemaLoja.Controllers
             while (!finalizar)
             {
                 Console.WriteLine("Deseja:\n" +
-                    "1. Adicionar algum produto ao carrinho\n " +
-                    "2. Remover algum produto do carrinho" +
+                    "1. Adicionar algum produto ao carrinho\n" +
+                    "2. Remover algum produto do carrinho\n" +
                     "3. Finalizar pedido\n" +
                     "0. Sair");
 
@@ -64,7 +62,7 @@ namespace ProjetoSistemaLoja.Controllers
         public void AdicionarAoCarrinho(IList<Produto> resultados, Pedido novoPedido)
         {
             Console.WriteLine("1. Adicionar algum produto ao carrinho\n" +
-                "2. Voltar");
+                              "2. Voltar");
             string opcaoStr = Console.ReadLine();
             int opcao = 0;
             while (!int.TryParse(opcaoStr, out opcao))
@@ -184,12 +182,12 @@ namespace ProjetoSistemaLoja.Controllers
             Console.WriteLine("Produto: ");
             string produto = Console.ReadLine().ToLower();
             IList<Produto> produtos = produtoRepository.GetAll<Produto>();
-            IList<Produto> resultados = (from p in produtos
-                                         where p != null &&
-                                         (p.Nome.ToLower().Contains(produto) ||
-                                         p.Descricao.ToLower().Contains(produto))
-                                         select p).ToList();
-            if(resultados == null || resultados.Count == 0)
+            IList<Produto> resultados = produtos
+                .Where(p => p != null &&
+                            (p.Nome.ToLower().Contains(produto) ||
+                            p.Descricao.ToLower().Contains(produto)))
+                .ToList();
+            if (resultados == null || resultados.Count == 0)
             {
                 Console.WriteLine("Nenhum produto encontrado!");
                 return null;

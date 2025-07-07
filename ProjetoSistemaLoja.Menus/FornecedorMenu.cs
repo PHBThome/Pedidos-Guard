@@ -97,6 +97,7 @@ namespace ProjetoSistemaLoja.Menus
             catch (Exception ex)
             {
                 Console.WriteLine($"Erro: {ex.Message}");
+                ConsultarFornecedor();
             }
         }
 

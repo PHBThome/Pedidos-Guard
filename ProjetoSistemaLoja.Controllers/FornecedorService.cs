@@ -1,4 +1,4 @@
-using ProjetoSistemaLoja.Menus;
+Ôªøusing ProjetoSistemaLoja.Menus;
 using ProjetoSistemaLoja.Models;
 using ProjetoSistemaLoja.Repositories.Interfaces;
 
@@ -21,26 +21,49 @@ namespace ProjetoSistemaLoja.Controllers
                 string nome = Console.ReadLine();
 
                 if (string.IsNullOrWhiteSpace(nome))
-                    throw new Exception("Informe um nome v·lido!");
+                    throw new Exception("Informe um nome v√°lido!");
 
                 IList<Fornecedor> fornecedores = Repository.GetAll<Fornecedor>();
 
                 foreach (var f in fornecedores)
                 {
                     if (f != null && f.Nome == nome)
-                        throw new Exception("Nome j· existente!");
+                        throw new Exception("Nome j√° existente!");
                 }
 
-                Console.WriteLine("Email: ");
-                string email = Console.ReadLine();
-                if (!email.Contains('@') || string.IsNullOrWhiteSpace(email))
-                    throw new Exception("Informe um email v·lido!");
+                string email = "";
+                bool emailValido = false;
+                while (!emailValido)
+                {
+                    Console.WriteLine("Email: ");
+                    email = Console.ReadLine();
 
-                Console.WriteLine("Telefone: ");
-                string telefone = Console.ReadLine();
-                if(string.IsNullOrWhiteSpace(telefone) || telefone.Length != 10)
-                    throw new Exception("Informe um telefone v·lido!");
+                    if (string.IsNullOrWhiteSpace(email) || !email.Contains("@"))
+                    {
+                        Console.WriteLine("Informe um email v√°lido!");
+                    }
+                    else
+                    {
+                        emailValido = true;
+                    }
+                }
 
+                string telefone = "";
+                bool telefoneValido = false;
+                while (!telefoneValido)
+                {
+                    Console.WriteLine("Telefone (10 d√≠gitos): ");
+                    telefone = Console.ReadLine();
+
+                    if (string.IsNullOrWhiteSpace(telefone) || telefone.Length != 10 || !telefone.All(char.IsDigit))
+                    {
+                        Console.WriteLine("Informe um telefone vÔøΩlido!");
+                    }
+                    else
+                    {
+                        telefoneValido = true;
+                    }
+                }
 
                 Endereco endereco = new EnderecoService().CadastrarEndereco();
                 int id = fornecedores.Count + 1;
@@ -66,7 +89,7 @@ namespace ProjetoSistemaLoja.Controllers
                 string idStr = Console.ReadLine();
                 if (!int.TryParse(idStr, out int id))
                 {
-                    throw new Exception("Informe um id v·lido!");
+                    throw new Exception("Informe um id v√°lido!");
                 }
 
                 IList<Fornecedor> fornecedores = Repository.GetAll<Fornecedor>();
@@ -74,11 +97,11 @@ namespace ProjetoSistemaLoja.Controllers
 
                 if (fornecedor == null)
                 {
-                    throw new Exception("Transportadora n„o encontrada!");
+                    throw new Exception("Transportadora n√£o encontrada!");
                 }
 
                 Repository.Remove<Fornecedor>(id);
-                return "Transportadora removida com sucesso!";
+                return "Fornecedor removido com sucesso!";
             }
             catch (Exception ex)
             {
@@ -103,7 +126,7 @@ namespace ProjetoSistemaLoja.Controllers
                 Console.WriteLine("Id do fornecedor a editar: ");
                 string idStr = Console.ReadLine();
                 if (!int.TryParse(idStr, out int id))
-                    throw new Exception("Informe um id v·lido!");
+                    throw new Exception("Informe um id v√°lido!");
 
                 IList<Fornecedor> fornecedores = Repository.GetAll<Fornecedor>();
                 var fornecedorEditado = fornecedores.FirstOrDefault(f => f != null && f.Id == id);
@@ -123,7 +146,7 @@ namespace ProjetoSistemaLoja.Controllers
 
                         if (nomeExistente)
                         {
-                            Console.WriteLine("Nome j· existente! Tente novamente.");
+                            Console.WriteLine("Nome j√° existente! Tente novamente.");
                         }
                         else
                         {
@@ -142,7 +165,7 @@ namespace ProjetoSistemaLoja.Controllers
                         Console.WriteLine("Novo email: ");
                         string email = Console.ReadLine();
                         if (email.Contains('@') || string.IsNullOrWhiteSpace(email))
-                            Console.WriteLine("Informe um email v·lido!");
+                            Console.WriteLine("Informe um email v√°lido!");
                         else
                             fornecedorEditado.Email = email;
                             emailValido = true;
@@ -158,14 +181,14 @@ namespace ProjetoSistemaLoja.Controllers
                         Console.WriteLine("Novo telefone: ");
                         string telefone = Console.ReadLine();
                         if (telefone.Length != 10 || string.IsNullOrWhiteSpace(telefone))
-                            Console.WriteLine("Informe um telefone v·lido");
+                            Console.WriteLine("Informe um telefone v√°lido");
                         else
                             fornecedorEditado.Telefone = telefone;
                             telValido = true;
                     }
                 }
 
-                Console.WriteLine("Deseja editar o endereÁo? (s/n)");
+                Console.WriteLine("Deseja editar o endere√ßo? (s/n)");
                 if (Console.ReadLine().ToLower() == "s")
                 {
                     fornecedorEditado.Endereco = new EnderecoService().CadastrarEndereco();
@@ -181,8 +204,6 @@ namespace ProjetoSistemaLoja.Controllers
             {
                 return "Erro: " + ex.Message;
             }
-
-            return "Fornecedor n„o encontrado";
         }
     }
 }

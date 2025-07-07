@@ -10,7 +10,7 @@ namespace ProjetoSistemaLoja.Menus
         {
             Repository = repositorio;
         }
-        public Usuario Logar()
+        public (Usuario? usuario, bool isAdmin) Logar()
         {
             Console.WriteLine("Informe o usuario: ");
             string user = Console.ReadLine();
@@ -19,9 +19,19 @@ namespace ProjetoSistemaLoja.Menus
 
             IList<Usuario> usuarios = Repository.GetAll<Usuario>();
 
+            if (user == "admin" && password == "1234")
+            {
+                return (null, true);
+            }
+
             Usuario usuario = usuarios.Where(u => u.User == user && u.Password == password).FirstOrDefault();
 
-            return usuario;
+            if (usuario == null)
+            {
+                throw new Exception("Usuário ou senha iválidos");
+            }
+
+            return (usuario, false);
         }
 
         public void Registrar()
