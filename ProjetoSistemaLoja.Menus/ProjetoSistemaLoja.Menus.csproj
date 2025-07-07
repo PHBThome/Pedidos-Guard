@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ProjetoSistemaLoja.Controllers\ProjetoSistemaLoja.Controllers.csproj" />
+    <ProjectReference Include="..\ProjetoSistemaLoja.Controllers\ProjetoSistemaLoja.Services.csproj" />
     <ProjectReference Include="..\ProjetoSistemaLoja.Models\ProjetoSistemaLoja.Models.csproj" />
   </ItemGroup>
 
