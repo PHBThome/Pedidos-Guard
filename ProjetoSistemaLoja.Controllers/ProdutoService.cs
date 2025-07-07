@@ -224,7 +224,7 @@ namespace Projeto_Sistema_Loja.controllers
                         }
                     }
                 }
-
+                Repository.Update<Produto>(produtoEditado);
                 return "Produto editado com sucesso";
             }
             catch (Exception ex)

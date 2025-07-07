@@ -1,4 +1,5 @@
-﻿using ProjetoSistemaLoja.Menus;
+﻿using System.Globalization;
+using ProjetoSistemaLoja.Menus;
 using ProjetoSistemaLoja.Models;
 using ProjetoSistemaLoja.Repositories.Interfaces;
 
@@ -65,10 +66,13 @@ namespace ProjetoSistemaLoja.Controllers
                     }
                 }
 
+                Console.WriteLine("Descrição: ");
+                string descricao = Console.ReadLine();
+
                 Endereco endereco = new EnderecoService().CadastrarEndereco();
                 int id = fornecedores.Count + 1;
 
-                Fornecedor novoFornecedor = new(id, nome, email, telefone, endereco);
+                Fornecedor novoFornecedor = new(id, nome, email, telefone, descricao, endereco);
 
                 Repository.Save(novoFornecedor);
 
@@ -186,6 +190,13 @@ namespace ProjetoSistemaLoja.Controllers
                             fornecedorEditado.Telefone = telefone;
                             telValido = true;
                     }
+                }
+
+                Console.WriteLine("Deseja editar a descrição? (s/n)");
+                if (Console.ReadLine().ToLower() == "s")
+                {
+                    Console.WriteLine("Nova descrição: ");
+                    fornecedorEditado.Descricao = Console.ReadLine();
                 }
 
                 Console.WriteLine("Deseja editar o endereço? (s/n)");

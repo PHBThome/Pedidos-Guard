@@ -31,12 +31,14 @@ namespace ProjetoSistemaLoja.Menus
                     switch (opcao)
                     {
                         case 0:
-                            break;
+                            return;
                         case 1:
-                            new PedidoService(Repositories.pedidoRepository, Repositories.produtoRepository, atual).FazerPedido();
+                            new PedidoService(Repositories.pedidoRepository, Repositories.produtoRepository, 
+                                Repositories.transportadoraRepository,atual).FazerPedido();
                             break;
                         case 2:
-                            //new PedidosService
+                            new PedidoService(Repositories.pedidoRepository, Repositories.produtoRepository, 
+                                Repositories.transportadoraRepository, atual).MeusPedidos();
                             break;
                         default:
                             Console.WriteLine("Informe uma opção válida!");
