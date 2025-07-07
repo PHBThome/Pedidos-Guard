@@ -2,8 +2,9 @@ namespace ProjetoSistemaLoja.Models
 {
     public class Produto
     {
-        public Produto(int id, string nome, double valor, int quantidade, int idFornecedor)
+        public Produto(int id, string nome, string descricao, double valor, int quantidade, int idFornecedor)
         {
+            Descricao = descricao;
             Id = id;
             Valor = valor;
             Quantidade = quantidade;
@@ -12,6 +13,7 @@ namespace ProjetoSistemaLoja.Models
         }
         public int Id { get; set; }
         public string Nome { get; set; }
+        public string Descricao { get; set; }
         public double Valor { get; set; }
         public int Quantidade { get; set; }
         public int IdFornecedor { get; set; }
@@ -20,6 +22,7 @@ namespace ProjetoSistemaLoja.Models
         {
             return $"\nID: {Id}\n" +
                 $"Nome: {Nome}\n" +
+                $"Descrição: {Descricao}" +
                 $"Valor: {Valor}\n" +
                 $"Quantidade: {Quantidade}\n" +
                 $"ID Fornecedor: {IdFornecedor}";

@@ -1,33 +1,57 @@
 using ProjetoSistemaLoja;
 using ProjetoSistemaLoja.Controllers;
-using ProjetoSistemaLoja.Data;
 using ProjetoSistemaLoja.Models;
 
 namespace ProjetoSistemaLoja.Menus
 {
     public class MenuPrincipal
     {
-        private readonly LojaData LojaData;
+        private RepositoriesData Repositories { get; set; }
 
-        public MenuPrincipal(LojaData lojaData)
+        public MenuPrincipal(RepositoriesData repositorios)
         {
-            LojaData = lojaData;
-
+            Repositories = repositorios;
         }
 
         public void Exibir()
         {
-            Usuario atual = new LoginMenu(LojaData).Logar();
-            bool estaLogado = new UsuarioService(LojaData).LoginEfetuado(atual);
-
-            if(estaLogado)
+            Usuario atual = null;
+            Console.WriteLine("1. Login");
+            Console.WriteLine("2. Registrar");
+            Console.WriteLine("0. Sair");
+            bool opcaoValido = false;
+            int opcao = 1;
+            while (!opcaoValido)
             {
-                if (new UsuarioService(LojaData).IsAdmin(atual))
-                    new MenuAdministrador(LojaData).ExibirMenuAdministrador();
-                Console.WriteLine("Aqui sera a implementação do menu usuario");
-                Console.ReadKey();
+                string opcaoStr = Console.ReadLine();
+                if(!int.TryParse(opcaoStr, out opcao))
+                    Console.WriteLine("Informe uma opção válida!");
+                else
+                    opcaoValido = true;
             }
-           
+
+            switch (opcao)
+            {
+                case 1:
+                    atual = new LoginMenu(Repositories.usuarioRepository).Logar();
+                    break;
+                case 2:
+                    new LoginMenu(Repositories.usuarioRepository).Registrar();
+                    atual = new LoginMenu(Repositories.usuarioRepository).Logar();
+                    break;
+                case 0:
+                    return;
+                default:
+                    Console.WriteLine("Opcão inválida!");
+                    return;
+
+            }
+
+            if (atual.User == "admin" && atual.Password == "1234")
+                new MenuAdministrador(Repositories).ExibirMenuAdministrador();
+            else
+                new MenuCliente(Repositories).ExibirMenuCliente(atual);
+                Console.ReadKey();
         }
         
     }

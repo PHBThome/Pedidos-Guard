@@ -1,11 +1,10 @@
 using ProjetoSistemaLoja.Models;
-using ProjetoSistemaLoja.Data;
 
 namespace ProjetoSistemaLoja
 {
     internal static class Seeds
     {
-        public static void Popular(LojaData lojaData)
+        /*public static void Popular(LojaData lojaData)
         {
             PopularFornecedores(lojaData);
             PopularTransportadoras(lojaData);
@@ -70,16 +69,21 @@ namespace ProjetoSistemaLoja
 
         private static void PopularUsuarios(LojaData lojaData)
         {
-            lojaData.Usuarios[0] = new Usuario(
+            Usuario usuario1 = new Usuario(
+                1,
                 "pedro",
-                "Soeuseiasenha"
+                "Soeuseiasenha",
+                "981089042",
+                "phbthome@ucs.br"
+ 
             );
 
             lojaData.Usuarios[1] = new Usuario(
                 "igor",
                 "Soelesabasenha"
             );
-        }
+        }*/
+
     }
 }
 

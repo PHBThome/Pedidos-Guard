@@ -1,16 +1,16 @@
 using ProjetoSistemaLoja.Controllers;
 using ProjetoSistemaLoja.Models;
-using ProjetoSistemaLoja.Data;
+using ProjetoSistemaLoja.Repositories.Interfaces;
 
 namespace ProjetoSistemaLoja.Menus
 {
     internal class TransportadoraMenu
     {
-        private readonly LojaData LojaData;
-
-        public TransportadoraMenu(LojaData lojaData)
+        private IRepositoryBase<Transportadora> Repository;
+        
+        public TransportadoraMenu( IRepositoryBase<Transportadora> repositorio)
         {
-            LojaData = lojaData;
+            Repository = repositorio;
         }
 
         public void ExibirMenu()
@@ -26,10 +26,10 @@ namespace ProjetoSistemaLoja.Menus
                     Console.WriteLine("3. Consultar Transportadora");
                     Console.WriteLine("4. Editar Transportadora");
                     Console.WriteLine("0. Voltar");
-                    Console.Write("Opção: ");
+                    Console.Write("Opï¿½ï¿½o: ");
                     string opcaoStr = Console.ReadLine();
                     if (!int.TryParse(opcaoStr, out opcao))
-                        throw new Exception("Informe uma opção valida!");
+                        throw new Exception("Informe uma opï¿½ï¿½o valida!");
 
                     switch (opcao)
                     {
@@ -48,7 +48,7 @@ namespace ProjetoSistemaLoja.Menus
                             EditarTransportadora();
                             break;
                         default:
-                            Console.WriteLine("Informe uma opção válida!");
+                            Console.WriteLine("Informe uma opï¿½ï¿½o vï¿½lida!");
                             break;
                     }
                 }
@@ -61,7 +61,7 @@ namespace ProjetoSistemaLoja.Menus
 
         private void CadastrarTransportadora()
         {
-            string resultado = new TransportadoraService(LojaData).AdicionarTransportadora();
+            string resultado = new TransportadoraService(Repository).AdicionarTransportadora();
             Console.WriteLine(resultado);
         }
 
@@ -74,21 +74,21 @@ namespace ProjetoSistemaLoja.Menus
                 Console.WriteLine("2. Consulta geral");
                 string opcaoStr = Console.ReadLine();
                 if (!int.TryParse(opcaoStr, out int opcao))
-                    throw new Exception("Informe uma opção válida");
+                    throw new Exception("Informe uma opï¿½ï¿½o vï¿½lida");
                 if (opcao <= 0 && opcao >= 3)
-                    throw new Exception("Informe uma opção válida!");
+                    throw new Exception("Informe uma opï¿½ï¿½o vï¿½lida!");
 
                 if (opcao == 1)
                 {
                     Console.WriteLine("Informe o id: ");
                     int id = int.Parse(Console.ReadLine());
 
-                    var t = new TransportadoraService(LojaData).ObterTransportadoraPorId(id);
+                    var t = new TransportadoraService(Repository).ObterTransportadoraPorId(id);
                     Console.WriteLine(t);
                 }
                 else
                 {
-                    var lista = new TransportadoraService(LojaData).ObterTodasTransportadoras();
+                    var lista = new TransportadoraService(Repository).ObterTodasTransportadoras();
                     foreach (var t in lista)
                     {
                         Console.WriteLine(t);
@@ -103,13 +103,13 @@ namespace ProjetoSistemaLoja.Menus
 
         private void RemoverTransportadora()
         {
-            string resultado = new TransportadoraService(LojaData).RemoverTransportadora();
+            string resultado = new TransportadoraService(Repository).RemoverTransportadora();
             Console.WriteLine(resultado);
         }
 
         private void EditarTransportadora()
         {
-            string resultado = new TransportadoraService(LojaData).EditarTransportadora();
+            string resultado = new TransportadoraService(Repository).EditarTransportadora();
             Console.WriteLine(resultado);
         }
     }

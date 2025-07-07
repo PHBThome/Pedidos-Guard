@@ -9,9 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ProjetoSistemaLoja.Data\ProjetoSistemaLoja.Data.csproj" />
     <ProjectReference Include="..\ProjetoSistemaLoja.Menus\ProjetoSistemaLoja.Menus.csproj" />
-    <ProjectReference Include="..\ProjetoSistemaLoja.Models\ProjetoSistemaLoja.Models.csproj" />
   </ItemGroup>
 
 </Project>

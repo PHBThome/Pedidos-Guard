@@ -1,22 +1,21 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using ProjetoSistemaLoja.Controllers;
 using ProjetoSistemaLoja.Models;
-using Projeto_Sistema_Loja.controllers;
-using System.Text.Json;
 using ProjetoSistemaLoja.Repositories.Interfaces;
-
 
 namespace ProjetoSistemaLoja.Menus
 {
-    internal class ProdutoMenu
+    internal class UsuarioMenu
     {
+        private IRepositoryBase<Usuario> Repository;
 
-        private IRepositoryBase<Produto> Repository;
-        private IRepositoryBase<Fornecedor> fornecedorRepository;
-
-        public ProdutoMenu(IRepositoryBase<Produto> repositorio, IRepositoryBase<Fornecedor> fRepositorio)
+        public UsuarioMenu(IRepositoryBase<Usuario> repositorio)
         {
             Repository = repositorio;
-            fornecedorRepository = fRepositorio;
         }
 
         public void ExibirMenu()
@@ -26,35 +25,35 @@ namespace ProjetoSistemaLoja.Menus
             {
                 try
                 {
-                    Console.WriteLine("\n--- MENU PRODUTO ---");
-                    Console.WriteLine("1. Cadastrar Produto");
-                    Console.WriteLine("2. Remover Produto");
-                    Console.WriteLine("3. Consultar Produto");
-                    Console.WriteLine("4. Editar Produto");
+                    Console.WriteLine("\n--- MENU Usuario ---");
+                    Console.WriteLine("1. Cadastrar Usuario");
+                    Console.WriteLine("2. Remover Usuario");
+                    Console.WriteLine("3. Consultar Usuario");
+                    Console.WriteLine("4. Editar Usuario");
                     Console.WriteLine("0. Voltar");
-                    Console.Write("Opção: ");
+                    Console.Write("Op��o: ");
                     string opcaoStr = Console.ReadLine();
                     if (!int.TryParse(opcaoStr, out opcao))
-                        throw new Exception("Informe uma op��o v�lida!");
+                        throw new Exception("Informe uma opção valida!");
 
                     switch (opcao)
                     {
                         case 0:
                             break;
                         case 1:
-                            CadastrarProduto();
+                            CadastrarUsuario();
                             break;
                         case 2:
-                            RemoverProduto();
+                            RemoverUsuario();
                             break;
                         case 3:
-                            ConsultarProduto();
+                            ConsultarUsuario();
                             break;
                         case 4:
-                            EditarProduto();
+                            EditarTransportadora();
                             break;
                         default:
-                            Console.WriteLine("Informe uma opção válida!");
+                            Console.WriteLine("Informe uma opção v�lida!");
                             break;
                     }
                 }
@@ -65,39 +64,39 @@ namespace ProjetoSistemaLoja.Menus
             } while (opcao != 0);
         }
 
-        private void CadastrarProduto()
+        private void CadastrarUsuario()
         {
-            string resultado = new ProdutoService(Repository, fornecedorRepository).AdicionarProduto();
+            string resultado = new UsuarioService(Repository).AdicionarUsuario();
             Console.WriteLine(resultado);
         }
 
-        private void ConsultarProduto()
+        private void ConsultarUsuario()
         {
             try
             {
-                Console.WriteLine("Consultar por:");
+                Console.WriteLine("Consultar por: ");
                 Console.WriteLine("1. Id");
                 Console.WriteLine("2. Consulta geral");
-                Console.Write("Opção: ");
                 string opcaoStr = Console.ReadLine();
                 if (!int.TryParse(opcaoStr, out int opcao))
                     throw new Exception("Informe uma opção válida");
-                if (opcao >= 3 || opcao <= 0)
+                if (opcao <= 0 && opcao >= 3)
                     throw new Exception("Informe uma opção válida!");
 
                 if (opcao == 1)
                 {
-                    Console.Write("Informe o id: ");
+                    Console.WriteLine("Informe o id: ");
                     int id = int.Parse(Console.ReadLine());
-                    var p = new ProdutoService(Repository, fornecedorRepository).ObterProdutoPorId(id);
-                    Console.WriteLine(p);
+
+                    var u = new UsuarioService(Repository).ObterUsuarioPorId(id);
+                    Console.WriteLine(u);
                 }
                 else
                 {
-                    var produtos = new ProdutoService(Repository, fornecedorRepository).ObterTodosProdutos();
-                    foreach (var p in produtos)
+                    var lista = new UsuarioService(Repository).ObterTodosUsuarios();
+                    foreach (var u in lista)
                     {
-                        Console.WriteLine(p);
+                        Console.WriteLine(u);
                     }
                 }
             }
@@ -107,17 +106,16 @@ namespace ProjetoSistemaLoja.Menus
             }
         }
 
-        private void RemoverProduto()
+        private void RemoverUsuario()
         {
-            string resultado = new ProdutoService(Repository, fornecedorRepository).RemoverProduto();
+            string resultado = new UsuarioService(Repository).RemoverUsuario();
             Console.WriteLine(resultado);
         }
 
-        private void EditarProduto()
+        private void EditarTransportadora()
         {
-            string resultado = new ProdutoService(Repository, fornecedorRepository).EditarProduto();
+            string resultado = new UsuarioService(Repository).EditarUsuario();
             Console.WriteLine(resultado);
         }
     }
 }
-
