@@ -5,8 +5,12 @@ namespace ProjetoSistemaLoja.Repositories.Framework
 {
     public class RepositoryBaseArray<TipoGenerico> : IRepositoryBase<TipoGenerico> where TipoGenerico : class
     {
-        protected virtual string FilePath { get; set; }
+        private readonly string FilePath;
 
+        public RepositoryBaseArray(string filePath)
+        {
+            FilePath = filePath;
+        }
         public void Save<T>(T entity)
         {
             T[] entities;

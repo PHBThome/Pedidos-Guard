@@ -6,7 +6,13 @@ namespace ProjetoSistemaLoja.Repositories.Framework;
 public class RepositoryBaseList<TipoGenerico> : IRepositoryBase<TipoGenerico> where TipoGenerico : class
 {
 
-    protected virtual string FilePath { get; set; }
+    private readonly string FilePath;
+
+    public RepositoryBaseList(string filePath)
+    {
+        FilePath = filePath;
+    }
+
     public void Save<T>(T entity)
     {
         List<T> entities;

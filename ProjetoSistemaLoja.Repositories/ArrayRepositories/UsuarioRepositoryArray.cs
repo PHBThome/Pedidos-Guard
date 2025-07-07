@@ -5,6 +5,6 @@ namespace ProjetoSistemaLoja.Repositories.ArrayRepositories
 {
     public class UsuarioRepositoryArray: RepositoryBaseArray<Usuario>
     {
-        protected override string FilePath => "Usuarios.json";
+        public UsuarioRepositoryArray() : base("Usuarios.json") { }
     }
 }

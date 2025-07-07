@@ -5,5 +5,5 @@ namespace ProjetoSistemaLoja.Repositories.ArrayRepositories;
 
 public class ProdutoRepositoryArray : RepositoryBaseArray<Produto>
 {
-    protected override string FilePath => "Produtos.json";
+    public ProdutoRepositoryArray() : base("Produtos.json") { }
 }

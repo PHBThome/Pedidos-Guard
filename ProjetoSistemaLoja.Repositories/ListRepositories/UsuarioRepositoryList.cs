@@ -5,6 +5,6 @@ namespace ProjetoSistemaLoja.Repositories.ListRepositories
 {
     public class UsuarioRepositoryList : RepositoryBaseList<Usuario>
     {
-        protected override string FilePath => "Usuarios.json";
+        public UsuarioRepositoryList() : base("Usuarios.json") { }
     }
 }
