@@ -21,11 +21,11 @@ namespace ProjetoSistemaLoja.Repositories.Framework
                 entities = Array.Empty<T>();
             }
 
-            var list = entities.ToList();
-            list.Add(entity);
-            var updatedArray = list.ToArray();
+            // Adicionar novo elemento ao array
+            Array.Resize(ref entities, entities.Length + 1);
+            entities[entities.Length - 1] = entity;
 
-            var json = JsonSerializer.Serialize(updatedArray, new JsonSerializerOptions { WriteIndented = true });
+            var json = JsonSerializer.Serialize(entities, new JsonSerializerOptions { WriteIndented = true });
             File.WriteAllText(FilePath, json);
         }
 
@@ -101,12 +101,12 @@ namespace ProjetoSistemaLoja.Repositories.Framework
         {
             if (!File.Exists(FilePath))
             {
-                return new List<T>();
+                return Array.Empty<T>();
             }
 
             var jsonString = File.ReadAllText(FilePath);
             var entities = JsonSerializer.Deserialize<T[]>(jsonString) ?? Array.Empty<T>();
-            return entities.ToList();
+            return entities;
         }
     }
 }

@@ -5,7 +5,7 @@ VisualStudioVersion = 17.13.35931.197
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjetoSistemaLoja", "Projeto Sistema Loja\ProjetoSistemaLoja.csproj", "{6D28FCA3-672C-43F0-A750-6A3BA0682F84}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjetoSistemaLoja.Controllers", "ProjetoSistemaLoja.Controllers\ProjetoSistemaLoja.Controllers.csproj", "{97A4C6A1-1C37-4491-9CD8-6C4191C9CF8C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjetoSistemaLoja.Services", "ProjetoSistemaLoja.Controllers\ProjetoSistemaLoja.Services.csproj", "{97A4C6A1-1C37-4491-9CD8-6C4191C9CF8C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjetoSistemaLoja.Models", "ProjetoSistemaLoja.Models\ProjetoSistemaLoja.Models.csproj", "{8E8B8815-ED8D-4AFE-A77B-58F9A08F1AD3}"
 EndProject
