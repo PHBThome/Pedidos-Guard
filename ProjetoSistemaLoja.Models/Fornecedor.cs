@@ -1,5 +1,3 @@
-using System.Globalization;
-
 namespace ProjetoSistemaLoja.Models
 {
     public class Fornecedor

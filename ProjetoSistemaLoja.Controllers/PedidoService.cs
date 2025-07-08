@@ -1,5 +1,4 @@
-﻿using System.Linq.Expressions;
-using ProjetoSistemaLoja.Models;
+﻿using ProjetoSistemaLoja.Models;
 using ProjetoSistemaLoja.Repositories.Interfaces;
 using ProjetoSistemaLoja.Services;
 

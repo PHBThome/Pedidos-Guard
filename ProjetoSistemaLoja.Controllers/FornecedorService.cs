@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using ProjetoSistemaLoja.Menus;
+﻿using ProjetoSistemaLoja.Menus;
 using ProjetoSistemaLoja.Models;
 using ProjetoSistemaLoja.Repositories.Interfaces;
 using ProjetoSistemaLoja.Services;

@@ -1,4 +1,3 @@
-using System.Runtime.InteropServices;
 using ProjetoSistemaLoja.Models;
 using ProjetoSistemaLoja.Repositories.Interfaces;
 using ProjetoSistemaLoja.Services;

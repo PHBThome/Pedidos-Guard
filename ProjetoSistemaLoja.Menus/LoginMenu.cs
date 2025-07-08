@@ -1,4 +1,3 @@
-using System.Collections.Specialized;
 using ProjetoSistemaLoja.Models;
 using ProjetoSistemaLoja.Repositories.Interfaces;
 using ProjetoSistemaLoja.Services;
