@@ -56,7 +56,8 @@ namespace ProjetoSistemaLoja.Controllers
                 List<int> ids = (from u in usuarios
                                  select u.Id).ToList();
 
-                int id = Util.NextId(ids);
+                int id = Util.NextId(ids);  
+        
 
                 Usuario novoUsuario = new(id, user, telefone, email, email, endereco);
 

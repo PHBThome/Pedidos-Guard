@@ -58,7 +58,7 @@ namespace ProjetoSistemaLoja.Controllers
 
                     if (string.IsNullOrWhiteSpace(telefone) || telefone.Length != 11 || !telefone.All(char.IsDigit))
                     {
-                        Console.WriteLine("Informe um telefone v�lido!");
+                        Console.WriteLine("Informe um telefone válido!");
                     }
                     else
                     {

@@ -24,6 +24,7 @@ namespace ProjetoSistemaLoja.Models
                 $"Nome: {Nome}\n" +
                 $"Email: {Email}\n" +
                 $"Telefone: {Telefone}\n" +
+                $"Descrição: {Descricao}" +
                 $"Endereço: {Endereco}";
         }
     }
