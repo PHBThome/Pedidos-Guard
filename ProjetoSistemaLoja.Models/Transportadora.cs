@@ -2,11 +2,11 @@ namespace ProjetoSistemaLoja.Models
 {
     public class Transportadora
     {
-        public Transportadora(int id, string nome, double valorkm, Endereco endereco)
+        public Transportadora(int id, string nome, double valormk, Endereco endereco)
         {
             Id = id;
             Nome = nome;
-            Valormk = valorkm;
+            Valormk = valormk;
             Endereco = endereco;
         }
         public int Id { get; set; }

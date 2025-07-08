@@ -57,8 +57,6 @@ namespace ProjetoSistemaLoja.Controllers
                         break;
                     case 4:
                         FinalizarPedido(novoPedido);
-                        AtualizarEstoque(novoPedido);
-                        Repository.Save(novoPedido);
                         return;
                     case 0:
                         return;
@@ -83,11 +81,11 @@ namespace ProjetoSistemaLoja.Controllers
             switch (opcao)
             {
                 case 1:
-                    Console.WriteLine("Informe o nome do produto para adicionar ao carrinho: ");
-                    string produto = Console.ReadLine().ToLower();
+                    Console.WriteLine("Informe o id do produto para adicionar ao carrinho: ");
+                    int id = int.Parse(Console.ReadLine());
                     foreach (var p in resultados)
                     {
-                        if (p.Nome.ToLower() == produto && p.Quantidade != 0)
+                        if (p.Id == id && p.Quantidade != 0)
                         {
 
                             PedidoItem novo = new PedidoItem();
@@ -137,9 +135,10 @@ namespace ProjetoSistemaLoja.Controllers
                             }
                             novo.ValorTotal = novo.Quantidade * p.Valor;
                             novoPedido.Itens.Add(novo);
+                            Console.WriteLine($"{novo.Nome} adicionado ao carrinho.");
                             return;
                         }
-                        else if (p.Nome.ToLower() == produto && p.Quantidade == 0)
+                        else if (p.Id == id && p.Quantidade == 0)
                         {
                             Console.WriteLine("Produto Indisponível");
                             return;
@@ -195,8 +194,8 @@ namespace ProjetoSistemaLoja.Controllers
             IList<Produto> produtos = produtoRepository.GetAll<Produto>();
             IList<Produto> resultados = produtos
                 .Where(p => p != null &&
-                            (p.Nome.ToLower().Contains(produto) ||
-                            p.Descricao.ToLower().Contains(produto)))
+                            ((p.Nome != null && p.Nome.ToLower().Contains(produto)) ||
+                             (p.Descricao != null && p.Descricao.ToLower().Contains(produto))))
                 .ToList();
             if (resultados == null || resultados.Count == 0)
             {
@@ -287,8 +286,18 @@ namespace ProjetoSistemaLoja.Controllers
                     }
                     novo.PrecoFrete = km * escolhida.Valormk;
                 }
+
+                IList<Pedido> pedidos = Repository.GetAll<Pedido>();
+
+                novo.Valor = novo.Itens.Sum(item => item.ValorTotal);
+                novo.Id = pedidos.Count + 1;
+
+                AtualizarEstoque(novo);
+
+                Repository.Save(novo);
+                Console.WriteLine("Pedido finalizado com sucesso!");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine($"Erro: {ex.Message}");
             }
@@ -350,7 +359,7 @@ namespace ProjetoSistemaLoja.Controllers
             }
         }
 
-        public void AtualizarEstoque(Pedido novo)
+        private void AtualizarEstoque(Pedido novo)
         {
             IList<Produto> produtos = produtoRepository.GetAll<Produto>();
             foreach(var pItem in novo.Itens)

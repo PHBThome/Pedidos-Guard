@@ -22,7 +22,7 @@ namespace ProjetoSistemaLoja.Models
         {
             return $"\nID: {Id}\n" +
                 $"Nome: {Nome}\n" +
-                $"Descrição: {Descricao}" +
+                $"Descrição: {Descricao}\n" +
                 $"Valor: {Valor}\n" +
                 $"Quantidade: {Quantidade}\n" +
                 $"ID Fornecedor: {IdFornecedor}";

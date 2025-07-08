@@ -9,7 +9,7 @@
 
         public override string ToString()
         {
-            return $"\nNome: {Nome}" +
+            return $"\nNome: {Nome}\n" +
                    $"ID: {IdProduto}\n" +
                    $"Quantidade: {Quantidade}\n" +
                    $"Valor Total: {ValorTotal}";
