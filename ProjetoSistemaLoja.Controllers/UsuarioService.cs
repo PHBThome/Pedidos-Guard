@@ -47,7 +47,7 @@ namespace ProjetoSistemaLoja.Controllers
 
                 Console.WriteLine("Telefone: ");
                 string telefone = Console.ReadLine();
-                if (string.IsNullOrWhiteSpace(telefone) || telefone.Length != 10)
+                if (string.IsNullOrWhiteSpace(telefone) || telefone.Length != 11)
                     throw new Exception("Informe um telefone válido!");
 
                 Endereco endereco = new EnderecoService().CadastrarEndereco();
@@ -157,9 +157,9 @@ namespace ProjetoSistemaLoja.Controllers
                         Console.WriteLine("Novo telefone (apenas números): ");
                         string telefone = Console.ReadLine();
 
-                        if (string.IsNullOrWhiteSpace(telefone) || telefone.Length != 10)
+                        if (string.IsNullOrWhiteSpace(telefone) || telefone.Length != 11)
                         {
-                            Console.WriteLine("Informe um telefone válido (10 dígitos)!");
+                            Console.WriteLine("Informe um telefone válido (11 dígitos)!");
                         }
                         else
                         {

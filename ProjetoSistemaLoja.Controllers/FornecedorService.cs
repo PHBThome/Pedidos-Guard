@@ -53,10 +53,10 @@ namespace ProjetoSistemaLoja.Controllers
                 bool telefoneValido = false;
                 while (!telefoneValido)
                 {
-                    Console.WriteLine("Telefone (10 dígitos): ");
+                    Console.WriteLine("Telefone (11 dígitos): ");
                     telefone = Console.ReadLine();
 
-                    if (string.IsNullOrWhiteSpace(telefone) || telefone.Length != 10 || !telefone.All(char.IsDigit))
+                    if (string.IsNullOrWhiteSpace(telefone) || telefone.Length != 11 || !telefone.All(char.IsDigit))
                     {
                         Console.WriteLine("Informe um telefone v�lido!");
                     }
@@ -184,7 +184,7 @@ namespace ProjetoSistemaLoja.Controllers
                     {
                         Console.WriteLine("Novo telefone: ");
                         string telefone = Console.ReadLine();
-                        if (telefone.Length != 10 || string.IsNullOrWhiteSpace(telefone))
+                        if (telefone.Length != 11 || string.IsNullOrWhiteSpace(telefone))
                             Console.WriteLine("Informe um telefone válido");
                         else
                             fornecedorEditado.Telefone = telefone;

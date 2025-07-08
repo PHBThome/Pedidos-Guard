@@ -21,7 +21,7 @@ namespace ProjetoSistemaLoja.Menus
                     Console.WriteLine("2. Gerenciar Produtos");
                     Console.WriteLine("3. Gerenciar Transportadoras");
                     Console.WriteLine("4. Gerenciar Usuarios");
-                    Console.WriteLine("5.Gerenciar Pedidos");
+                    Console.WriteLine("5. Gerenciar Pedidos");
                     Console.WriteLine("0. Sair");
                     Console.WriteLine("Opção: ");
                     string opcaoStr = Console.ReadLine();
@@ -45,7 +45,9 @@ namespace ProjetoSistemaLoja.Menus
                             new UsuarioMenu(Repositories.usuarioRepository).ExibirMenu();
                             break;
                         case 5:
-                            new PedidosMenu(Repositories).ExibirMenu();
+                            new PedidosMenu(Repositories.pedidoRepository, Repositories.produtoRepository, 
+                                Repositories.transportadoraRepository).ExibirMenu();
+                            break;
                         default:
                             Console.WriteLine("Informe uma opção válida!");
                             break;

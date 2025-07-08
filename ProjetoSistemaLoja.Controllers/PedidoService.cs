@@ -29,7 +29,7 @@ namespace ProjetoSistemaLoja.Controllers
                 Console.WriteLine("Deseja:\n" +
                     "1. Adicionar algum produto ao carrinho\n" +
                     "2. Remover algum produto do carrinho\n" +
-                    "3. Ver meu carrinho" +
+                    "3. Ver meu carrinho\n" +
                     "4. Finalizar pedido\n" +
                     "0. Sair (seu carrinho sera zerado)");
 
@@ -57,6 +57,7 @@ namespace ProjetoSistemaLoja.Controllers
                         break;
                     case 4:
                         FinalizarPedido(novoPedido);
+                        AtualizarEstoque(novoPedido);
                         Repository.Save(novoPedido);
                         return;
                     case 0:
@@ -247,8 +248,12 @@ namespace ProjetoSistemaLoja.Controllers
                     Console.WriteLine("Informe o id da transportadora: ");
                     string idStr = Console.ReadLine();
                     int id;
-                    if (!int.TryParse(idStr, out id))
-                        throw new Exception("Informe apenas números");
+                    while (!int.TryParse(idStr, out id))
+                    {
+                        Console.WriteLine("Informe apenas números");
+                        idStr = Console.ReadLine();
+                    }
+
                     Transportadora escolhida = (from t in resultado
                                                 where t.Id == id
                                                 select t).FirstOrDefault();
@@ -256,8 +261,30 @@ namespace ProjetoSistemaLoja.Controllers
                     Console.WriteLine("Informe quantos km serão percorridos (apenas numeros inteiros): ");
                     string kmStr = Console.ReadLine();
                     int km;
-                    if (!int.TryParse(kmStr, out km))
-                        throw new Exception("Informe apenas números");
+                    while (!int.TryParse(kmStr, out km))
+                    {
+                        Console.WriteLine("Informe apenas números");
+                        kmStr = Console.ReadLine();
+                    }
+                    novo.PrecoFrete = km * escolhida.Valormk;
+                }
+                else
+                {
+                    Transportadora escolhida = transportadoras[0];
+                    foreach(var t in transportadoras)
+                    {
+                        if (t.Valormk < escolhida.Valormk)
+                            escolhida = t;
+                    }
+
+                    Console.WriteLine("Informe quantos km serão percorridos (apenas numeros inteiros): ");
+                    string kmStr = Console.ReadLine();
+                    int km;
+                    while (!int.TryParse(kmStr, out km))
+                    {
+                        Console.WriteLine("Informe apenas números");
+                        kmStr = Console.ReadLine();
+                    }
                     novo.PrecoFrete = km * escolhida.Valormk;
                 }
             }
@@ -320,6 +347,22 @@ namespace ProjetoSistemaLoja.Controllers
             catch(Exception ex)
             {
                 Console.WriteLine($"Erro: {ex.Message}");
+            }
+        }
+
+        public void AtualizarEstoque(Pedido novo)
+        {
+            IList<Produto> produtos = produtoRepository.GetAll<Produto>();
+            foreach(var pItem in novo.Itens)
+            {
+                foreach (var p in produtos)
+                {
+                    if (pItem.IdProduto == p.Id)
+                    {
+                        p.Quantidade -= pItem.Quantidade;
+                        produtoRepository.Update<Produto>(p);
+                    }
+                }
             }
         }
     }
