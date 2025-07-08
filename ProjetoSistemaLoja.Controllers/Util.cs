@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ProjetoSistemaLoja.Services
 {
-    public class Util
+    public static class Util
     {
         public static int NextId(List<int> ids)
         {
