@@ -15,7 +15,7 @@
         {
             return $"\nID: {Id}\n" +
                 $"Data do pedido: {DataPedido}\n" +
-                $"Data de entrega: {DataEntrega}" +
+                $"Data de entrega: {DataEntrega}\n" +
                 $"Situação: {Situacao}\n" +
                 $"Preço do frete: {PrecoFrete}\n" +
                 $"Preço do pedido: {Valor}";

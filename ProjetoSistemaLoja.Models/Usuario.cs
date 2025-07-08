@@ -22,7 +22,7 @@ namespace ProjetoSistemaLoja.Models
         public override string ToString()
         {
             return $"Id: {Id}\n" +
-                $"User: {User}" +
+                $"User: {User}\n" +
                 $"Senha: {Password}\n" +
                 $"Email: {Email}\n" +
                 $"Telefone: {Telefone}\n" +
