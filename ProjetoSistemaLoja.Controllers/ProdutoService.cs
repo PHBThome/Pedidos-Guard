@@ -1,5 +1,7 @@
+using System.Runtime.InteropServices;
 using ProjetoSistemaLoja.Models;
 using ProjetoSistemaLoja.Repositories.Interfaces;
+using ProjetoSistemaLoja.Services;
 
 namespace Projeto_Sistema_Loja.controllers
 {
@@ -58,7 +60,10 @@ namespace Projeto_Sistema_Loja.controllers
                 if (fornecedor == null)
                     throw new Exception("Informe um id de fornecedor existente!");
 
-                int id = produtos.Count + 1;
+                List<int> ids = (from p in produtos
+                                 select p.Id).ToList();
+
+                int id = Util.NextId(ids);
 
                 Produto novoProduto = new Produto(id, nome, descricao, valor, quantidade, idFornecedor);
 

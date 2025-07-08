@@ -1,6 +1,7 @@
 using ProjetoSistemaLoja.Models;
 using ProjetoSistemaLoja.Menus;
 using ProjetoSistemaLoja.Repositories.Interfaces;
+using ProjetoSistemaLoja.Services;
 
 namespace ProjetoSistemaLoja.Controllers
 {
@@ -47,7 +48,10 @@ namespace ProjetoSistemaLoja.Controllers
 
                 Endereco endereco = new EnderecoService().CadastrarEndereco();
                 
-                int id = transportadoras.Count + 1;
+                List<int> ids = (from t in transportadoras
+                                 select t.Id).ToList();
+
+                int id = Util.NextId(ids);
 
                 Transportadora novaTransportadora = new(id, nome, valorkm, endereco);
                 

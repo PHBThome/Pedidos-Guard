@@ -1,6 +1,7 @@
 using ProjetoSistemaLoja.Models;
 using ProjetoSistemaLoja.Repositories.Interfaces;
 using ProjetoSistemaLoja.Menus;
+using ProjetoSistemaLoja.Services;
 
 namespace ProjetoSistemaLoja.Controllers
 {
@@ -52,7 +53,10 @@ namespace ProjetoSistemaLoja.Controllers
 
                 Endereco endereco = new EnderecoService().CadastrarEndereco();
 
-                int id = usuarios.Count + 1;
+                List<int> ids = (from u in usuarios
+                                 select u.Id).ToList();
+
+                int id = Util.NextId(ids);
 
                 Usuario novoUsuario = new(id, user, telefone, email, email, endereco);
 

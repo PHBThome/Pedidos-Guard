@@ -1,6 +1,7 @@
 ﻿using System.Linq.Expressions;
 using ProjetoSistemaLoja.Models;
 using ProjetoSistemaLoja.Repositories.Interfaces;
+using ProjetoSistemaLoja.Services;
 
 namespace ProjetoSistemaLoja.Controllers
 {
@@ -290,7 +291,11 @@ namespace ProjetoSistemaLoja.Controllers
                 IList<Pedido> pedidos = Repository.GetAll<Pedido>();
 
                 novo.Valor = novo.Itens.Sum(item => item.ValorTotal);
-                novo.Id = pedidos.Count + 1;
+
+                List<int> ids = (from p in pedidos
+                                 select p.Id).ToList();
+
+                novo.Id = Util.NextId(ids);
 
                 AtualizarEstoque(novo);
 

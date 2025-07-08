@@ -1,5 +1,7 @@
+using System.Collections.Specialized;
 using ProjetoSistemaLoja.Models;
 using ProjetoSistemaLoja.Repositories.Interfaces;
+using ProjetoSistemaLoja.Services;
 
 namespace ProjetoSistemaLoja.Menus
 {
@@ -115,7 +117,10 @@ namespace ProjetoSistemaLoja.Menus
 
             Endereco endereco = new EnderecoService().CadastrarEndereco();
 
-            int id = usuarios.Count + 1;
+            List<int> ids = (from u in usuarios
+                             select u.Id).ToList();
+
+            int id = Util.NextId(ids);
 
             Usuario novoUsuario = new(id, user, password, telefone, email, endereco);
             Repository.Save(novoUsuario);

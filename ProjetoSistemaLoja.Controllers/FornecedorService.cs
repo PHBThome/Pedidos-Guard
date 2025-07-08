@@ -2,6 +2,7 @@
 using ProjetoSistemaLoja.Menus;
 using ProjetoSistemaLoja.Models;
 using ProjetoSistemaLoja.Repositories.Interfaces;
+using ProjetoSistemaLoja.Services;
 
 namespace ProjetoSistemaLoja.Controllers
 {
@@ -70,7 +71,11 @@ namespace ProjetoSistemaLoja.Controllers
                 string descricao = Console.ReadLine();
 
                 Endereco endereco = new EnderecoService().CadastrarEndereco();
-                int id = fornecedores.Count + 1;
+
+                List<int> ids = (from f in fornecedores
+                                 select f.Id).ToList();
+
+                int id = Util.NextId(ids);
 
                 Fornecedor novoFornecedor = new(id, nome, email, telefone, descricao, endereco);
 
